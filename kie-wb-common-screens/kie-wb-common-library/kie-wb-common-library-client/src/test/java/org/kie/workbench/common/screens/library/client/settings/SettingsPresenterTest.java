@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 import javax.enterprise.event.Event;
 
 import elemental2.dom.Console;
@@ -21,7 +22,6 @@ import org.jboss.errai.ioc.client.api.ManagedInstance;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kie.workbench.common.screens.library.client.settings.SettingsPresenter.Section;
 import org.kie.workbench.common.screens.projecteditor.model.ProjectScreenModel;
 import org.kie.workbench.common.screens.projecteditor.service.ProjectScreenService;
 import org.mockito.Mock;
@@ -34,10 +34,20 @@ import org.uberfire.promise.SyncPromises;
 import org.uberfire.workbench.events.NotificationEvent;
 
 import static java.util.Collections.singletonList;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SettingsPresenterTest {
@@ -104,29 +114,19 @@ public class SettingsPresenterTest {
     }
 
     @Test
-    public void testOnOpen() {
-        doReturn(promises.resolve()).when(settingsPresenter).setup(any());
-
-        settingsPresenter.onOpen();
-
-        verify(view).hide();
-        verify(view).show();
-    }
-
-    @Test
     public void testSetup() {
-        final Section section1 = newMockedSection();
-        final Section section2 = newMockedSection();
-        final List<Section> sections = Arrays.asList(section1,
-                                                     section2);
+        final SettingsPresenter.Section section1 = newMockedSection();
+        final SettingsPresenter.Section section2 = newMockedSection();
+        final List<SettingsPresenter.Section> sections = Arrays.asList(section1,
+                                                                       section2);
 
         doReturn(sections).when(settingsSections).getList();
         doReturn(promises.resolve()).when(settingsPresenter).setup(section1);
-        doNothing().when(settingsPresenter).setActiveMenuItem();
+        doNothing().when(settingsPresenter).currentSection.getMenuItem().getView().getElement().classList.add("active");
         settingsPresenter.setup();
 
         verify(settingsPresenter,
-               times(1)).setActiveMenuItem();
+               times(1)).currentSection.getMenuItem().getView().getElement().classList.add("active");
 
         assertEquals(2,
                      settingsPresenter.sections.size());
@@ -136,7 +136,7 @@ public class SettingsPresenterTest {
     @Test
     public void testSetupWithSection() {
 
-        final Section section = newMockedSection();
+        final SettingsPresenter.Section section = newMockedSection();
 
         settingsPresenter.sections = new ArrayList<>(singletonList(section));
         doNothing().when(settingsPresenter).setupMenuItems();
@@ -161,8 +161,8 @@ public class SettingsPresenterTest {
     @Test
     public void testSetupWithOneSectionSetupRejection() {
 
-        final Section section1 = newMockedSection();
-        final Section section2 = newMockedSection();
+        final SettingsPresenter.Section section1 = newMockedSection();
+        final SettingsPresenter.Section section2 = newMockedSection();
 
         settingsPresenter.sections = new ArrayList<>(Arrays.asList(section1,
                                                                    section2));
@@ -185,11 +185,11 @@ public class SettingsPresenterTest {
 
     @Test
     public void testSetupSections() {
-        final Section section1 = newMockedSection();
-        final Section section2 = newMockedSection();
+        final SettingsPresenter.Section section1 = newMockedSection();
+        final SettingsPresenter.Section section2 = newMockedSection();
 
-        final List<Section> sections = new ArrayList<>(Arrays.asList(section1,
-                                                                     section2));
+        final List<SettingsPresenter.Section> sections = new ArrayList<>(Arrays.asList(section1,
+                                                                                       section2));
         settingsPresenter.sections = sections;
         doReturn(promises.resolve()).when(settingsPresenter).setupSection(any(),
                                                                           any());
@@ -208,8 +208,8 @@ public class SettingsPresenterTest {
 
     @Test
     public void testSetupSectionsWithOneError() {
-        final Section section1 = newMockedSection();
-        final Section section2 = newMockedSection();
+        final SettingsPresenter.Section section1 = newMockedSection();
+        final SettingsPresenter.Section section2 = newMockedSection();
 
         settingsPresenter.sections = new ArrayList<>(Arrays.asList(section1,
                                                                    section2));
@@ -231,8 +231,8 @@ public class SettingsPresenterTest {
 
     @Test
     public void testSetupSectionsWithAllErrors() {
-        final Section section1 = newMockedSection();
-        final Section section2 = newMockedSection();
+        final SettingsPresenter.Section section1 = newMockedSection();
+        final SettingsPresenter.Section section2 = newMockedSection();
 
         settingsPresenter.sections = new ArrayList<>(Arrays.asList(section1,
                                                                    section2));
@@ -253,9 +253,9 @@ public class SettingsPresenterTest {
 
     @Test
     public void testSetupSection() {
-        final Section section = newMockedSection();
+        final SettingsPresenter.Section section = newMockedSection();
 
-        final List<Section> sections = new ArrayList<>(singletonList(section));
+        final List<SettingsPresenter.Section> sections = new ArrayList<>(singletonList(section));
         settingsPresenter.sections = sections;
         doReturn(promises.resolve()).when(section).setup(any());
 
@@ -277,7 +277,7 @@ public class SettingsPresenterTest {
 
     @Test
     public void testSetupSectionRejected() {
-        final Section section = newMockedSection();
+        final SettingsPresenter.Section section = newMockedSection();
 
         settingsPresenter.sections = new ArrayList<>(singletonList(section));
         doReturn(promises.reject(section)).when(section).setup(any());
@@ -302,8 +302,8 @@ public class SettingsPresenterTest {
 
     @Test
     public void testShowSaveModal() {
-        final Section section1 = newMockedSection();
-        final Section section2 = newMockedSection();
+        final SettingsPresenter.Section section1 = newMockedSection();
+        final SettingsPresenter.Section section2 = newMockedSection();
 
         settingsPresenter.sections = new ArrayList<>(Arrays.asList(section1,
                                                                    section2));
@@ -321,8 +321,8 @@ public class SettingsPresenterTest {
 
     @Test
     public void testShowSaveModalWithValidationError() {
-        final Section section1 = newMockedSection();
-        final Section section2 = newMockedSection();
+        final SettingsPresenter.Section section1 = newMockedSection();
+        final SettingsPresenter.Section section2 = newMockedSection();
 
         settingsPresenter.sections = new ArrayList<>(Arrays.asList(section1,
                                                                    section2));
@@ -342,8 +342,8 @@ public class SettingsPresenterTest {
 
     @Test
     public void testShowSaveModalWithValidationException() {
-        final Section section1 = newMockedSection();
-        final Section section2 = newMockedSection();
+        final SettingsPresenter.Section section1 = newMockedSection();
+        final SettingsPresenter.Section section2 = newMockedSection();
         final RuntimeException testException = new RuntimeException("Test exception");
 
         settingsPresenter.sections = new ArrayList<>(Arrays.asList(section1,
@@ -374,8 +374,8 @@ public class SettingsPresenterTest {
                                                           any(),
                                                           any());
 
-        final Section section1 = newMockedSection();
-        final Section section2 = newMockedSection();
+        final SettingsPresenter.Section section1 = newMockedSection();
+        final SettingsPresenter.Section section2 = newMockedSection();
 
         doReturn(promises.resolve()).when(settingsPresenter).resetDirtyIndicator(eq(section1));
         doReturn(promises.resolve()).when(settingsPresenter).resetDirtyIndicator(eq(section2));
@@ -399,8 +399,8 @@ public class SettingsPresenterTest {
 
     @Test
     public void testSaveWithFirstSectionRejection() {
-        final Section section1 = newMockedSection();
-        final Section section2 = newMockedSection();
+        final SettingsPresenter.Section section1 = newMockedSection();
+        final SettingsPresenter.Section section2 = newMockedSection();
 
         doReturn(promises.reject(section1)).when(section1).save(any(),
                                                                 any());
@@ -430,8 +430,8 @@ public class SettingsPresenterTest {
 
     @Test
     public void testSaveWithFirstSectionException() {
-        final Section section1 = newMockedSection();
-        final Section section2 = newMockedSection();
+        final SettingsPresenter.Section section1 = newMockedSection();
+        final SettingsPresenter.Section section2 = newMockedSection();
         final RuntimeException testException = new RuntimeException("Test exception");
 
         doThrow(testException).when(section1).save(any(),
@@ -474,8 +474,8 @@ public class SettingsPresenterTest {
 
     @Test
     public void testResetDirtyIndicator() {
-        final Map<Section, Integer> hashes = new HashMap<>();
-        final Section section = newMockedSection();
+        final Map<SettingsPresenter.Section, Integer> hashes = new HashMap<>();
+        final SettingsPresenter.Section section = newMockedSection();
 
         doReturn(42).when(section).currentHashCode();
 
@@ -665,7 +665,7 @@ public class SettingsPresenterTest {
 
     @Test
     public void testOnSettingsSectionChanged() {
-        final Section section = newMockedSection();
+        final SettingsPresenter.Section section = newMockedSection();
         settingsPresenter.originalHashCodes = new HashMap<>();
 
         settingsPresenter.onSettingsSectionChanged(new SettingsSectionChange(section));
@@ -675,7 +675,7 @@ public class SettingsPresenterTest {
 
     @Test
     public void testUpdateDirtyIndicatorNonexistentSection() {
-        final Section section = newMockedSection();
+        final SettingsPresenter.Section section = newMockedSection();
         settingsPresenter.originalHashCodes = new HashMap<>();
 
         settingsPresenter.updateDirtyIndicator(section);
@@ -685,7 +685,7 @@ public class SettingsPresenterTest {
 
     @Test
     public void testUpdateDirtyIndicatorExistentDirtySection() {
-        final Section section = newMockedSection();
+        final SettingsPresenter.Section section = newMockedSection();
         doReturn(42).when(section).currentHashCode();
         settingsPresenter.sections = new ArrayList<>(Arrays.asList(section));
 
@@ -700,7 +700,7 @@ public class SettingsPresenterTest {
 
     @Test
     public void testUpdateDirtyIndicatorExistentNotDirtySection() {
-        final Section section = newMockedSection();
+        final SettingsPresenter.Section section = newMockedSection();
         doReturn(42).when(section).currentHashCode();
         settingsPresenter.sections = new ArrayList<>(Arrays.asList(section));
 
@@ -715,7 +715,7 @@ public class SettingsPresenterTest {
 
     @Test
     public void testGoTo() {
-        final Section section = newMockedSection();
+        final SettingsPresenter.Section section = newMockedSection();
 
         settingsPresenter.goTo(section);
 
@@ -724,8 +724,8 @@ public class SettingsPresenterTest {
         verify(view).setSection(eq(section.getView()));
     }
 
-    private Section newMockedSection() {
-        final Section section = mock(Section.class);
+    private SettingsPresenter.Section newMockedSection() {
+        final SettingsPresenter.Section section = mock(SettingsPresenter.Section.class);
         doReturn(mock(SettingsPresenter.MenuItem.class)).when(section).getMenuItem();
         doReturn(promises.resolve()).when(section).setup(any());
         doReturn(promises.resolve()).when(section).save(any(),

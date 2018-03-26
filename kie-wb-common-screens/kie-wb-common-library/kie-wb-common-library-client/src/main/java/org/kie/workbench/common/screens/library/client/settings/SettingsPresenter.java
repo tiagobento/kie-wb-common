@@ -25,7 +25,6 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
@@ -63,7 +62,6 @@ import static org.uberfire.workbench.events.NotificationEvent.NotificationType.E
 import static org.uberfire.workbench.events.NotificationEvent.NotificationType.SUCCESS;
 import static org.uberfire.workbench.events.NotificationEvent.NotificationType.WARNING;
 
-@ApplicationScoped
 public class SettingsPresenter {
 
     public interface View extends UberElemental<SettingsPresenter>,
@@ -141,11 +139,11 @@ public class SettingsPresenter {
     public void setup() {
         sections = new ArrayList<>(settingsSections.getList());
         currentSection = sections.get(0);
-        setActiveMenuItem();
-    }
 
-    public void onOpen() {
+        currentSection.getMenuItem().getView().getElement().classList.add("active");
+
         view.hide();
+
         setup(currentSection).then(i -> {
             view.show();
             return promises.resolve();
@@ -154,10 +152,6 @@ public class SettingsPresenter {
 
     public boolean mayCloseAndLooseChanges() {
         return sections == null || sections.stream().noneMatch(this::isDirty) || Window.confirm("Do you really wanna leave?");
-    }
-
-    protected void setActiveMenuItem() {
-        currentSection.getMenuItem().getView().getElement().classList.add("active");
     }
 
     public Promise<Void> setup(final Section activeSection) {
@@ -408,60 +402,22 @@ public class SettingsPresenter {
         }
     }
 
-    public static abstract class Section {
+    @FunctionalInterface
+    private interface SavingStep {
 
-        protected final Promises promises;
-        private final Event<SettingsSectionChange> settingsSectionChangeEvent;
-        private final SettingsPresenter.MenuItem menuItem;
-
-        protected Section(final Event<SettingsSectionChange> settingsSectionChangeEvent,
-                          final MenuItem menuItem,
-                          final Promises promises) {
-
-            this.promises = promises;
-            this.settingsSectionChangeEvent = settingsSectionChangeEvent;
-            this.menuItem = menuItem;
-        }
-
-        public abstract View.Section getView();
-
-        public abstract int currentHashCode();
-
-        public Promise<Void> save(final String comment, final Supplier<Promise<Void>> chain) {
-            return promises.resolve();
-        }
-
-        public Promise<Object> validate() {
-            return promises.resolve();
-        }
-
-        public Promise<Void> setup(final ProjectScreenModel model) {
-            return promises.resolve();
-        }
-
-        public void fireChangeEvent() {
-            settingsSectionChangeEvent.fire(new SettingsSectionChange(this));
-        }
-
-        public SettingsPresenter.MenuItem getMenuItem() {
-            return menuItem;
-        }
-
-        public void setDirty(final boolean dirty) {
-            menuItem.markAsDirty(dirty);
-        }
+        Promise<Void> execute(final Supplier<Promise<Void>> chain);
     }
 
     @Dependent
-    public static class MenuItem extends ListItemPresenter<Section, SettingsPresenter, SettingsPresenter.MenuItem.View> {
+    public static class MenuItem extends ListItemPresenter<Section, SettingsPresenter, MenuItem.View> {
 
-        private final SettingsPresenter.MenuItem.View view;
+        private final View view;
 
         private Section section;
         private SettingsPresenter settingsPresenter;
 
         @Inject
-        public MenuItem(final SettingsPresenter.MenuItem.View view) {
+        public MenuItem(final View view) {
             super(view);
             this.view = view;
         }
@@ -501,9 +457,47 @@ public class SettingsPresenter {
         }
     }
 
-    @FunctionalInterface
-    private interface SavingStep {
+    public abstract static class Section {
 
-        Promise<Void> execute(final Supplier<Promise<Void>> chain);
+        protected final Promises promises;
+        private final Event<SettingsSectionChange> settingsSectionChangeEvent;
+        private final MenuItem menuItem;
+
+        protected Section(final Event<SettingsSectionChange> settingsSectionChangeEvent,
+                          final MenuItem menuItem,
+                          final Promises promises) {
+
+            this.promises = promises;
+            this.settingsSectionChangeEvent = settingsSectionChangeEvent;
+            this.menuItem = menuItem;
+        }
+
+        public abstract View.Section getView();
+
+        public abstract int currentHashCode();
+
+        public Promise<Void> save(final String comment, final Supplier<Promise<Void>> chain) {
+            return promises.resolve();
+        }
+
+        public Promise<Object> validate() {
+            return promises.resolve();
+        }
+
+        public Promise<Void> setup(final ProjectScreenModel model) {
+            return promises.resolve();
+        }
+
+        public void fireChangeEvent() {
+            settingsSectionChangeEvent.fire(new SettingsSectionChange(this));
+        }
+
+        public MenuItem getMenuItem() {
+            return menuItem;
+        }
+
+        public void setDirty(final boolean dirty) {
+            menuItem.markAsDirty(dirty);
+        }
     }
 }

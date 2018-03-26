@@ -18,9 +18,7 @@ package org.kie.workbench.common.screens.library.client.settings;
 
 import java.util.List;
 
-import org.kie.workbench.common.screens.library.client.settings.SettingsPresenter.Section;
-
 public interface SettingsSections {
 
-    List<Section> getList();
+    List<SettingsPresenter.Section> getList();
 }
