@@ -125,10 +125,10 @@ public class SettingsPresenterTest {
         doReturn(promises.resolve()).when(settingsPresenter).setup(section1);
         doNothing().when(settingsPresenter).setActiveMenuItem();
 
+        settingsPresenter.setup();
+
         verify(settingsPresenter,
                times(1)).setActiveMenuItem();
-
-        settingsPresenter.setup();
 
         assertEquals(2,
                      settingsPresenter.sections.size());
