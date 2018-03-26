@@ -396,6 +396,15 @@ public class SettingsPresenter {
         return view;
     }
 
+    @Dependent
+    public static class MenuItemsListPresenter extends ListPresenter<Section, MenuItem> {
+
+        @Inject
+        public MenuItemsListPresenter(final ManagedInstance<MenuItem> itemPresenters) {
+            super(itemPresenters);
+        }
+    }
+
     public abstract static class Section {
 
         protected final Promises promises;
@@ -486,15 +495,6 @@ public class SettingsPresenter {
             void setLabel(final String label);
 
             void markAsDirty(final boolean dirty);
-        }
-    }
-
-    @Dependent
-    public static class MenuItemsListPresenter extends ListPresenter<Section, MenuItem> {
-
-        @Inject
-        public MenuItemsListPresenter(final ManagedInstance<MenuItem> itemPresenters) {
-            super(itemPresenters);
         }
     }
 
