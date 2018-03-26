@@ -393,19 +393,48 @@ public class SettingsPresenter {
         return view;
     }
 
-    @Dependent
-    public static class MenuItemsListPresenter extends ListPresenter<Section, MenuItem> {
+    public abstract static class Section {
 
-        @Inject
-        public MenuItemsListPresenter(final ManagedInstance<MenuItem> itemPresenters) {
-            super(itemPresenters);
+        protected final Promises promises;
+        private final Event<SettingsSectionChange> settingsSectionChangeEvent;
+        private final MenuItem menuItem;
+
+        protected Section(final Event<SettingsSectionChange> settingsSectionChangeEvent,
+                          final MenuItem menuItem,
+                          final Promises promises) {
+
+            this.promises = promises;
+            this.settingsSectionChangeEvent = settingsSectionChangeEvent;
+            this.menuItem = menuItem;
         }
-    }
 
-    @FunctionalInterface
-    private interface SavingStep {
+        public abstract View.Section getView();
 
-        Promise<Void> execute(final Supplier<Promise<Void>> chain);
+        public abstract int currentHashCode();
+
+        public Promise<Void> save(final String comment, final Supplier<Promise<Void>> chain) {
+            return promises.resolve();
+        }
+
+        public Promise<Object> validate() {
+            return promises.resolve();
+        }
+
+        public Promise<Void> setup(final ProjectScreenModel model) {
+            return promises.resolve();
+        }
+
+        public void fireChangeEvent() {
+            settingsSectionChangeEvent.fire(new SettingsSectionChange(this));
+        }
+
+        public MenuItem getMenuItem() {
+            return menuItem;
+        }
+
+        public void setDirty(final boolean dirty) {
+            menuItem.markAsDirty(dirty);
+        }
     }
 
     @Dependent
@@ -457,47 +486,18 @@ public class SettingsPresenter {
         }
     }
 
-    public abstract static class Section {
+    @Dependent
+    public static class MenuItemsListPresenter extends ListPresenter<Section, MenuItem> {
 
-        protected final Promises promises;
-        private final Event<SettingsSectionChange> settingsSectionChangeEvent;
-        private final MenuItem menuItem;
-
-        protected Section(final Event<SettingsSectionChange> settingsSectionChangeEvent,
-                          final MenuItem menuItem,
-                          final Promises promises) {
-
-            this.promises = promises;
-            this.settingsSectionChangeEvent = settingsSectionChangeEvent;
-            this.menuItem = menuItem;
+        @Inject
+        public MenuItemsListPresenter(final ManagedInstance<MenuItem> itemPresenters) {
+            super(itemPresenters);
         }
+    }
 
-        public abstract View.Section getView();
+    @FunctionalInterface
+    private interface SavingStep {
 
-        public abstract int currentHashCode();
-
-        public Promise<Void> save(final String comment, final Supplier<Promise<Void>> chain) {
-            return promises.resolve();
-        }
-
-        public Promise<Object> validate() {
-            return promises.resolve();
-        }
-
-        public Promise<Void> setup(final ProjectScreenModel model) {
-            return promises.resolve();
-        }
-
-        public void fireChangeEvent() {
-            settingsSectionChangeEvent.fire(new SettingsSectionChange(this));
-        }
-
-        public MenuItem getMenuItem() {
-            return menuItem;
-        }
-
-        public void setDirty(final boolean dirty) {
-            menuItem.markAsDirty(dirty);
-        }
+        Promise<Void> execute(final Supplier<Promise<Void>> chain);
     }
 }
