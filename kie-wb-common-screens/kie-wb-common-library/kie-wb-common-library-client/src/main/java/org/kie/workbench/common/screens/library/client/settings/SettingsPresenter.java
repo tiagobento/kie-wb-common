@@ -77,6 +77,8 @@ public class SettingsPresenter {
 
         String getLoadErrorMessage();
 
+        String getLeaveConfirmationMessage();
+
         String getSectionSetupErrorMessage(final String title);
 
         void show();
@@ -154,7 +156,9 @@ public class SettingsPresenter {
     }
 
     public boolean mayCloseAndLooseChanges() {
-        return sections == null || sections.stream().noneMatch(this::isDirty) || Window.confirm("Do you really wanna leave?");
+        return sections == null ||
+                sections.stream().noneMatch(this::isDirty) ||
+                Window.confirm(view.getLeaveConfirmationMessage());
     }
 
     public Promise<Void> setup(final Section activeSection) {

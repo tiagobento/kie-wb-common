@@ -99,6 +99,11 @@ public class SettingsView implements SettingsPresenter.View,
     }
 
     @Override
+    public String getLeaveConfirmationMessage() {
+        return translationService.format(LibraryConstants.SettingsLeaveConfirmation);
+    }
+
+    @Override
     public String getSectionSetupErrorMessage(final String title) {
         return translationService.format(LibraryConstants.SettingsSectionSetupError, title);
     }
