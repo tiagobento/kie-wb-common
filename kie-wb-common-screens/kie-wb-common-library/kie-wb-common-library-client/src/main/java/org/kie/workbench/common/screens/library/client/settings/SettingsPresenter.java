@@ -139,8 +139,7 @@ public class SettingsPresenter {
     public void setup() {
         sections = new ArrayList<>(settingsSections.getList());
         currentSection = sections.get(0);
-
-        currentSection.getMenuItem().getView().getElement().classList.add("active");
+        setActiveMenuItem();
 
         view.hide();
 
@@ -148,6 +147,10 @@ public class SettingsPresenter {
             view.show();
             return promises.resolve();
         });
+    }
+
+    void setActiveMenuItem() {
+        currentSection.getMenuItem().getView().getElement().classList.add("active");
     }
 
     public boolean mayCloseAndLooseChanges() {
