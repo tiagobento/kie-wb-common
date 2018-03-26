@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
@@ -30,6 +31,7 @@ import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import com.google.gwt.user.client.Window;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLElement;
 import elemental2.promise.Promise;
@@ -53,7 +55,6 @@ import org.uberfire.client.promise.Promises;
 import org.uberfire.ext.editor.commons.client.file.popups.SavePopUpPresenter;
 import org.uberfire.ext.widgets.common.client.callbacks.DefaultErrorCallback;
 import org.uberfire.ext.widgets.common.client.common.HasBusyIndicator;
-import org.uberfire.lifecycle.OnOpen;
 import org.uberfire.workbench.events.NotificationEvent;
 
 import static java.util.stream.Collectors.toList;
@@ -133,6 +134,7 @@ public class SettingsPresenter {
         this.menuItemsListPresenter = menuItemsListPresenter;
         this.observablePaths = observablePaths;
         this.conflictingRepositoriesPopup = conflictingRepositoriesPopup;
+        this.originalHashCodes = new HashMap<>();
     }
 
     @PostConstruct
@@ -140,6 +142,18 @@ public class SettingsPresenter {
         sections = new ArrayList<>(settingsSections.getList());
         currentSection = sections.get(0);
         setActiveMenuItem();
+    }
+
+    public void onOpen() {
+        view.hide();
+        setup(currentSection).then(i -> {
+            view.show();
+            return promises.resolve();
+        });
+    }
+
+    public boolean mayCloseAndLooseChanges() {
+        return sections == null || sections.stream().noneMatch(this::isDirty) || Window.confirm("Do you really wanna leave?");
     }
 
     protected void setActiveMenuItem() {
@@ -156,7 +170,6 @@ public class SettingsPresenter {
             pathToPom.dispose();
         }
 
-        originalHashCodes = new HashMap<>();
         concurrentPomUpdateInfo = null;
 
         pathToPom = observablePaths.get()
@@ -363,21 +376,13 @@ public class SettingsPresenter {
     }
 
     void updateDirtyIndicator(final Section changedSection) {
-
-        final boolean isDirty = Optional.ofNullable(originalHashCodes.get(changedSection))
-                .map(originalHashCode -> !originalHashCode.equals(changedSection.currentHashCode()))
-                .orElse(false);
-
-        changedSection.setDirty(isDirty);
+        changedSection.setDirty(isDirty(changedSection));
     }
 
-    @OnOpen
-    public void onOpen() {
-        view.hide();
-        setup(currentSection).then(i -> {
-            view.show();
-            return promises.resolve();
-        });
+    private Boolean isDirty(final Section changedSection) {
+        return Optional.ofNullable(originalHashCodes.get(changedSection))
+                .map(originalHashCode -> !originalHashCode.equals(changedSection.currentHashCode()))
+                .orElse(false);
     }
 
     public void reset() {

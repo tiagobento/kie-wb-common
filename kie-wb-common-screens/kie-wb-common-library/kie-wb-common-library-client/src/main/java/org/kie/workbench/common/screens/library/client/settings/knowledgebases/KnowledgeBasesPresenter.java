@@ -117,7 +117,7 @@ public class KnowledgeBasesPresenter extends SettingsPresenter.Section {
 
     @Override
     public int currentHashCode() {
-        return knowledgeBaseListPresenter.hashCode();
+        return knowledgeBaseListPresenter.getObjectsList().hashCode();
     }
 
     @Dependent

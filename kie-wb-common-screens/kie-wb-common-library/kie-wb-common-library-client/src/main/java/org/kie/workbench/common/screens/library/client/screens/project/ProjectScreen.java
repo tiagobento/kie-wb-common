@@ -22,6 +22,7 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import com.google.gwt.core.client.Callback;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLElement;
 import elemental2.promise.Promise;
 import org.guvnor.common.services.project.client.security.ProjectController;
@@ -60,6 +61,8 @@ import org.uberfire.client.promise.Promises;
 import org.uberfire.ext.editor.commons.client.file.CommandWithFileNameAndCommitMessage;
 import org.uberfire.ext.editor.commons.client.file.popups.CopyPopUpPresenter;
 import org.uberfire.ext.widgets.common.client.callbacks.HasBusyIndicatorDefaultErrorCallback;
+import org.uberfire.lifecycle.OnMayClose;
+import org.uberfire.lifecycle.OnOpen;
 import org.uberfire.workbench.events.NotificationEvent;
 
 @WorkbenchScreen(identifier = LibraryPlaces.PROJECT_SCREEN,
@@ -203,6 +206,22 @@ public class ProjectScreen {
                 view.setImportAssetVisible(result);
             }
         });
+    }
+
+    @OnOpen
+    public void onOpen() {
+        DomGlobal.console.info("on open");
+    }
+
+    @OnMayClose
+    public boolean onMayClose() {
+
+        if (!settingsPresenter.mayCloseAndLooseChanges()) {
+            showSettings();
+            return false;
+        }
+
+        return true;
     }
 
     public void setAssetsCount(Integer assetsCount) {
