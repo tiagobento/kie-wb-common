@@ -118,7 +118,8 @@ public class SettingsPresenterTest {
     public void testSetup() {
         final Section section1 = newMockedSection();
         final Section section2 = newMockedSection();
-        final List<Section> sections = Arrays.asList(section1, section2);
+        final List<Section> sections = Arrays.asList(section1,
+                                                     section2);
 
         doReturn(sections).when(settingsSections).getList();
         doReturn(promises.resolve()).when(settingsPresenter).setup(section1);
@@ -126,6 +127,8 @@ public class SettingsPresenterTest {
 
         verify(settingsPresenter,
                times(1)).setActiveMenuItem();
+
+        settingsPresenter.setup();
 
         assertEquals(2,
                      settingsPresenter.sections.size());
