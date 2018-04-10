@@ -400,26 +400,37 @@ public class LibraryConstants {
 
     @TranslationKey(defaultValue = "")
     public static final String Deployments = "Deployments";
+
     @TranslationKey(defaultValue = "")
     public static final String DeploymentsXmlConcurrentUpdate = "DeploymentsXmlConcurrentUpdate";
+
     @TranslationKey(defaultValue = "")
     public static final String AddMarshallingStrategy = "AddMarshallingStrategy";
+
     @TranslationKey(defaultValue = "")
     public static final String AddGlobal = "AddGlobal";
+
     @TranslationKey(defaultValue = "")
     public static final String AddEventListener = "AddEventListener";
+
     @TranslationKey(defaultValue = "")
     public static final String AddRequiredRole = "AddRequiredRole";
+
     @TranslationKey(defaultValue = "")
     public static final String AddRemoteableClass = "AddRemoteableClass";
+
     @TranslationKey(defaultValue = "")
     public static final String AddTaskEventListener = "AddTaskEventListener";
+
     @TranslationKey(defaultValue = "")
     public static final String AddConfiguration = "AddConfiguration";
+
     @TranslationKey(defaultValue = "")
     public static final String AddEnvironmentHandler = "AddEnvironmentHandler";
+
     @TranslationKey(defaultValue = "")
     public static final String AddWorkItemHandler = "AddWorkItemHandler";
+
     @TranslationKey(defaultValue = "")
     public static final String AddEnvironmentEntry = "AddEnvironmentEntry";
 }
