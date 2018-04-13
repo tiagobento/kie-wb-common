@@ -433,4 +433,13 @@ public class LibraryConstants {
 
     @TranslationKey(defaultValue = "")
     public static final String AddEnvironmentEntry = "AddEnvironmentEntry";
+
+    @TranslationKey(defaultValue = "")
+    public static final String CloseUnsavedProjectAssets = "CloseUnsavedProjectAssets";
+
+    @TranslationKey(defaultValue = "")
+    public static final String Proceed = "Proceed";
+
+    @TranslationKey(defaultValue = "")
+    public static final String CloseUnsavedProjectAssetsWarningMessage = "CloseUnsavedProjectAssetsWarningMessage";
 }
