@@ -442,4 +442,7 @@ public class LibraryConstants {
 
     @TranslationKey(defaultValue = "")
     public static final String CloseUnsavedProjectAssetsWarningMessage = "CloseUnsavedProjectAssetsWarningMessage";
+
+    @TranslationKey(defaultValue = "")
+    public static final String ProjectScreenSettings = "ProjectScreenSettings";
 }
