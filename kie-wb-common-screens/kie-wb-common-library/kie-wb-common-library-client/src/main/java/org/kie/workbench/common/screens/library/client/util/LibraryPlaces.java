@@ -57,6 +57,7 @@ import org.kie.workbench.common.screens.library.client.screens.importrepository.
 import org.kie.workbench.common.screens.library.client.screens.importrepository.ImportRepositoryPopUpPresenter;
 import org.kie.workbench.common.screens.library.client.screens.importrepository.Source;
 import org.kie.workbench.common.screens.library.client.screens.project.close.CloseUnsavedProjectAssetsPopUpPresenter;
+import org.kie.workbench.common.screens.library.client.util.breadcrumb.LibraryBreadcrumbs;
 import org.kie.workbench.common.screens.library.client.widgets.library.LibraryToolbarPresenter;
 import org.kie.workbench.common.services.shared.project.KieModuleService;
 import org.kie.workbench.common.widgets.client.handlers.NewResourceSuccessEvent;
@@ -192,11 +193,14 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
     @Inject
     private Promises promises;
 
+    @Inject
+    private LibraryBreadcrumbs libraryBreadcrumbs;
+
     @PostConstruct
     public void setup() {
-        projectContext.addChangeHandler(this);
+        libraryBreadcrumbs.init(this);
 
-        breadcrumbs.addToolbar(LIBRARY_PERSPECTIVE, libraryToolbar.getView().getElement());
+        projectContext.addChangeHandler(this);
 
         placeManager.registerPerspectiveCloseChain(LIBRARY_PERSPECTIVE, (chain, place) -> {
             if (LIBRARY_PERSPECTIVE.equals(place.getIdentifier())) {
@@ -211,15 +215,11 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
         this.libraryPerspective = libraryPerspective;
     }
 
-    //
-    //
-    //Events
-
     public void onResourceCopiedEvent(@Observes final ResourceCopiedEvent resourceCopiedEvent) {
         if (isLibraryPerspectiveOpen()) {
             final Path path = resourceCopiedEvent.getDestinationPath();
             goToAsset(path);
-            setupLibraryBreadCrumbsForAsset(path);
+            libraryBreadcrumbs.setupForAsset(getActiveProject(), path);
         }
     }
 
@@ -228,14 +228,14 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
             final PlaceRequest place = placeGainFocusEvent.getPlace();
 
             if (place instanceof PathPlaceRequest) {
-                setupLibraryBreadCrumbsForAsset(((PathPlaceRequest) place).getPath());
+                libraryBreadcrumbs.setupForAsset(getActiveProject(), ((PathPlaceRequest) place).getPath());
                 showDocks();
             } else if (!place.getIdentifier().equals(ALERTS) && LIBRARY_PLACES.contains(place.getIdentifier())) {
                 hideDocks();
                 if (place.getIdentifier().equals(PROJECT_SCREEN) && projectContext.getActiveWorkspaceProject().isPresent()) {
-                    setupActiveProjectBreadcrumb();
+                    libraryBreadcrumbs.setupForProject(getActiveProject());
                 } else if (place.getIdentifier().equals(LIBRARY_SCREEN)) {
-                    setupActiveSpaceBreadcrumb();
+                    libraryBreadcrumbs.setupForSpace(getActiveSpace());
                 }
             }
         }
@@ -278,7 +278,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
         if (isLibraryPerspectiveOpen()) {
             final ObservablePath path = concurrentRenameAcceptedEvent.getPath();
             goToAsset(path);
-            setupLibraryBreadCrumbsForAsset(path);
+            libraryBreadcrumbs.setupForAsset(getActiveProject(), path);
         }
     }
 
@@ -384,8 +384,8 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
     //Navigation
 
     public void refresh(final Command callback) {
-        breadcrumbs.clearBreadcrumbs(LIBRARY_PERSPECTIVE);
-        translationUtils.refresh(() -> libraryToolbar.init(callback));
+        libraryBreadcrumbs.clear();
+        callback.execute();
     }
 
     public void goToSpaces() {
@@ -393,7 +393,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
             PortablePreconditions.checkNotNull("libraryPerspective.closeAllPlacesOrNothing", libraryPerspective);
             projectContextChangeEvent.fire(new WorkspaceProjectContextChangeEvent());
             placeManager.goTo(newNonSelectablePartDefinition(ORGANIZATIONAL_UNITS_SCREEN), libraryPerspective.getRootPanel());
-            setupSpacesScreenBreadcrumb();
+            libraryBreadcrumbs.setupForSpacesScreen();
         });
     }
 
@@ -422,7 +422,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
 
         placeManager.goTo(newNonSelectablePartDefinition(LIBRARY_SCREEN), libraryPerspective.getRootPanel());
 
-        setupActiveSpaceBreadcrumb();
+        libraryBreadcrumbs.setupForSpace(getActiveSpace());
 
         hideDocks();
     }
@@ -440,9 +440,9 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
         });
     }
 
-    void goToActiveProject() {
-        setupActiveProjectBreadcrumb();
+    public void goToActiveProject() {
         placeManager.goTo(newNonSelectablePartDefinition(PROJECT_SCREEN), libraryPerspective.getRootPanel());
+        libraryBreadcrumbs.setupForProject(getActiveProject());
     }
 
     public void goToAsset(final Path path) {
@@ -457,7 +457,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
                     pkg));
 
             final PathPlaceRequest placeRequest = new PathPlaceRequest(path);
-            placeRequest.getPath().onRename(() -> setupLibraryBreadCrumbsForAsset(placeRequest.getPath()));
+            placeRequest.getPath().onRename(() -> libraryBreadcrumbs.setupForAsset(getActiveProject(), placeRequest.getPath()));
 
             placeManager.goTo(placeRequest);
             return promises.resolve();
@@ -471,7 +471,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
     public void goToTrySamples() {
         closeAllPlacesOrNothing(() -> {
             placeManager.goTo(newNonSelectablePartDefinition(IMPORT_SAMPLE_PROJECTS_SCREEN), libraryPerspective.getRootPanel());
-            setupLibraryBreadCrumbsForTrySamples();
+            libraryBreadcrumbs.setupForTrySamples(getActiveSpace());
         });
     }
 
@@ -483,7 +483,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
         closeAllPlacesOrNothing(() -> {
             // TODO add title
             placeManager.goTo(newNonSelectablePartDefinition(IMPORT_PROJECTS_SCREEN), libraryPerspective.getRootPanel());
-            setupExternalImportBreadCrumbs();
+            libraryBreadcrumbs.setupForExternalImport(getActiveSpace());
             importProjectsSetupEvent.fire(new ImportProjectsSetupEvent(projects));
         });
     }
@@ -568,64 +568,4 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
         return projectContext.getActiveOrganizationalUnit().orElseThrow(() -> new IllegalStateException("No active space found"));
     }
 
-    //
-    //
-    //Breadcrumb
-
-    //Spaces
-    void setupSpacesScreenBreadcrumb() {
-        breadcrumbs.clearBreadcrumbs(LIBRARY_PERSPECTIVE);
-
-        breadcrumbs.addBreadCrumb(LIBRARY_PERSPECTIVE,
-                                  translationUtils.getOrganizationalUnitAliasInPlural(),
-                                  this::goToSpaces,
-                                  false);
-    }
-
-    //Spaces -> {spaceName}
-    void setupActiveSpaceBreadcrumb() {
-        setupSpacesScreenBreadcrumb();
-        breadcrumbs.addBreadCrumb(LIBRARY_PERSPECTIVE,
-                                  getActiveSpace().getName(),
-                                  this::goToLibrary,
-                                  false);
-    }
-
-    //Spaces -> {spaceName} -> {projectName} -> {branchName}
-    void setupActiveProjectBreadcrumb() {
-        setupActiveSpaceBreadcrumb();
-        breadcrumbs.addBreadCrumb(LIBRARY_PERSPECTIVE,
-                                  getActiveProject().getName(),
-                                  this::goToActiveProject,
-                                  false);
-
-        //FIXME: Add branch selection view
-        libraryToolbar.setUpBranches();
-    }
-
-    //Spaces -> {spaceName} -> Try Samples
-    void setupLibraryBreadCrumbsForTrySamples() {
-        setupActiveSpaceBreadcrumb();
-        breadcrumbs.addBreadCrumb(LIBRARY_PERSPECTIVE,
-                                  ts.getTranslation(LibraryConstants.TrySamples),
-                                  this::goToTrySamples,
-                                  false);
-    }
-
-    //Spaces -> {spaceName} -> Import project
-    void setupExternalImportBreadCrumbs() {
-        setupActiveSpaceBreadcrumb();
-        breadcrumbs.addBreadCrumb(LIBRARY_PERSPECTIVE,
-                                  ts.getTranslation(LibraryConstants.ImportProjects),
-                                  this::goToImportRepositoryPopUp);
-    }
-
-    //Spaces -> {spaceName} -> {projectName} -> {branchName} -> {assetName}
-    void setupLibraryBreadCrumbsForAsset(final Path path) {
-        setupActiveProjectBreadcrumb();
-        breadcrumbs.addBreadCrumb(LIBRARY_PERSPECTIVE,
-                                  resourceUtils.getBaseFileName(path),
-                                  () -> goToAsset(path),
-                                  false);
-    }
 }

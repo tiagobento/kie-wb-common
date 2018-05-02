@@ -239,8 +239,6 @@ public class LibraryPlacesTest {
 
         doReturn(mock(Path.class)).when(vfsService).get(any());
 
-        doNothing().when(libraryPlaces).setupActiveProjectBreadcrumb();
-        doNothing().when(libraryPlaces).setupLibraryBreadCrumbsForAsset(any(Path.class));
         final PathPlaceRequest pathPlaceRequest = mock(PathPlaceRequest.class);
         doReturn(mock(ObservablePath.class)).when(pathPlaceRequest).getPath();
 
@@ -324,7 +322,6 @@ public class LibraryPlacesTest {
 
         libraryPlaces.onSelectPlaceEvent(placeGainFocusEvent);
 
-        verify(libraryPlaces).setupLibraryBreadCrumbsForAsset(path);
         verify(libraryPlaces).showDocks();
     }
 
@@ -339,7 +336,6 @@ public class LibraryPlacesTest {
         libraryPlaces.onSelectPlaceEvent(placeGainFocusEvent);
 
         verify(libraryPlaces).hideDocks();
-        verify(libraryPlaces).setupLibraryBreadCrumbsForAsset(null);
     }
 
     @Test
@@ -353,7 +349,6 @@ public class LibraryPlacesTest {
         libraryPlaces.onSelectPlaceEvent(placeGainFocusEvent);
 
         verify(libraryPlaces).hideDocks();
-        verify(libraryPlaces).setupActiveProjectBreadcrumb();
     }
 
     @Test
@@ -367,7 +362,6 @@ public class LibraryPlacesTest {
         libraryPlaces.onSelectPlaceEvent(placeGainFocusEvent);
 
         verify(libraryPlaces).hideDocks();
-        verify(libraryPlaces).setupActiveProjectBreadcrumb();
     }
 
     @Test
@@ -465,7 +459,6 @@ public class LibraryPlacesTest {
         verify(placeManager).closeAllPlaces();
         verify(placeManager).goTo(eq(part),
                                   any(PanelDefinition.class));
-        verify(libraryPlaces).setupSpacesScreenBreadcrumb();
     }
 
     @Test
@@ -537,7 +530,6 @@ public class LibraryPlacesTest {
 
         verify(placeManager).goTo(eq(part),
                                   any(PanelDefinition.class));
-        verify(libraryPlaces).setupActiveProjectBreadcrumb();
         verify(projectContextChangeEvent,
                times(2)).fire(any(WorkspaceProjectContextChangeEvent.class));
     }
@@ -556,7 +548,6 @@ public class LibraryPlacesTest {
 
         verify(placeManager).goTo(eq(part),
                                   any(PanelDefinition.class));
-        verify(libraryPlaces).setupActiveSpaceBreadcrumb();
         verify(projectContextChangeEvent,
                times(1)).fire(any(WorkspaceProjectContextChangeEvent.class));
     }
@@ -579,7 +570,6 @@ public class LibraryPlacesTest {
 
         verify(placeManager).goTo(eq(part),
                                   any(PanelDefinition.class));
-        verify(libraryPlaces).setupActiveProjectBreadcrumb();
         verify(projectContextChangeEvent,
                never()).fire(any(WorkspaceProjectContextChangeEvent.class));
     }
@@ -596,7 +586,6 @@ public class LibraryPlacesTest {
                                   any(PanelDefinition.class));
         verify(projectContextChangeEvent,
                never()).fire(any(WorkspaceProjectContextChangeEvent.class));
-        verify(libraryPlaces).setupActiveProjectBreadcrumb();
     }
 
     @Test
@@ -610,7 +599,6 @@ public class LibraryPlacesTest {
         verify(libraryPlaces).closeAllPlacesOrNothing(any());
         verify(placeManager).goTo(eq(part),
                                   any(PanelDefinition.class));
-        verify(libraryPlaces).setupLibraryBreadCrumbsForTrySamples();
     }
 
     @Test
@@ -634,7 +622,6 @@ public class LibraryPlacesTest {
 
         verify(placeManager).goTo(eq(part),
                                   any(PanelDefinition.class));
-        verify(libraryPlaces).setupExternalImportBreadCrumbs();
     }
 
     @Test
@@ -701,8 +688,6 @@ public class LibraryPlacesTest {
 
         libraryPlaces.onProjectRenamed(renameModuleEvent);
 
-        verify(libraryPlaces,
-               never()).setupLibraryBreadCrumbsForAsset(any());
     }
 
     @Test
