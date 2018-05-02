@@ -156,7 +156,7 @@ public class AddAssetScreen {
     }
 
     public void cancel() {
-        this.libraryPlaces.goToProject(this.libraryPlaces.getActiveWorkspaceContext());
+        this.libraryPlaces.goToProject(this.libraryPlaces.getActiveProject());
     }
 
     public interface View extends UberElemental<AddAssetScreen> {

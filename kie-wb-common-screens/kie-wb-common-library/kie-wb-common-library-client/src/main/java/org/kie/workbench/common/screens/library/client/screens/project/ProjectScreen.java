@@ -172,10 +172,10 @@ public class ProjectScreen {
 
     @PostConstruct
     public void initialize() {
-        this.workspaceProject = this.libraryPlaces.getActiveWorkspaceContext();
+        this.workspaceProject = this.libraryPlaces.getActiveProject();
         this.view.init(this);
         this.buildExecutor.init(this.view);
-        this.view.setTitle(libraryPlaces.getActiveWorkspaceContext().getName());
+        this.view.setTitle(libraryPlaces.getActiveProject().getName());
         this.view.addMainAction(viewHideAlertsButtonPresenter.getView());
         this.resolveContributorsCount();
         this.resolveAssetsCount();
@@ -247,7 +247,7 @@ public class ProjectScreen {
 
     @WorkbenchPartTitle
     public String getTitle() {
-        return this.libraryPlaces.getActiveWorkspaceContext().getName();
+        return this.libraryPlaces.getActiveProject().getName();
     }
 
     public void delete() {

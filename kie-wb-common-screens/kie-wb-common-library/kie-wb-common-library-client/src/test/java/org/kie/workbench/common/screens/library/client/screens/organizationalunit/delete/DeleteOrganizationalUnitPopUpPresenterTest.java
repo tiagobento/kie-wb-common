@@ -132,7 +132,7 @@ public class DeleteOrganizationalUnitPopUpPresenterTest {
         verify(view).hideBusyIndicator();
         verify(notificationEvent).fire(any());
         verify(view).hide();
-        verify(libraryPlaces).goToOrganizationalUnits();
+        verify(libraryPlaces).goToSpaces();
         verify(organizationalUnitService).removeOrganizationalUnit(presenter.organizationalUnit.getName());
     }
 

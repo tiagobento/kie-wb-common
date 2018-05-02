@@ -169,7 +169,7 @@ public class ProjectScreenTest extends ProjectScreenTestBase {
         final Module module = mock(Module.class);
         when(workspaceProject.getName()).thenReturn("module-name");
         when(workspaceProject.getMainModule()).thenReturn(module);
-        when(libraryPlaces.getActiveWorkspaceContext()).thenReturn(workspaceProject);
+        when(libraryPlaces.getActiveProject()).thenReturn(workspaceProject);
 
         this.presenter = spy(new ProjectScreen(this.view,
                                                this.libraryPlaces,
