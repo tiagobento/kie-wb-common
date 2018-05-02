@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
@@ -231,7 +232,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
                 showDocks();
             } else if (!place.getIdentifier().equals(ALERTS) && LIBRARY_PLACES.contains(place.getIdentifier())) {
                 hideDocks();
-                if (projectContext.getActiveWorkspaceProject().isPresent() && place.getIdentifier().equals(PROJECT_SCREEN)) {
+                if (place.getIdentifier().equals(PROJECT_SCREEN) && projectContext.getActiveWorkspaceProject().isPresent()) {
                     setupActiveProjectBreadcrumb();
                 } else if (place.getIdentifier().equals(LIBRARY_SCREEN)) {
                     setupActiveSpaceBreadcrumb();
@@ -361,18 +362,16 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
         });
     }
 
-
     @Override
     public void onChange(WorkspaceProjectContextChangeEvent previous,
                          WorkspaceProjectContextChangeEvent current) {
-        if (current.getWorkspaceProject() != null) {
-            if (Utils.hasRepositoryChanged(previous.getWorkspaceProject(),
-                                           current.getWorkspaceProject())) {
-                closeAllPlacesOrNothing(this::goToProject);
-            }
+
+        if (current.getWorkspaceProject() != null
+                && Utils.hasRepositoryChanged(previous.getWorkspaceProject(), current.getWorkspaceProject())) {
+
+            closeAllPlacesOrNothing(this::goToActiveProject);
         }
     }
-    
 
     PlaceRequest getLibraryPlaceRequestWithoutRefresh() {
         return new DefaultPlaceRequest(LIBRARY_PERSPECTIVE, new HashMap<String, String>() {{
@@ -419,9 +418,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
             projectContextChangeEvent.fire(new WorkspaceProjectContextChangeEvent(getActiveSpace()));
         }
 
-        closingLibraryPlaces = true;
-        LIBRARY_PLACES.forEach(placeManager::closePlace);
-        closingLibraryPlaces = false;
+        closeAllLibraryPlaces();
 
         placeManager.goTo(newNonSelectablePartDefinition(LIBRARY_SCREEN), libraryPerspective.getRootPanel());
 
@@ -459,10 +456,8 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
                     projectContext.getActiveModule().orElse(null),
                     pkg));
 
-            final PlaceRequest placeRequest = new PathPlaceRequest(path);
-            ((PathPlaceRequest) placeRequest).getPath().onRename(() -> {
-                setupLibraryBreadCrumbsForAsset(((PathPlaceRequest) placeRequest).getPath());
-            });
+            final PathPlaceRequest placeRequest = new PathPlaceRequest(path);
+            placeRequest.getPath().onRename(() -> setupLibraryBreadCrumbsForAsset(placeRequest.getPath()));
 
             placeManager.goTo(placeRequest);
             return promises.resolve();
@@ -500,21 +495,46 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
     }
 
     public void closeAllPlacesOrNothing(final Command callback) {
-        closingLibraryPlaces = true;
 
         final List<PlaceRequest> uncloseablePlaces = placeManager.getUncloseablePlaces();
 
         if (uncloseablePlaces.isEmpty()) {
-            placeManager.closeAllPlaces();
+            closeAllPlaces();
             callback.execute();
             return;
         }
 
         showCloseUnsavedProjectAssetsPopup(uncloseablePlaces, () -> {
-            placeManager.forceCloseAllPlaces();
-            closingLibraryPlaces = false;
+            forceCloseAllPlaces();
             callback.execute();
         });
+    }
+
+    private void closeAllPlaces() {
+        try {
+            closingLibraryPlaces = true;
+            placeManager.closeAllPlaces();
+        } finally {
+            closingLibraryPlaces = false;
+        }
+    }
+
+    private void forceCloseAllPlaces() {
+        try {
+            closingLibraryPlaces = true;
+            placeManager.forceCloseAllPlaces();
+        } finally {
+            closingLibraryPlaces = false;
+        }
+    }
+
+    private void closeAllLibraryPlaces() {
+        try {
+            closingLibraryPlaces = true;
+            LIBRARY_PLACES.forEach(placeManager::closePlace);
+        } finally {
+            closingLibraryPlaces = false;
+        }
     }
 
     private void closePlace(final Command callback, final PlaceRequest place) {
@@ -538,12 +558,6 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
                 uncloseablePlaces,
                 callback,
                 () -> placeManager.goTo(uncloseablePlaces.get(0)));
-    }
-
-    private void closeAllPlaces() {
-        closingLibraryPlaces = true;
-        placeManager.closeAllPlaces();
-        closingLibraryPlaces = false;
     }
 
     public WorkspaceProject getActiveProject() {
