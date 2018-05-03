@@ -87,7 +87,8 @@ public class KieDropdownElement<T> implements org.jboss.errai.common.client.api.
         public final String label;
         public final Status status;
 
-        public Item(final T value, final String label,
+        public Item(final T value,
+                    final String label,
                     final Status status) {
 
             this.label = label;

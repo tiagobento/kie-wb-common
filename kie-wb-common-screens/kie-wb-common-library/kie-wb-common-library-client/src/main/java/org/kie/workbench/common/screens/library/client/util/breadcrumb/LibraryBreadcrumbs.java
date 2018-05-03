@@ -16,13 +16,11 @@
 
 package org.kie.workbench.common.screens.library.client.util.breadcrumb;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.guvnor.common.services.project.model.WorkspaceProject;
 import org.guvnor.structure.organizationalunit.OrganizationalUnit;
-import org.jboss.errai.ioc.client.api.ManagedInstance;
 import org.jboss.errai.ui.client.local.spi.TranslationService;
 import org.kie.workbench.common.screens.library.client.resources.i18n.LibraryConstants;
 import org.kie.workbench.common.screens.library.client.util.LibraryPlaces;
@@ -30,7 +28,6 @@ import org.kie.workbench.common.screens.library.client.util.ResourceUtils;
 import org.kie.workbench.common.screens.library.client.util.TranslationUtils;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.ext.widgets.common.client.breadcrumbs.UberfireBreadcrumbs;
-import org.uberfire.ext.widgets.common.client.breadcrumbs.widget.BreadcrumbPresenter;
 
 import static org.kie.workbench.common.screens.library.client.util.LibraryPlaces.LIBRARY_PERSPECTIVE;
 

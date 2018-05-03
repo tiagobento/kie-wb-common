@@ -58,7 +58,6 @@ import org.kie.workbench.common.screens.library.client.screens.importrepository.
 import org.kie.workbench.common.screens.library.client.screens.importrepository.Source;
 import org.kie.workbench.common.screens.library.client.screens.project.close.CloseUnsavedProjectAssetsPopUpPresenter;
 import org.kie.workbench.common.screens.library.client.util.breadcrumb.LibraryBreadcrumbs;
-import org.kie.workbench.common.screens.library.client.widgets.library.LibraryToolbarPresenter;
 import org.kie.workbench.common.services.shared.project.KieModuleService;
 import org.kie.workbench.common.widgets.client.handlers.NewResourceSuccessEvent;
 import org.kie.workbench.common.workbench.client.docks.AuthoringWorkbenchDocks;
@@ -118,23 +117,17 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
             PreferencesRootScreen.IDENTIFIER
     );
 
-    private final UberfireBreadcrumbs breadcrumbs;
     private final TranslationService ts;
     private final Event<AssetDetailEvent> assetDetailEvent;
-    private final ResourceUtils resourceUtils;
     private final Caller<LibraryService> libraryService;
     private final Caller<WorkspaceProjectService> projectService;
     private final Caller<KieModuleService> moduleService;
     private final PlaceManager placeManager;
     private final WorkspaceProjectContext projectContext;
-    private final LibraryToolbarPresenter libraryToolbar;
     private final AuthoringWorkbenchDocks docks;
     private final Event<WorkspaceProjectContextChangeEvent> projectContextChangeEvent;
     private final Event<NotificationEvent> notificationEvent;
-    private final TranslationUtils translationUtils;
     private final Caller<VFSService> vfsService;
-    private final ProjectScopedResolutionStrategySupplier projectScopedResolutionStrategySupplier;
-    private final Event<PreferencesCentralInitializationEvent> preferencesCentralInitializationEvent;
     private final ManagedInstance<ImportRepositoryPopUpPresenter> importRepositoryPopUpPresenters;
     private final Event<ProjectAssetListUpdated> assetListUpdatedEvent;
     private final CloseUnsavedProjectAssetsPopUpPresenter closeUnsavedProjectAssetsPopUpPresenter;
@@ -155,7 +148,6 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
                          final Caller<KieModuleService> moduleService,
                          final PlaceManager placeManager,
                          final WorkspaceProjectContext projectContext,
-                         final LibraryToolbarPresenter libraryToolbar,
                          final AuthoringWorkbenchDocks docks,
                          final Event<WorkspaceProjectContextChangeEvent> projectContextChangeEvent,
                          final Event<NotificationEvent> notificationEvent,
@@ -167,23 +159,17 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
                          final @Routed Event<ProjectAssetListUpdated> assetListUpdatedEvent,
                          final CloseUnsavedProjectAssetsPopUpPresenter closeUnsavedProjectAssetsPopUpPresenter,
                          final @Source(EXTERNAL) Event<ImportProjectsSetupEvent> importProjectsSetupEvent) {
-        this.breadcrumbs = breadcrumbs;
         this.ts = ts;
         this.assetDetailEvent = assetDetailEvent;
-        this.resourceUtils = resourceUtils;
         this.libraryService = libraryService;
         this.projectService = projectService;
         this.moduleService = moduleService;
         this.placeManager = placeManager;
         this.projectContext = projectContext;
-        this.libraryToolbar = libraryToolbar;
         this.docks = docks;
         this.projectContextChangeEvent = projectContextChangeEvent;
         this.notificationEvent = notificationEvent;
-        this.translationUtils = translationUtils;
         this.vfsService = vfsService;
-        this.projectScopedResolutionStrategySupplier = projectScopedResolutionStrategySupplier;
-        this.preferencesCentralInitializationEvent = preferencesCentralInitializationEvent;
         this.importRepositoryPopUpPresenters = importRepositoryPopUpPresenters;
         this.assetListUpdatedEvent = assetListUpdatedEvent;
         this.closeUnsavedProjectAssetsPopUpPresenter = closeUnsavedProjectAssetsPopUpPresenter;

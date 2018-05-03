@@ -52,7 +52,6 @@ import org.kie.workbench.common.screens.library.client.perspective.LibraryPerspe
 import org.kie.workbench.common.screens.library.client.screens.importrepository.ImportProjectsSetupEvent;
 import org.kie.workbench.common.screens.library.client.screens.importrepository.ImportRepositoryPopUpPresenter;
 import org.kie.workbench.common.screens.library.client.screens.project.close.CloseUnsavedProjectAssetsPopUpPresenter;
-import org.kie.workbench.common.screens.library.client.widgets.library.LibraryToolbarPresenter;
 import org.kie.workbench.common.services.shared.project.KieModuleService;
 import org.kie.workbench.common.workbench.client.docks.AuthoringWorkbenchDocks;
 import org.mockito.ArgumentCaptor;
@@ -114,9 +113,6 @@ public class LibraryPlacesTest {
 
     @Mock
     private WorkspaceProjectContext projectContext;
-
-    @Mock
-    private LibraryToolbarPresenter libraryToolbar;
 
     @Mock
     private AuthoringWorkbenchDocks docks;
@@ -183,9 +179,6 @@ public class LibraryPlacesTest {
         libraryServiceCaller = new CallerMock<>(libraryService);
         vfsServiceCaller = new CallerMock<>(vfsService);
 
-        final UberElement libraryToolBarView = mock(UberElement.class);
-        doReturn(libraryToolBarView).when(libraryToolbar).getView();
-
         libraryPlaces = spy(new LibraryPlaces(breadcrumbs,
                                               ts,
                                               assetDetailEvent,
@@ -195,7 +188,6 @@ public class LibraryPlacesTest {
                                               new CallerMock<>(moduleService),
                                               placeManager,
                                               projectContext,
-                                              libraryToolbar,
                                               docks,
                                               projectContextChangeEvent,
                                               notificationEvent,
@@ -208,8 +200,6 @@ public class LibraryPlacesTest {
                                               closeUnsavedProjectAssetsPopUpPresenter,
                                               projectsSetupEvent));
         libraryPlaces.setup();
-
-        verify(libraryToolBarView).getElement();
 
         libraryPlaces.init(mock(LibraryPerspective.class));
 
