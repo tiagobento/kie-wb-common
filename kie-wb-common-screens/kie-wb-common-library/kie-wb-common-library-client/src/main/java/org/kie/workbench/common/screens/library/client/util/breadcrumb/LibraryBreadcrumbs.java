@@ -80,7 +80,9 @@ public class LibraryBreadcrumbs {
 
     //Spaces -> {spaceName} -> {projectName} -> {branchName}
     public void setupForProject(final WorkspaceProject project) {
+
         setupForSpace(project.getOrganizationalUnit());
+
         breadcrumbs.addBreadCrumb(LIBRARY_PERSPECTIVE,
                                   project.getName(),
                                   libraryPlaces::goToActiveProject);

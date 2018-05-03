@@ -392,7 +392,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
         closeAllPlacesOrNothing(() -> {
             PortablePreconditions.checkNotNull("libraryPerspective.closeAllPlacesOrNothing", libraryPerspective);
             projectContextChangeEvent.fire(new WorkspaceProjectContextChangeEvent());
-            placeManager.goTo(newNonSelectablePartDefinition(ORGANIZATIONAL_UNITS_SCREEN), libraryPerspective.getRootPanel());
+            goTo(ORGANIZATIONAL_UNITS_SCREEN);
             libraryBreadcrumbs.setupForSpacesScreen();
         });
     }
@@ -420,8 +420,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
 
         closeAllLibraryPlaces();
 
-        placeManager.goTo(newNonSelectablePartDefinition(LIBRARY_SCREEN), libraryPerspective.getRootPanel());
-
+        goTo(LIBRARY_SCREEN);
         libraryBreadcrumbs.setupForSpace(getActiveSpace());
 
         hideDocks();
@@ -441,7 +440,7 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
     }
 
     public void goToActiveProject() {
-        placeManager.goTo(newNonSelectablePartDefinition(PROJECT_SCREEN), libraryPerspective.getRootPanel());
+        goTo(PROJECT_SCREEN);
         libraryBreadcrumbs.setupForProject(getActiveProject());
     }
 
@@ -465,12 +464,12 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
     }
 
     public void goToAddAsset() {
-        placeManager.goTo(newNonSelectablePartDefinition(ADD_ASSET_SCREEN), libraryPerspective.getRootPanel());
+        goTo(ADD_ASSET_SCREEN);
     }
 
     public void goToTrySamples() {
         closeAllPlacesOrNothing(() -> {
-            placeManager.goTo(newNonSelectablePartDefinition(IMPORT_SAMPLE_PROJECTS_SCREEN), libraryPerspective.getRootPanel());
+            goTo(IMPORT_SAMPLE_PROJECTS_SCREEN);
             libraryBreadcrumbs.setupForTrySamples(getActiveSpace());
         });
     }
@@ -482,10 +481,14 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
     public void goToExternalImportPresenter(final Set<ExampleProject> projects) {
         closeAllPlacesOrNothing(() -> {
             // TODO add title
-            placeManager.goTo(newNonSelectablePartDefinition(IMPORT_PROJECTS_SCREEN), libraryPerspective.getRootPanel());
+            goTo(IMPORT_PROJECTS_SCREEN);
             libraryBreadcrumbs.setupForExternalImport(getActiveSpace());
             importProjectsSetupEvent.fire(new ImportProjectsSetupEvent(projects));
         });
+    }
+
+    private void goTo(final String screenName) {
+        placeManager.goTo(newNonSelectablePartDefinition(screenName), libraryPerspective.getRootPanel());
     }
 
     private PartDefinition newNonSelectablePartDefinition(final String target) {
@@ -567,5 +570,4 @@ public class LibraryPlaces implements WorkspaceProjectContextChangeHandler {
     OrganizationalUnit getActiveSpace() {
         return projectContext.getActiveOrganizationalUnit().orElseThrow(() -> new IllegalStateException("No active space found"));
     }
-
 }
