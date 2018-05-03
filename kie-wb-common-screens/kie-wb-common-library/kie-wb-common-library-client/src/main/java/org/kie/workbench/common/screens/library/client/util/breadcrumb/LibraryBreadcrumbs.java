@@ -52,7 +52,7 @@ public class LibraryBreadcrumbs {
     private ResourceUtils resourceUtils;
 
     @Inject
-    private ManagedInstance<ProjectBranchBreadcrumb> projectBranchBreadcrumbFactory;
+    private ProjectBranchBreadcrumb projectBranchBreadcrumb;
 
     public void init(final LibraryPlaces libraryPlaces) {
         this.libraryPlaces = libraryPlaces;
@@ -88,7 +88,7 @@ public class LibraryBreadcrumbs {
                                   libraryPlaces::goToActiveProject);
 
         breadcrumbs.addBreadCrumb(LIBRARY_PERSPECTIVE,
-                                  projectBranchBreadcrumbFactory.get().setup(project));
+                                  projectBranchBreadcrumb.setup(project));
     }
 
     //Spaces -> {spaceName} -> Try Samples

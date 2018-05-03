@@ -16,26 +16,41 @@
 
 package org.kie.workbench.common.screens.library.client.util.breadcrumb;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import java.util.List;
 
-import elemental2.dom.HTMLElement;
+import javax.inject.Inject;
+
+import org.guvnor.structure.repositories.Branch;
 import org.jboss.errai.ui.client.local.api.elemental2.IsElement;
 import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
+import org.kie.workbench.common.screens.library.client.settings.util.dropdown.KieDropdownElement;
+import org.kie.workbench.common.screens.library.client.settings.util.dropdown.KieDropdownElement.Item;
 import org.uberfire.client.mvp.UberElemental;
+
+import static java.util.stream.Collectors.toList;
+import static org.kie.workbench.common.screens.library.client.settings.util.dropdown.KieDropdownElement.Item.Status.CHECKED;
+import static org.kie.workbench.common.screens.library.client.settings.util.dropdown.KieDropdownElement.Item.Status.UNCHECKED;
 
 @Templated
 public class ProjectBranchBreadcrumbView implements UberElemental<ProjectBranchBreadcrumb>,
                                                     IsElement {
 
     @Inject
-    @Named("span")
-    @DataField("label")
-    private HTMLElement label;
+    @DataField("branches-dropdown")
+    private KieDropdownElement<Branch> branchesDropdown;
 
     @Override
     public void init(final ProjectBranchBreadcrumb presenter) {
-        label.textContent = presenter.getProject().getBranch().getName();
+
+        final Branch currentBranch = presenter.getProject().getBranch();
+
+        final List<Item<Branch>> items = presenter.getProject().getRepository().getBranches().stream()
+                .map(b -> new Item<>(b, b.getName(), b.equals(currentBranch) ? CHECKED : UNCHECKED))
+                .collect(toList());
+
+        branchesDropdown.setup(items,
+                               currentBranch.getName(),
+                               presenter::onBranchChanged);
     }
 }

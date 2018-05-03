@@ -16,11 +16,12 @@
 
 package org.kie.workbench.common.screens.library.client.util.breadcrumb;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import elemental2.dom.DomGlobal;
 import org.guvnor.common.services.project.model.WorkspaceProject;
+import org.guvnor.structure.repositories.Branch;
 import org.uberfire.client.mvp.UberElemental;
 import org.uberfire.ext.widgets.common.client.breadcrumbs.widget.BreadcrumbPresenter;
 
@@ -57,5 +58,9 @@ public class ProjectBranchBreadcrumb implements BreadcrumbPresenter {
     @Override
     public UberElemental<? extends BreadcrumbPresenter> getView() {
         return view;
+    }
+
+    public void onBranchChanged(final Branch branch) {
+        DomGlobal.console.info("Branch changed to: " + branch.getName());
     }
 }
