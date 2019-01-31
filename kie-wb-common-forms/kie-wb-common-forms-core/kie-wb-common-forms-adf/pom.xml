@@ -21,7 +21,7 @@
   <parent>
     <artifactId>kie-wb-common-forms-core</artifactId>
     <groupId>org.kie.workbench.forms</groupId>
-    <version>7.17.0-SNAPSHOT</version>
+    <version>7.18.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -36,5 +36,6 @@
     <module>kie-wb-common-forms-adf-base</module>
     <module>kie-wb-common-forms-adf-processors</module>
     <module>kie-wb-common-forms-adf-engine</module>
+    <module>kie-wb-common-forms-adf-processors-tests</module>
   </modules>
 </project>

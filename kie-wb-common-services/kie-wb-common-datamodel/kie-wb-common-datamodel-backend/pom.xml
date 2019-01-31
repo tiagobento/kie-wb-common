@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.kie.workbench.services</groupId>
     <artifactId>kie-wb-common-datamodel</artifactId>
-    <version>7.17.0-SNAPSHOT</version>
+    <version>7.18.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>kie-wb-common-datamodel-backend</artifactId>
@@ -241,8 +241,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.hibernate.javax.persistence</groupId>
-      <artifactId>hibernate-jpa-2.1-api</artifactId>
+      <groupId>javax.persistence</groupId>
+      <artifactId>javax.persistence-api</artifactId>
       <scope>test</scope>
     </dependency>
 
