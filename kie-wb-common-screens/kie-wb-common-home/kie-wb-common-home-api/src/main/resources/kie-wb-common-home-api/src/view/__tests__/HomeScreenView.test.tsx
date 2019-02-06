@@ -18,7 +18,7 @@ describe("behaviour", () => {
     const pref = new ProfilePreferencesPortableGeneratedImpl({ profile: Profile.FULL });
     const promise = Promise.resolve(pref);
 
-    PreferenceBeanServerStore.prototype.load2 = jest.fn(() => promise);
+    PreferenceBeanServerStore.prototype.load2 = jest.fn(() => promise) as any;
 
     const component = shallow(<HomeScreenView contentProvider={provider} />);
 
@@ -82,7 +82,7 @@ describe("snapshot", () => {
     const pref = new ProfilePreferencesPortableGeneratedImpl({ profile: Profile.FULL });
     const promise = Promise.resolve(pref);
 
-    PreferenceBeanServerStore.prototype.load2 = jest.fn(() => promise);
+    PreferenceBeanServerStore.prototype.load2 = jest.fn(() => promise) as any;
 
     const component = shallow(<HomeScreenView contentProvider={provider} />);
 
