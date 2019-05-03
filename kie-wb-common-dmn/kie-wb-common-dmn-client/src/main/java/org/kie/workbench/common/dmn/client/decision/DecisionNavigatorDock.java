@@ -119,7 +119,7 @@ public class DecisionNavigatorDock {
     }
 
     UberfireDockPosition position() {
-        return UberfireDockPosition.WEST;
+        return UberfireDockPosition.EAST;
     }
 
     private String icon() {
