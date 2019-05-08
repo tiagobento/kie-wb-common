@@ -17,10 +17,10 @@ package org.kie.workbench.common.stunner.standalone.client.perspectives;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import org.kie.workbench.common.stunner.standalone.client.editor.BPMNDiagramsNavigatorScreen;
+import org.kie.workbench.common.stunner.standalone.client.editor.BPMNStandaloneDiagramEditor;
 import org.uberfire.client.annotations.Perspective;
 import org.uberfire.client.annotations.WorkbenchPerspective;
-import org.uberfire.client.workbench.panels.impl.MultiListWorkbenchPanelPresenter;
+import org.uberfire.client.workbench.panels.impl.SimpleWorkbenchPanelPresenter;
 import org.uberfire.mvp.impl.DefaultPlaceRequest;
 import org.uberfire.workbench.model.PerspectiveDefinition;
 import org.uberfire.workbench.model.impl.PartDefinitionImpl;
@@ -32,20 +32,20 @@ public class AuthoringPerspective {
 
     public static final String PERSPECTIVE_ID = "AuthoringPerspective";
 
-    @Perspective
-    public PerspectiveDefinition buildPerspective() {
-        final PerspectiveDefinition perspective = new PerspectiveDefinitionImpl(MultiListWorkbenchPanelPresenter.class.getName());
-        perspective.setName("Authoring");
-        perspective.getRoot().addPart(new PartDefinitionImpl(new DefaultPlaceRequest(BPMNDiagramsNavigatorScreen.SCREEN_ID)));
-        return perspective;
-    }
+//    @Perspective
+//    public PerspectiveDefinition buildPerspective() {
+//        final PerspectiveDefinition perspective = new PerspectiveDefinitionImpl(MultiListWorkbenchPanelPresenter.class.getName());
+//        perspective.setName("Authoring");
+//        perspective.getRoot().addPart(new PartDefinitionImpl(new DefaultPlaceRequest(BPMNDiagramsNavigatorScreen.SCREEN_ID)));
+//        return perspective;
+//    }
 
-    /*@Perspective
+    @Perspective
     public PerspectiveDefinition buildSubmarinePerspective() {
         final PerspectiveDefinition perspective = new PerspectiveDefinitionImpl(SimpleWorkbenchPanelPresenter.class.getName());
         perspective.setName("Authoring");
         perspective.getRoot().addPart(new PartDefinitionImpl(new DefaultPlaceRequest(BPMNStandaloneDiagramEditor.EDITOR_ID)));
         return perspective;
-    }*/
+    }
 }
 

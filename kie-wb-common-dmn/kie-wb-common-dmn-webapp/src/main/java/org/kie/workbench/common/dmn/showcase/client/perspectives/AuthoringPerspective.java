@@ -20,11 +20,13 @@ import javax.enterprise.context.ApplicationScoped;
 import org.kie.workbench.common.dmn.showcase.client.editor.DMNDiagramEditor;
 import org.uberfire.client.annotations.Perspective;
 import org.uberfire.client.annotations.WorkbenchPerspective;
-import org.uberfire.client.workbench.panels.impl.SimpleNoExpandWorkbenchPanelPresenter;
+import org.uberfire.client.workbench.panels.impl.SimpleWorkbenchPanelPresenter;
 import org.uberfire.mvp.impl.DefaultPlaceRequest;
 import org.uberfire.workbench.model.PerspectiveDefinition;
 import org.uberfire.workbench.model.impl.PartDefinitionImpl;
 import org.uberfire.workbench.model.impl.PerspectiveDefinitionImpl;
+
+//import org.uberfire.client.workbench.panels.impl.MultiListWorkbenchPanelPresenter;
 
 @ApplicationScoped
 @WorkbenchPerspective(identifier = AuthoringPerspective.PERSPECTIVE_ID, isTransient = false, isDefault = true)
@@ -34,7 +36,7 @@ public class AuthoringPerspective {
 
 //    @Perspective
 //    public PerspectiveDefinition buildPerspective() {
-//        final PerspectiveDefinition perspective = new PerspectiveDefinitionImpl(MultiListWorkbenchPanelPresenter.class.getName());
+//        final PerspectiveDefinition perspective = new PerspectiveDefinitionImpl(SimpleWorkbenchPanelPresenter.class.getName());
 //        perspective.setName("Authoring");
 //        perspective.getRoot().addPart(new PartDefinitionImpl(new DefaultPlaceRequest(DMNDiagramsNavigatorScreen.SCREEN_ID)));
 //        return perspective;
@@ -42,7 +44,7 @@ public class AuthoringPerspective {
 
     @Perspective
     public PerspectiveDefinition buildSubmarinePerspective() {
-        final PerspectiveDefinition perspective = new PerspectiveDefinitionImpl(SimpleNoExpandWorkbenchPanelPresenter.class.getName());
+        final PerspectiveDefinition perspective = new PerspectiveDefinitionImpl(SimpleWorkbenchPanelPresenter.class.getName());
         perspective.setName("Authoring");
         perspective.getRoot().addPart(new PartDefinitionImpl(new DefaultPlaceRequest(DMNDiagramEditor.EDITOR_ID)));
         return perspective;

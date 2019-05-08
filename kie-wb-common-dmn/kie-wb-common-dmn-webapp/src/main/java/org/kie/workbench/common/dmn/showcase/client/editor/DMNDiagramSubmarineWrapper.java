@@ -25,6 +25,7 @@ import org.kie.workbench.common.stunner.core.client.service.ClientRuntimeError;
 import org.kie.workbench.common.stunner.core.client.service.ServiceCallback;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.mvp.PlaceManager;
+import org.uberfire.client.promise.Promises;
 
 @ApplicationScoped
 public class DMNDiagramSubmarineWrapper {
@@ -35,6 +36,7 @@ public class DMNDiagramSubmarineWrapper {
 
     private PlaceManager placeManager;
     private SubmarineClientDiagramServiceImpl clientDiagramService;
+    private Promises promises;
 
     public DMNDiagramSubmarineWrapper() {
         //CDI proxy
@@ -42,9 +44,11 @@ public class DMNDiagramSubmarineWrapper {
 
     @Inject
     public DMNDiagramSubmarineWrapper(final PlaceManager placeManager,
-                                      final SubmarineClientDiagramServiceImpl clientDiagramService) {
+                                      final SubmarineClientDiagramServiceImpl clientDiagramService,
+                                      final Promises promises) {
         this.placeManager = placeManager;
         this.clientDiagramService = clientDiagramService;
+        this.promises = promises;
     }
 
     public void newFile() {
@@ -85,7 +89,7 @@ public class DMNDiagramSubmarineWrapper {
             clientDiagramService.saveAsXml(path,
                                            (String) xml,
                                            callback);
-            return null;
+            return promises.resolve();
         });
     }
 }
