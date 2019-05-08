@@ -119,7 +119,7 @@ public class DecisionNavigatorDockTest {
     public void testOpenWhenItIsNotOpened() {
 
         final UberfireDock uberfireDock = mock(UberfireDock.class);
-        final UberfireDockPosition position = UberfireDockPosition.WEST;
+        final UberfireDockPosition position = UberfireDockPosition.EAST;
         final String perspective = "perspective";
 
         dock.setOpened(false);
@@ -167,7 +167,7 @@ public class DecisionNavigatorDockTest {
     @Test
     public void testMakeUberfireDock() {
 
-        final UberfireDockPosition expectedPosition = UberfireDockPosition.WEST;
+        final UberfireDockPosition expectedPosition = UberfireDockPosition.EAST;
         final String expectedIcon = IconType.MAP.toString();
         final String expectedPlaceRequestIdentifier = DecisionNavigatorPresenter.IDENTIFIER;
         final String expectedPerspective = "perspective";
