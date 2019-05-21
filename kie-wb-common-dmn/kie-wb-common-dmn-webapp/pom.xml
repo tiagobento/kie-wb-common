@@ -384,6 +384,10 @@
       <exclusions>
         <exclusion>
           <groupId>org.uberfire</groupId>
+          <artifactId>uberfire-client-backend</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.uberfire</groupId>
           <artifactId>uberfire-experimental-client</artifactId>
         </exclusion>
       </exclusions>
@@ -471,17 +475,7 @@
     </dependency>
     <dependency>
       <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-client-backend</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
       <artifactId>uberfire-workbench-client</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-workbench-client-backend</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -738,15 +732,16 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
         <configuration>
+          <module>org.kie.workbench.common.dmn.showcase.DMNShowcase</module>
           <strict>true</strict>
           <localWorkers>${gwt.compiler.localWorkers}</localWorkers>
           <deploy>${project.build.directory}/gwt-symbols-deploy</deploy>
-          <draftCompile>true</draftCompile>
+          <draftCompile>false</draftCompile>
           <extraJvmArgs>-Xmx4096m -Xms1024m -Xss1M -XX:CompileThreshold=7000 -Derrai.dynamic_validation.enabled=true -Derrai.jboss.home=${errai.jboss.home}</extraJvmArgs>
-          <module>org.kie.workbench.common.dmn.showcase.FastCompiledDMNShowcase</module>
-          <style>PRETTY</style>
+          <style>OBFUSCATED</style>
           <logLevel>INFO</logLevel>
           <noServer>false</noServer>
+          <optimizationLevel>9</optimizationLevel>
           <server>org.jboss.errai.cdi.server.gwt.EmbeddedWildFlyLauncher</server>
           <disableCastChecking>true</disableCastChecking>
           <runTarget>index.html</runTarget>
@@ -767,7 +762,6 @@
             <compileSourcesArtifact>org.uberfire:uberfire-security-client</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-client-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-workbench-client</compileSourcesArtifact>
-            <compileSourcesArtifact>org.uberfire:uberfire-workbench-client-backend</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-workbench-client-views-patternfly</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-simple-docks-client</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-backend-api</compileSourcesArtifact>
@@ -1008,6 +1002,7 @@
     <profile>
       <id>fullProfile</id>
       <activation>
+        <activeByDefault>true</activeByDefault>
         <property>
           <name>full</name>
         </property>

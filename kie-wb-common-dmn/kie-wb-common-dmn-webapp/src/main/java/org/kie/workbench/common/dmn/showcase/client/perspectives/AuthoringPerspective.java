@@ -29,7 +29,7 @@ import org.uberfire.workbench.model.impl.PerspectiveDefinitionImpl;
 //import org.uberfire.client.workbench.panels.impl.MultiListWorkbenchPanelPresenter;
 
 @ApplicationScoped
-@WorkbenchPerspective(identifier = AuthoringPerspective.PERSPECTIVE_ID, isTransient = false, isDefault = true)
+@WorkbenchPerspective(identifier = AuthoringPerspective.PERSPECTIVE_ID, isDefault = true)
 public class AuthoringPerspective {
 
     public static final String PERSPECTIVE_ID = "AuthoringPerspective";

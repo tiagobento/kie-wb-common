@@ -19,7 +19,7 @@
 <module>
 
   <!-- Uberfire dependencies -->
-  <inherits name="org.uberfire.UberfireClientAll"/>
+  <inherits name="org.uberfire.UberfireClient"/>
   <inherits name="org.uberfire.UberfireBackend"/>
   <inherits name="org.uberfire.client.views.PatternFlyTheme"/>
   <inherits name="org.uberfire.experimental.UberfireExperimentalAPI"/>
@@ -46,12 +46,12 @@
   <!-- DMN Editor -->
   <inherits name="org.kie.workbench.common.dmn.DMNClient"/>
 
-  <extend-property name="locale" values="es"/>
-  <extend-property name="locale" values="fr"/>
-  <extend-property name="locale" values="ja"/>
-  <extend-property name="locale" values="pt_BR"/>
-  <extend-property name="locale" values="zh_CN"/>
-  <extend-property name="locale" values="de"/>
+  <!--<extend-property name="locale" values="es"/>-->
+  <!--<extend-property name="locale" values="fr"/>-->
+  <!--<extend-property name="locale" values="ja"/>-->
+  <!--<extend-property name="locale" values="pt_BR"/>-->
+  <!--<extend-property name="locale" values="zh_CN"/>-->
+  <!--<extend-property name="locale" values="de"/>-->
 
   <!-- We don't need to support IE10 or older -->
   <!-- There is no "ie11" permutation. IE11 uses the Firefox one (gecko1_8) -->
