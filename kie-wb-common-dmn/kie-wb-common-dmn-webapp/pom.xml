@@ -632,13 +632,6 @@
       </exclusions>
     </dependency>
 
-    <!-- Required by uberfire-project-client -->
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-preferences-ui-client</artifactId>
-      <scope>provided</scope>
-    </dependency>
-
     <!-- GWT and extensions -->
     <dependency>
       <groupId>com.google.gwt</groupId>
