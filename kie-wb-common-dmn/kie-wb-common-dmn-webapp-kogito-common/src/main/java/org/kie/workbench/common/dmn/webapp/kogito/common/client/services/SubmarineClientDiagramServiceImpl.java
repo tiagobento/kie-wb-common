@@ -30,8 +30,12 @@ import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSIT
 import org.kie.workbench.common.stunner.core.client.api.ShapeManager;
 import org.kie.workbench.common.stunner.core.client.service.ServiceCallback;
 import org.kie.workbench.common.stunner.core.diagram.Metadata;
+import org.kie.workbench.common.stunner.core.graph.impl.GraphImpl;
+import org.kie.workbench.common.stunner.core.graph.store.GraphNodeStoreImpl;
 import org.kie.workbench.common.stunner.core.util.StringUtils;
 import org.kie.workbench.common.stunner.submarine.api.diagram.SubmarineDiagram;
+import org.kie.workbench.common.stunner.submarine.api.diagram.impl.SubmarineDiagramImpl;
+import org.kie.workbench.common.stunner.submarine.api.diagram.impl.SubmarineMetadataImpl;
 import org.kie.workbench.common.stunner.submarine.api.editor.DiagramType;
 import org.kie.workbench.common.stunner.submarine.api.editor.impl.SubmarineDiagramResourceImpl;
 import org.kie.workbench.common.stunner.submarine.api.service.SubmarineDiagramService;
@@ -64,17 +68,14 @@ public class SubmarineClientDiagramServiceImpl implements SubmarineClientDiagram
     public void transform(final String xml,
                           final ServiceCallback<SubmarineDiagram> callback) {
 
-        //TODO {manstis} XML->model marshalling...
-        //Stage 1 client-side marshalling
-        // - Stage 1 is XML -> generic POJO model
-        // - Stage 2 is generic POJO model to DMN editor UI model
-        testClientSideMarshaller(xml);
+        final SubmarineDiagram d = new SubmarineDiagramImpl("AnotherDiagram",
+                                                            new GraphImpl("Graph", new GraphNodeStoreImpl()),
+                                                            new SubmarineMetadataImpl());
 
-        //Legacy server-side marshalling
-        submarineDiagramServiceCaller.call((SubmarineDiagram d) -> {
-            updateClientMetadata(d);
-            callback.onSuccess(d);
-        }).transform(xml);
+//        submarineDiagramServiceCaller.call((SubmarineDiagram d) -> {
+        updateClientMetadata(d);
+        callback.onSuccess(d);
+//        }).transform(xml);
     }
 
     private void testClientSideMarshaller(final String xml) {

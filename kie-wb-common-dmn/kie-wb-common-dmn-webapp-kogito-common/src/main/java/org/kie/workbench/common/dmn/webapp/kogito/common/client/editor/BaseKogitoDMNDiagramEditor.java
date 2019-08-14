@@ -241,6 +241,7 @@ public abstract class BaseKogitoDMNDiagramEditor extends AbstractDiagramEditor {
     @SuppressWarnings("unused")
     public void onOpen() {
         super.doOpen();
+        setContent(""); //TODO: (tiago) remove this line
     }
 
     @OnClose

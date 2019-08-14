@@ -30,7 +30,7 @@
   <packaging>jar</packaging>
 
   <properties>
-    <version.jsonix-scripts>3.0.0</version.jsonix-scripts>
+    <version.jsonix-scripts>2.4.0</version.jsonix-scripts>
     <version.gwt-jsonix-schema-compiler>1.0b</version.gwt-jsonix-schema-compiler>
     <version.com.google.jsinterop.base>1.0.0-beta-1</version.com.google.jsinterop.base>
     <version.maven-jaxb2-plugin>0.14.0</version.maven-jaxb2-plugin>
