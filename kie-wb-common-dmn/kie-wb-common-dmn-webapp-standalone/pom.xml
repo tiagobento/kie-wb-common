@@ -262,6 +262,7 @@
       <groupId>org.kie.workbench</groupId>
       <artifactId>kie-wb-common-dmn-webapp-common</artifactId>
       <scope>provided</scope>
+      <version>7.26.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.uberfire</groupId>
@@ -387,6 +388,10 @@
       <exclusions>
         <exclusion>
           <groupId>org.uberfire</groupId>
+          <artifactId>uberfire-client-backend</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.uberfire</groupId>
           <artifactId>uberfire-experimental-client</artifactId>
         </exclusion>
       </exclusions>
@@ -472,21 +477,21 @@
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-client-api</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-client-backend</artifactId>
-      <scope>provided</scope>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.uberfire</groupId>-->
+      <!--<artifactId>uberfire-client-backend</artifactId>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-workbench-client</artifactId>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-workbench-client-backend</artifactId>
-      <scope>provided</scope>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>org.uberfire</groupId>-->
+      <!--<artifactId>uberfire-workbench-client-backend</artifactId>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-security-api</artifactId>
@@ -771,7 +776,7 @@
           <strict>true</strict>
           <localWorkers>${gwt.compiler.localWorkers}</localWorkers>
           <deploy>${project.build.directory}/gwt-symbols-deploy</deploy>
-          <draftCompile>true</draftCompile>
+          <draftCompile>false</draftCompile>
           <extraJvmArgs>-Xmx4096m -Xms1024m -Xss1M -XX:CompileThreshold=7000 -Derrai.dynamic_validation.enabled=true -Derrai.jboss.home=${errai.jboss.home}</extraJvmArgs>
           <module>org.kie.workbench.common.dmn.showcase.FastCompiledDMNShowcase</module>
           <logLevel>INFO</logLevel>
@@ -797,7 +802,6 @@
             <compileSourcesArtifact>org.uberfire:uberfire-security-client</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-client-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-workbench-client</compileSourcesArtifact>
-            <compileSourcesArtifact>org.uberfire:uberfire-workbench-client-backend</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-workbench-client-views-patternfly</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-simple-docks-client</compileSourcesArtifact>
             <compileSourcesArtifact>org.uberfire:uberfire-backend-api</compileSourcesArtifact>
