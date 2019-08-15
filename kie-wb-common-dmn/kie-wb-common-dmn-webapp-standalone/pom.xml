@@ -262,7 +262,7 @@
       <groupId>org.kie.workbench</groupId>
       <artifactId>kie-wb-common-dmn-webapp-common</artifactId>
       <scope>provided</scope>
-      <version>7.26.0-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.uberfire</groupId>
@@ -388,10 +388,6 @@
       <exclusions>
         <exclusion>
           <groupId>org.uberfire</groupId>
-          <artifactId>uberfire-client-backend</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.uberfire</groupId>
           <artifactId>uberfire-experimental-client</artifactId>
         </exclusion>
       </exclusions>
@@ -477,21 +473,21 @@
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-client-api</artifactId>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.uberfire</groupId>-->
-      <!--<artifactId>uberfire-client-backend</artifactId>-->
-      <!--<scope>provided</scope>-->
-    <!--</dependency>-->
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-client-backend</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-workbench-client</artifactId>
       <scope>provided</scope>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.uberfire</groupId>-->
-      <!--<artifactId>uberfire-workbench-client-backend</artifactId>-->
-      <!--<scope>provided</scope>-->
-    <!--</dependency>-->
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>uberfire-workbench-client-backend</artifactId>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-security-api</artifactId>
