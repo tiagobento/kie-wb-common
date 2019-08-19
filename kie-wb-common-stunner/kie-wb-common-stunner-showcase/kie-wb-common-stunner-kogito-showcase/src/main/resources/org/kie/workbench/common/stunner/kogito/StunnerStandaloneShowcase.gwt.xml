@@ -67,4 +67,8 @@
   <!-- Specify the paths for translatable code -->
   <source path="client"/>
 
+  <define-linker name="dil" class="com.google.gwt.core.linker.DirectInstallLinker"/>
+  <add-linker name="dil" />
+  <!--<set-property name="ClientBundle.enableInlining" value="false" />-->
+
 </module>
