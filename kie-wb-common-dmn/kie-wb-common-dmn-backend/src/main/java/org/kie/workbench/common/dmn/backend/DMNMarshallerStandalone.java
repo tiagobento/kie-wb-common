@@ -38,7 +38,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
-import org.jboss.errai.marshalling.server.ServerMarshalling;
 import org.kie.dmn.model.api.Import;
 import org.kie.dmn.model.api.dmndi.Bounds;
 import org.kie.dmn.model.api.dmndi.Color;
@@ -165,19 +164,6 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
         this.decisionServiceConverter = new DecisionServiceConverter(factoryManager);
     }
 
-    @Deprecated
-    public Graph unmarshallFromStunnerJSON(final Metadata metadata,
-                                           final InputStream input) throws IOException {
-        Graph result = (Graph) ServerMarshalling.fromJSON(input);
-        return result;
-    }
-
-    @Deprecated
-    public String marshallFromStunnerToJSON(final Diagram<Graph, Metadata> diagram) throws IOException {
-        String result = ServerMarshalling.toJSON(diagram.getGraph());
-        return result;
-    }
-
     private static Optional<org.kie.dmn.model.api.dmndi.DMNDiagram> findDMNDiagram(org.kie.dmn.model.api.Definitions dmnXml) {
         if (!(dmnXml instanceof org.kie.dmn.model.v1_2.TDefinitions)) {
             return Optional.empty();
@@ -201,7 +187,7 @@ public class DMNMarshallerStandalone implements DiagramMarshaller<Graph, Metadat
     @Override
     @SuppressWarnings("unchecked")
     public Graph unmarshall(final Metadata metadata,
-                            final InputStream input) throws IOException {
+                            final InputStream input) {
         final Map<String, HasComponentWidths> hasComponentWidthsMap = new HashMap<>();
         final BiConsumer<String, HasComponentWidths> hasComponentWidthsConsumer = (uuid, hcw) -> {
             if (Objects.nonNull(uuid)) {
