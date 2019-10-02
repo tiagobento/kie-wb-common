@@ -23,4 +23,10 @@ import org.kie.workbench.common.stunner.core.graph.processing.layout.sugiyama.Or
 public interface ReorderedGraph {
 
     List<OrientedEdge> getEdges();
+
+    int getVertexHeight(final String vertexId);
+
+    int getVertexWidth(final String vertexId);
+
+    void setVertexSize(final String vertexId, final int width, final int height);
 }

@@ -50,7 +50,7 @@ public class InformationItemPrimaryPropertyConverter {
         if (wb == null) {
             return null;
         }
-        final JSITInformationItem result = JSITInformationItem.newInstance();
+        final JSITInformationItem result = new JSITInformationItem();
         result.setId(wb.getId().getValue());
         result.setName(getParentName(parent));
 
@@ -61,7 +61,7 @@ public class InformationItemPrimaryPropertyConverter {
     }
 
     static String getParentName(final Object parent) {
-        if (parent instanceof JSITNamedElement) {
+        if (JSITNamedElement.instanceOf(parent)) {
             final JSITNamedElement namedElement = (JSITNamedElement) parent;
             final Optional<String> name = Optional.ofNullable(namedElement.getName());
             return name.orElse(DEFAULT_NAME);

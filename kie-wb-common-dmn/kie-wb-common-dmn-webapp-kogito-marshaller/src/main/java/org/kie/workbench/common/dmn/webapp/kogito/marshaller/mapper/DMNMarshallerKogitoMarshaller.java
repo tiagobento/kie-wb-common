@@ -15,19 +15,20 @@
  */
 package org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import jsinterop.base.Js;
-import jsinterop.base.JsArrayLike;
 import org.kie.workbench.common.dmn.api.definition.DMNViewDefinition;
 import org.kie.workbench.common.dmn.api.definition.model.Association;
 import org.kie.workbench.common.dmn.api.definition.model.BusinessKnowledgeModel;
@@ -41,6 +42,7 @@ import org.kie.workbench.common.dmn.api.definition.model.InputData;
 import org.kie.workbench.common.dmn.api.definition.model.ItemDefinition;
 import org.kie.workbench.common.dmn.api.definition.model.KnowledgeSource;
 import org.kie.workbench.common.dmn.api.definition.model.TextAnnotation;
+import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.MainJs;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.di.JSIDiagramElement;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITAssociation;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITBusinessKnowledgeModel;
@@ -112,6 +114,11 @@ public class DMNMarshallerKogitoMarshaller {
         this.decisionServiceConverter = new DecisionServiceConverter(factoryManager);
     }
 
+    @PostConstruct
+    public void init() {
+        MainJs.initializeJsInteropConstructors(MainJs.getConstructorsMap());
+    }
+
     // ==================================
     // MARSHALL
     // ==================================
@@ -122,23 +129,23 @@ public class DMNMarshallerKogitoMarshaller {
         final Map<String, JSITTextAnnotation> textAnnotations = new HashMap<>();
         final Node<View<DMNDiagram>, ?> dmnDiagramRoot = (Node<View<DMNDiagram>, ?>) DMNMarshallerUtils.findDMNDiagramRoot(graph);
         final Definitions definitionsStunnerPojo = dmnDiagramRoot.getContent().getDefinition().getDefinitions();
-        final JsArrayLike<JSIDMNEdge> dmnEdges = JsUtils.getNativeArray();
+        final List<JSIDMNEdge> dmnEdges = new ArrayList<>();
 
         cleanImportedItemDefinitions(definitionsStunnerPojo);
 
         final JSITDefinitions definitions = DefinitionsConverter.dmnFromWB(definitionsStunnerPojo);
         if (Objects.isNull(definitions.getExtensionElements())) {
-            JSITDMNElement.JSIExtensionElements jsiExtensionElements = JSITDMNElement.JSIExtensionElements.newInstance();
+            JSITDMNElement.JSIExtensionElements jsiExtensionElements = new JSITDMNElement.JSIExtensionElements();
             definitions.setExtensionElements(jsiExtensionElements);
         }
 
         if (Objects.isNull(definitions.getDMNDI())) {
-            definitions.setDMNDI(JSIDMNDI.newInstance());
+            definitions.setDMNDI(new JSIDMNDI());
         }
-        final JSIDMNDiagram dmnDDDMNDiagram = JSIDMNDiagram.newInstance();
+        final JSIDMNDiagram dmnDDDMNDiagram = new JSIDMNDiagram();
         // TODO {gcardosi} add because  present in original json
-        dmnDDDMNDiagram.setDMNDiagramElement(JsUtils.getNativeArray());
-        JSIDMNDI.addDMNDiagram(definitions.getDMNDI(), dmnDDDMNDiagram);
+        dmnDDDMNDiagram.setDMNDiagramElement(new ArrayList<>());
+        definitions.getDMNDI().addDMNDiagram(dmnDDDMNDiagram);
 
         //Convert relative positioning to absolute
         for (Node<?, ?> node : graph.nodes()) {
@@ -147,14 +154,14 @@ public class DMNMarshallerKogitoMarshaller {
 
         //Setup callback for marshalling ComponentWidths
         if (Objects.isNull(dmnDDDMNDiagram.getExtension())) {
-            dmnDDDMNDiagram.setExtension(JSIDiagramElement.JSIExtension.newInstance());
+            dmnDDDMNDiagram.setExtension(new JSIDiagramElement.JSIExtension());
         }
-        final JSITComponentsWidthsExtension componentsWidthsExtension = JSITComponentsWidthsExtension.newInstance();
+        final JSITComponentsWidthsExtension componentsWidthsExtension = new JSITComponentsWidthsExtension();
         final JSIDiagramElement.JSIExtension extension = dmnDDDMNDiagram.getExtension();
         JSITComponentsWidthsExtension wrappedComponentsWidthsExtension = getWrappedJSITComponentsWidthsExtension(componentsWidthsExtension);
-        JSIDiagramElement.JSIExtension.addAny(extension, wrappedComponentsWidthsExtension);
+        extension.addAny(wrappedComponentsWidthsExtension);
 
-        final Consumer<JSITComponentWidths> componentWidthsConsumer = (cw) -> JSITComponentsWidthsExtension.addComponentWidths(componentsWidthsExtension, cw);
+        final Consumer<JSITComponentWidths> componentWidthsConsumer = (cw) ->  componentsWidthsExtension.addComponentWidths(cw);
 
         //Iterate Graph processing nodes..
         for (Node<?, ?> node : graph.nodes()) {
@@ -176,7 +183,7 @@ public class DMNMarshallerKogitoMarshaller {
                     }
 
                     String namespaceURI = definitionsStunnerPojo.getDefaultNamespace();
-                    JSIDMNDiagram.addDMNDiagramElement(dmnDDDMNDiagram, getWrappedJSIDMNShape((View<? extends DMNElement>) view,
+                    dmnDDDMNDiagram.addDMNDiagramElement(getWrappedJSIDMNShape((View<? extends DMNElement>) view,
                                                                                               namespaceURI));
                 } else if (view.getDefinition() instanceof TextAnnotation) {
                     final TextAnnotation textAnnotation = (TextAnnotation) view.getDefinition();
@@ -184,13 +191,13 @@ public class DMNMarshallerKogitoMarshaller {
                                         textAnnotationConverter.dmnFromNode((Node<View<TextAnnotation>, ?>) node,
                                                                             componentWidthsConsumer));
                     String namespaceURI = definitionsStunnerPojo.getDefaultNamespace();
-                    JSIDMNDiagram.addDMNDiagramElement(dmnDDDMNDiagram, getWrappedJSIDMNShape((View<? extends DMNElement>) view,
+                    dmnDDDMNDiagram.addDMNDiagramElement(getWrappedJSIDMNShape((View<? extends DMNElement>) view,
                                                                                               namespaceURI));
 
-                    final JsArrayLike<JSITAssociation> associations = AssociationConverter.dmnFromWB((Node<View<TextAnnotation>, ?>) node);
-                    for (int i = 0; i < associations.getLength(); i++) {
-                        JSITAssociation wrappedJSITAssociation = getWrappedJSITAssociation(Js.uncheckedCast(associations.getAt(i)));
-                        JSITDefinitions.addArtifact(definitions, wrappedJSITAssociation);
+                    final List<JSITAssociation> associations = AssociationConverter.dmnFromWB((Node<View<TextAnnotation>, ?>) node);
+                    for (int i = 0; i < associations.size(); i++) {
+                        JSITAssociation wrappedJSITAssociation = getWrappedJSITAssociation(Js.uncheckedCast(associations.get(i)));
+                        definitions.addArtifact(wrappedJSITAssociation);
                     }
                 }
 
@@ -235,7 +242,7 @@ public class DMNMarshallerKogitoMarshaller {
                                 targetPoint = Point2D.create(xTarget + targetPoint.getX(), yTarget + targetPoint.getY());
                             }
 
-                            final JSIDMNEdge dmnEdge = JSIDMNEdge.newInstance();
+                            final JSIDMNEdge dmnEdge = new JSIDMNEdge();
                             // DMNDI edge elementRef is uuid of Stunner edge,
                             // with the only exception when edge contains as content a DMN Association (Association is an edge)
                             String uuid = e.getUUID();
@@ -250,13 +257,12 @@ public class DMNMarshallerKogitoMarshaller {
                             dmnEdge.setDmnElementRef(new QName(namespaceURI,
                                                                uuid,
                                                                XMLConstants.DEFAULT_NS_PREFIX));
-
-                            JSIDMNEdge.addWaypoint(dmnEdge, PointUtils.point2dToDMNDIPoint(sourcePoint));
+                            dmnEdge.addWaypoint(PointUtils.point2dToDMNDIPoint(sourcePoint));
                             for (ControlPoint cp : connectionContent.getControlPoints()) {
-                                JSIDMNEdge.addWaypoint(dmnEdge, PointUtils.point2dToDMNDIPoint(cp.getLocation()));
+                                dmnEdge.addWaypoint(PointUtils.point2dToDMNDIPoint(cp.getLocation()));
                             }
-                            JSIDMNEdge.addWaypoint(dmnEdge, PointUtils.point2dToDMNDIPoint(targetPoint));
-                            dmnEdges.setAt(dmnEdges.getLength(), dmnEdge);
+                            dmnEdge.addWaypoint(PointUtils.point2dToDMNDIPoint(targetPoint));
+                            dmnEdges.add(dmnEdge);
                         }
                     }
                 }
@@ -276,14 +282,14 @@ public class DMNMarshallerKogitoMarshaller {
                 localPart = "knowledgeSource";
             }
             JSITDRGElement toAdd = getWrappedJSITDRGElement(n, "dmn", localPart);
-            JSITDefinitions.addDrgElement(definitions, toAdd);
+            definitions.addDrgElement(toAdd);
         });
         textAnnotations.values().forEach(text -> {
             JSITTextAnnotation wrappedText = getWrappedJSITTextAnnotation(text);
-            JSITDefinitions.addArtifact(definitions, wrappedText);
+            definitions.addArtifact(wrappedText);
         });
-        for (int i = 0; i < dmnEdges.getLength(); i++) {
-            JSIDMNDiagram.addDMNDiagramElement(dmnDDDMNDiagram, getWrappedJSIDMNEdge(Js.uncheckedCast(dmnEdges.getAt(i))));
+        for (int i = 0; i < dmnEdges.size(); i++) {
+            dmnDDDMNDiagram.addDMNDiagramElement(getWrappedJSIDMNEdge(Js.uncheckedCast(dmnEdges.get(i))));
         }
         return definitions;
     }

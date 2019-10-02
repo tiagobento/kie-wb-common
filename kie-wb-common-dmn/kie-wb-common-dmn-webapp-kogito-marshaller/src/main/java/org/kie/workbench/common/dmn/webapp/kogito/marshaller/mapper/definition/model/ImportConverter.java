@@ -33,7 +33,6 @@ import org.kie.workbench.common.dmn.api.editors.included.PMMLDocumentMetadata;
 import org.kie.workbench.common.dmn.api.property.dmn.LocationURI;
 import org.kie.workbench.common.dmn.api.property.dmn.Name;
 import org.kie.workbench.common.dmn.api.property.dmn.QName;
-import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITDMNElement;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITDefinitions;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.js.model.dmn12.JSITImport;
 import org.kie.workbench.common.dmn.webapp.kogito.marshaller.mapper.utils.NameSpaceUtils;
@@ -68,8 +67,8 @@ public final class ImportConverter {
         final LocationURI locationURI = new LocationURI(dmn.getLocationURI());
         if (Objects.equals(DMNImportTypes.DMN, determineImportType(dmn.getImportType()))) {
             final ImportDMN result = new ImportDMN(dmn.getNamespace(), locationURI, dmn.getImportType());
-            result.setDrgElementsCount(countDefinitionElement(definitions, () -> d -> d.getDrgElement().getLength()));
-            result.setItemDefinitionsCount(countDefinitionElement(definitions, () -> d -> d.getItemDefinition().getLength()));
+            result.setDrgElementsCount(countDefinitionElement(definitions, () -> d -> d.getDrgElement().size()));
+            result.setItemDefinitionsCount(countDefinitionElement(definitions, () -> d -> d.getItemDefinition().size()));
             return result;
         } else if (Objects.equals(DMNImportTypes.PMML, determineImportType(dmn.getImportType()))) {
             final ImportPMML result = new ImportPMML(dmn.getNamespace(), locationURI, dmn.getImportType());
@@ -81,7 +80,7 @@ public final class ImportConverter {
     }
 
     static JSITImport dmnFromWb(final Import wb) {
-        final JSITImport result = JSITImport.newInstance();
+        final JSITImport result = new JSITImport();
         result.setImportType(wb.getImportType());
         result.setLocationURI(wb.getLocationURI().getValue());
         result.setNamespace(wb.getNamespace());
@@ -109,7 +108,7 @@ public final class ImportConverter {
         result.setName(wb.getName().getValue());
         final Optional<String> description = Optional.ofNullable(DescriptionPropertyConverter.dmnFromWB(wb.getDescription()));
         description.ifPresent(result::setDescription);
-        JSITDMNElement.setOtherAttributesMap(result, otherAttributes);
+        result.setOtherAttributes(otherAttributes);
 
         return result;
     }
