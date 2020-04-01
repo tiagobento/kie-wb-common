@@ -24,7 +24,7 @@ import org.kie.workbench.common.stunner.core.client.session.impl.EditorSession;
 
 import static org.kie.workbench.common.stunner.core.client.canvas.controls.keyboard.KeyboardControl.KogitoKeyPress;
 
-public class KogitoAbstractCanvasShortcutsControlImpl extends AbstractCanvasShortcutsControlImpl {
+public abstract class KogitoAbstractCanvasShortcutsControlImpl extends AbstractCanvasShortcutsControlImpl {
 
     public KogitoAbstractCanvasShortcutsControlImpl(Instance<KeyboardShortcut> keyboardShortcutActions) {
         super(keyboardShortcutActions);

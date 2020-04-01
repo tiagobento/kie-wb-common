@@ -24,7 +24,6 @@ import java.util.Set;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Alternative;
 
 import com.google.gwt.user.client.Timer;
 import org.kie.workbench.common.stunner.core.client.event.keyboard.KeyDownEvent;
@@ -39,7 +38,6 @@ import static org.kie.soup.commons.validation.PortablePreconditions.checkNotNull
  * multiple key events.
  */
 @Dependent
-@Alternative
 public class KeyEventHandlerImpl implements KeyEventHandler {
 
     private final static int KEYS_TIMER_DELAY = 100;
