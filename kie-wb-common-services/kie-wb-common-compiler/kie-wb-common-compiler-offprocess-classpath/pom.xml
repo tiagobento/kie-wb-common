@@ -274,37 +274,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-m2repo-editor-backend</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.uberfire</groupId>
-          <artifactId>uberfire-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.uberfire</groupId>
-          <artifactId>uberfire-backend-cdi</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-security-server</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-bus</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-common</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.kie.soup</groupId>
-          <artifactId>kie-soup-maven-integration</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
       <groupId>org.kie.soup</groupId>
       <artifactId>kie-soup-commons</artifactId>
     </dependency>
@@ -326,45 +295,6 @@
         <exclusion>
           <groupId>org.apache.ant</groupId>
           <artifactId>ant</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-project-backend</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.uberfire</groupId>
-          <artifactId>uberfire-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.uberfire</groupId>
-          <artifactId>uberfire-services-backend</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.uberfire</groupId>
-          <artifactId>uberfire-commons</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-security-server</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-bus</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.jboss.errai</groupId>
-          <artifactId>errai-common</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.kie.soup</groupId>
-          <artifactId>kie-soup-maven-integration</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.uberfire</groupId>
-          <artifactId>uberfire-preferences-processors</artifactId>
         </exclusion>
       </exclusions>
     </dependency>

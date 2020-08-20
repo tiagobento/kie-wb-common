@@ -33,7 +33,6 @@
   <modules>
     <module>kie-wb-common-archetype-mgmt-api</module>
     <module>kie-wb-common-archetype-mgmt-client</module>
-    <module>kie-wb-common-archetype-mgmt-backend</module>
     <module>kie-wb-common-archetype-mgmt-templates</module>
   </modules>
 

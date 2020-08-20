@@ -33,7 +33,6 @@
   <modules>
     <module>kie-wb-common-stunner-jbpm-designer-integration-shared</module>
     <module>kie-wb-common-stunner-jbpm-designer-integration-api</module>
-    <module>kie-wb-common-stunner-jbpm-designer-integration-backend</module>
     <module>kie-wb-common-stunner-jbpm-designer-integration-client</module>
   </modules>
 

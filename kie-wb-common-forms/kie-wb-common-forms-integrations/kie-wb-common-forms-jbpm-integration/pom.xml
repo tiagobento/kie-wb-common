@@ -18,7 +18,6 @@
 
   <modules>
     <module>kie-wb-common-forms-jbpm-integration-api</module>
-    <module>kie-wb-common-forms-jbpm-integration-backend</module>
     <module>kie-wb-common-forms-jbpm-integration-client</module>
   </modules>
 

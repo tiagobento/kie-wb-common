@@ -18,7 +18,6 @@
   <modules>
     <module>kie-wb-common-project-editor-api</module>
     <module>kie-wb-common-project-editor-client</module>
-    <module>kie-wb-common-project-editor-backend</module>
   </modules>
 
 </project>

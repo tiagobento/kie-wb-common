@@ -18,7 +18,6 @@
 
   <modules>
     <module>kie-wb-common-data-modeller-api</module>
-    <module>kie-wb-common-data-modeller-backend</module>
     <module>kie-wb-common-data-modeller-client</module>
   </modules>
 
