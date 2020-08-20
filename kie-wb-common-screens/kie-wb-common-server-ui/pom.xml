@@ -14,7 +14,6 @@
 
   <modules>
     <module>kie-wb-common-server-ui-api</module>
-    <module>kie-wb-common-server-ui-backend</module>
     <module>kie-wb-common-server-ui-client</module>
   </modules>
 </project>

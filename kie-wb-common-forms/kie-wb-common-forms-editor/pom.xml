@@ -18,7 +18,6 @@
 
   <modules>
     <module>kie-wb-common-forms-editor-api</module>
-    <module>kie-wb-common-forms-editor-backend</module>
     <module>kie-wb-common-forms-editor-client</module>
   </modules>
 

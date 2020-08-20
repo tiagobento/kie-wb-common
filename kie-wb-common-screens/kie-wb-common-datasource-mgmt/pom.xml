@@ -19,10 +19,7 @@
 
   <modules>
     <module>kie-wb-common-datasource-mgmt-api</module>
-    <module>kie-wb-common-datasource-mgmt-backend</module>
     <module>kie-wb-common-datasource-mgmt-client</module>
-    <module>kie-wb-common-datasource-mgmt-wildfly</module>
-    <module>kie-wb-common-datasource-mgmt-dbcp</module>
     <module>kie-wb-common-datasource-mgmt-dashbuilder</module>
   </modules>
 

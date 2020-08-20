@@ -158,10 +158,6 @@
     </dependency>
     <dependency>
       <groupId>org.kie.workbench.stunner</groupId>
-      <artifactId>kie-wb-common-stunner-backend</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.kie.workbench.stunner</groupId>
       <artifactId>kie-wb-common-stunner-client-common</artifactId>
       <exclusions>
         <exclusion>
@@ -245,10 +241,6 @@
     </dependency>
     <dependency>
       <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-preferences-backend</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
       <artifactId>uberfire-preferences-client</artifactId>
     </dependency>
     <dependency>
@@ -259,10 +251,6 @@
     <dependency>
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-widgets-service-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-widgets-service-backend</artifactId>
     </dependency>
 
     <!-- Lienzo -->
@@ -325,16 +313,6 @@
     </dependency>
     <dependency>
       <groupId>org.kie.workbench.forms</groupId>
-      <artifactId>kie-wb-common-dynamic-forms-backend</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.kie.workbench.services</groupId>
-          <artifactId>kie-wb-common-datamodel-backend</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.kie.workbench.forms</groupId>
       <artifactId>kie-wb-common-dynamic-forms-client</artifactId>
     </dependency>
     <dependency>
@@ -382,20 +360,12 @@
       <artifactId>uberfire-layout-editor-client</artifactId>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-layout-editor-backend</artifactId>
-    </dependency>
 
     <!-- UberFire Plugins Extension -->
     <!-- Needed by uberfire-layout-api that is needed by kie-wb-common-dynamic-forms that is needed by stunner -->
     <dependency>
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-runtime-plugins-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-runtime-plugins-backend</artifactId>
     </dependency>
     <dependency>
       <groupId>org.uberfire</groupId>
@@ -456,10 +426,6 @@
     </dependency>
     <dependency>
       <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-backend-server</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
       <artifactId>uberfire-services-api</artifactId>
     </dependency>
     <dependency>
@@ -479,11 +445,6 @@
     <dependency>
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-workbench-client</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-workbench-client-backend</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -551,20 +512,12 @@
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-ssh-api</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-ssh-backend</artifactId>
-    </dependency>
 
     <!-- Uberfire Experimentals -->
     <!-- Required by uberfire-workbench-client -->
     <dependency>
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-experimental-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-experimental-backend</artifactId>
     </dependency>
     <dependency>
       <groupId>org.uberfire</groupId>
@@ -635,17 +588,6 @@
     <dependency>
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-structure-api</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-structure-backend</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.uberfire</groupId>
-          <artifactId>uberfire-servlet-security</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <!-- Required by uberfire-project-client -->

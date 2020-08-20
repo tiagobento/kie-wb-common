@@ -171,10 +171,6 @@
     </dependency>
     <dependency>
       <groupId>org.kie.workbench.stunner</groupId>
-      <artifactId>kie-wb-common-stunner-backend</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.kie.workbench.stunner</groupId>
       <artifactId>kie-wb-common-stunner-client-common</artifactId>
       <exclusions>
         <exclusion>
@@ -239,10 +235,8 @@
       <artifactId>uberfire-preferences-api</artifactId>
     </dependency>
     <!-- Required to provide default implementation of server-side CDI injection points -->
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-preferences-backend</artifactId>
-    </dependency>
+    <!--?-->
+
     <!-- Required to provide default implementation of client-side CDI injection points -->
     <dependency>
       <groupId>org.uberfire</groupId>
@@ -255,16 +249,8 @@
 
     <!-- DMN Editor -->
     <dependency>
-      <groupId>org.kie</groupId>
-      <artifactId>kie-dmn-backend</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.kie.workbench</groupId>
       <artifactId>kie-wb-common-dmn-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.kie.workbench</groupId>
-      <artifactId>kie-wb-common-dmn-backend</artifactId>
     </dependency>
     <dependency>
       <groupId>org.kie.workbench</groupId>
@@ -329,26 +315,12 @@
     </dependency>
     <dependency>
       <groupId>org.kie.workbench.forms</groupId>
-      <artifactId>kie-wb-common-forms-adf-engine-backend</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.kie.workbench.forms</groupId>
       <artifactId>kie-wb-common-forms-adf-engine-client</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kie.workbench.forms</groupId>
       <artifactId>kie-wb-common-dynamic-forms-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.kie.workbench.forms</groupId>
-      <artifactId>kie-wb-common-dynamic-forms-backend</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.kie.workbench.services</groupId>
-          <artifactId>kie-wb-common-datamodel-backend</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.kie.workbench.forms</groupId>
@@ -474,10 +446,6 @@
     </dependency>
     <dependency>
       <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-services-backend</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
       <artifactId>uberfire-client</artifactId>
       <scope>provided</scope>
     </dependency>
@@ -569,20 +537,13 @@
 
     <!-- Uberfire SSH -->
     <!-- Required by uberfire-backend-server to secure FileSystem -->
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-ssh-backend</artifactId>
-    </dependency>
+    <!-- ? -->
 
     <!-- Uberfire Experimentals -->
     <!-- Required by uberfire-workbench-client -->
     <dependency>
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-experimental-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-experimental-backend</artifactId>
     </dependency>
     <dependency>
       <groupId>org.uberfire</groupId>
@@ -655,21 +616,7 @@
     </dependency>
     <dependency>
       <groupId>org.kie.workbench.services</groupId>
-      <artifactId>kie-wb-common-services-backend</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>com.google.inject</groupId>
-          <artifactId>guice</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.kie.workbench.services</groupId>
       <artifactId>kie-wb-common-refactoring-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.kie.workbench.services</groupId>
-      <artifactId>kie-wb-common-refactoring-backend</artifactId>
     </dependency>
     <dependency>
       <groupId>org.kie.workbench.services</groupId>
@@ -680,10 +627,6 @@
     <dependency>
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-structure-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-structure-backend</artifactId>
     </dependency>
 
     <!-- Required by uberfire-project-client -->

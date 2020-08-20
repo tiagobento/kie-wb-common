@@ -117,10 +117,6 @@
       <artifactId>drools-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-m2repo-editor-backend</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.kie.soup</groupId>
       <artifactId>kie-soup-commons</artifactId>
     </dependency>
@@ -135,10 +131,6 @@
     <dependency>
       <groupId>org.kie.soup</groupId>
       <artifactId>kie-soup-maven-integration</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.uberfire</groupId>
-      <artifactId>uberfire-project-backend</artifactId>
     </dependency>
     <dependency>
       <groupId>org.kie</groupId>

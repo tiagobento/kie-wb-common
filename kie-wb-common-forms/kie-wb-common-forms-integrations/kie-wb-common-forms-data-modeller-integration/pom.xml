@@ -18,7 +18,6 @@
 
   <modules>
     <module>kie-wb-common-forms-data-modeller-integration-api</module>
-    <module>kie-wb-common-forms-data-modeller-integration-backend</module>
     <module>kie-wb-common-forms-data-modeller-integration-client</module>
   </modules>
 </project>

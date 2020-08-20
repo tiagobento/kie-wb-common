@@ -17,7 +17,6 @@
   <modules>
     <module>kie-wb-common-contributors-api</module>
     <module>kie-wb-common-contributors-client</module>
-    <module>kie-wb-common-contributors-backend</module>
   </modules>
 
 </project>

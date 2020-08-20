@@ -41,11 +41,6 @@
       <artifactId>kie-wb-common-datasource-mgmt-api</artifactId>
     </dependency>
 
-    <dependency>
-      <groupId>org.kie.workbench.screens</groupId>
-      <artifactId>kie-wb-common-datasource-mgmt-backend</artifactId>
-    </dependency>
-
   </dependencies>
 
 </project>
