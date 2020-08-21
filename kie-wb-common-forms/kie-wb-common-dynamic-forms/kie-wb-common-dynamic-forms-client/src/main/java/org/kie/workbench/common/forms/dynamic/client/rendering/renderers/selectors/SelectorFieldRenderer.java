@@ -23,14 +23,11 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-import org.jboss.errai.common.client.api.Caller;
-import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.errai.databinding.client.BindableListWrapper;
 import org.kie.workbench.common.forms.dynamic.client.config.ClientSelectorDataProviderManager;
 import org.kie.workbench.common.forms.dynamic.client.rendering.FieldRenderer;
 import org.kie.workbench.common.forms.dynamic.client.rendering.formGroups.impl.def.DefaultFormGroup;
 import org.kie.workbench.common.forms.dynamic.model.config.SelectorData;
-import org.kie.workbench.common.forms.dynamic.service.shared.BackendSelectorDataProviderService;
 import org.kie.workbench.common.forms.dynamic.service.shared.FormRenderingContext;
 import org.kie.workbench.common.forms.dynamic.service.shared.SelectorDataProviderManager;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.selectors.SelectorFieldBaseDefinition;
@@ -41,9 +38,6 @@ public abstract class SelectorFieldRenderer<FIELD extends SelectorFieldBaseDefin
 
     @Inject
     protected SelectorDataProviderManager clientProviderManager;
-
-    @Inject
-    protected Caller<BackendSelectorDataProviderService> backendSelectorDataProviderService;
 
     @Override
     public void init(FormRenderingContext renderingContext,
@@ -63,13 +57,7 @@ public abstract class SelectorFieldRenderer<FIELD extends SelectorFieldBaseDefin
                         renderingContext,
                         field.getDataProvider()));
             } else {
-                backendSelectorDataProviderService.call(new RemoteCallback<SelectorData>() {
-                    @Override
-                    public void callback(SelectorData data) {
-                        refreshSelectorOptions(data);
-                    }
-                }).getDataFromProvider(renderingContext,
-                                       field.getDataProvider());
+                // There was a backend call here.
             }
         } else {
             refreshSelectorOptions(field.getOptions());

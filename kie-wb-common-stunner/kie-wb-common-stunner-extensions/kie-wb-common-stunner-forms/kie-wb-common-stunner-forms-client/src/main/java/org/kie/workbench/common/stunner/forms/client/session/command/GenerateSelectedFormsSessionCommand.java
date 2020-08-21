@@ -33,7 +33,6 @@ import org.kie.workbench.common.stunner.core.graph.processing.index.Index;
 import org.kie.workbench.common.stunner.forms.client.gen.ClientFormGenerationManager;
 import org.kie.workbench.common.stunner.forms.client.notifications.FormGenerationNotifier;
 import org.kie.workbench.common.stunner.forms.client.resources.i18n.FormsClientConstants;
-import org.kie.workbench.common.stunner.forms.service.FormGenerationService;
 
 @Dependent
 @Default
@@ -64,11 +63,10 @@ public class GenerateSelectedFormsSessionCommand extends AbstractClientSessionCo
 
     @Override
     public <V> void execute(Callback<V> callback) {
-        formGenerationManager.call(this::call);
         callback.onSuccess();
     }
 
-    private void call(final FormGenerationService service) {
+    private void call() {
         final AbstractCanvasHandler canvasHandler = getCanvasHandler();
         final Index index = canvasHandler.getGraphIndex();
         final String[] selectedItems =
@@ -79,8 +77,7 @@ public class GenerateSelectedFormsSessionCommand extends AbstractClientSessionCo
                         .map(Element::getUUID)
                         .toArray(String[]::new);
         if (selectedItems.length > 0) {
-            service.generateSelectedForms(getCanvasHandler().getDiagram(),
-                                          selectedItems);
+            // There was a backend call here.
         } else {
             formGenerationNotifier.showNotification(translationService.getValue(FormsClientConstants.FormsNoItemsSelectedForGeneration));
         }

@@ -24,7 +24,6 @@ import org.kie.workbench.common.stunner.core.client.session.ClientSession;
 import org.kie.workbench.common.stunner.core.client.session.command.AbstractClientSessionCommand;
 import org.kie.workbench.common.stunner.core.client.session.impl.EditorSession;
 import org.kie.workbench.common.stunner.forms.client.gen.ClientFormGenerationManager;
-import org.kie.workbench.common.stunner.forms.service.FormGenerationService;
 
 @Dependent
 @Default
@@ -44,16 +43,11 @@ public class GenerateProcessFormsSessionCommand extends AbstractClientSessionCom
 
     @Override
     public <V> void execute(Callback<V> callback) {
-        formGenerationManager.call(this::call);
         callback.onSuccess();
     }
 
     @Override
     public boolean accepts(final ClientSession session) {
         return session instanceof EditorSession;
-    }
-
-    private void call(final FormGenerationService service) {
-        service.generateProcessForm(getCanvasHandler().getDiagram());
     }
 }

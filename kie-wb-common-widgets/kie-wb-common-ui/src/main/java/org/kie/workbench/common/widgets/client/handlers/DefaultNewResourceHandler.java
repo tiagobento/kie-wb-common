@@ -23,10 +23,7 @@ import javax.inject.Inject;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.user.client.ui.IsWidget;
 import org.guvnor.common.services.project.client.context.WorkspaceProjectContext;
-import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.RemoteCallback;
-import org.kie.workbench.common.services.shared.project.KieModuleService;
-import org.kie.workbench.common.services.shared.validation.ValidationService;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.mvp.PlaceManager;
@@ -48,12 +45,6 @@ public abstract class DefaultNewResourceHandler implements NewResourceHandler {
     protected WorkspaceProjectContext context;
 
     @Inject
-    protected Caller<KieModuleService> moduleService;
-
-    @Inject
-    protected Caller<ValidationService> validationService;
-
-    @Inject
     protected PlaceManager placeManager;
 
     @Inject
@@ -69,14 +60,10 @@ public abstract class DefaultNewResourceHandler implements NewResourceHandler {
     //however that would require every sub-class of this abstract class to also have Constructor
     //injection.. and that's a lot of refactoring just to be able to test.
     DefaultNewResourceHandler(final WorkspaceProjectContext context,
-                              final Caller<KieModuleService> moduleService,
-                              final Caller<ValidationService> validationService,
                               final PlaceManager placeManager,
                               final Event<NotificationEvent> notificationEvent,
                               final BusyIndicatorView busyIndicatorView) {
         this.context = context;
-        this.moduleService = moduleService;
-        this.validationService = validationService;
         this.placeManager = placeManager;
         this.notificationEvent = notificationEvent;
         this.busyIndicatorView = busyIndicatorView;
@@ -98,16 +85,6 @@ public abstract class DefaultNewResourceHandler implements NewResourceHandler {
         final String fileName = buildFileName(baseFileName,
                                               getResourceType());
 
-        validationService.call(new RemoteCallback<Boolean>() {
-            @Override
-            public void callback(final Boolean response) {
-                if (Boolean.TRUE.equals(response)) {
-                    callback.onSuccess();
-                } else {
-                    callback.onFailure(CommonConstants.INSTANCE.InvalidFileName0(baseFileName));
-                }
-            }
-        }).isFileNameValid(fileName);
     }
 
     @Override

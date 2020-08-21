@@ -40,8 +40,6 @@ import org.jboss.errai.common.client.api.Caller;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kie.workbench.common.services.shared.project.KieModuleService;
-import org.kie.workbench.common.services.shared.validation.ValidationService;
 import org.mockito.ArgumentCaptor;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.mvp.PlaceManager;

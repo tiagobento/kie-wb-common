@@ -23,7 +23,6 @@ import javax.inject.Singleton;
 import javax.servlet.ServletContext;
 
 import org.guvnor.m2repo.service.M2RepoService;
-import org.kie.workbench.common.services.shared.kmodule.KModuleService;
 import org.picketlink.producer.IdentityManagementConfiguration;
 
 import static org.mockito.Mockito.*;

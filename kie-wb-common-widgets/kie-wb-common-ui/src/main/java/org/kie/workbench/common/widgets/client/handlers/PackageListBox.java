@@ -26,13 +26,9 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.guvnor.common.services.project.client.context.WorkspaceProjectContext;
-import org.guvnor.common.services.project.model.Module;
 import org.guvnor.common.services.project.model.Package;
-import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.IsElement;
 import org.jboss.errai.common.client.dom.HTMLElement;
-import org.kie.workbench.common.services.shared.project.KieModulePackages;
-import org.kie.workbench.common.services.shared.project.KieModuleService;
 import org.uberfire.mvp.Command;
 
 /**
@@ -44,17 +40,14 @@ public class PackageListBox
 
     private PackageListBoxView view;
     private WorkspaceProjectContext projectContext;
-    protected Caller<KieModuleService> moduleService;
     private Map<String, Package> packages;
     private String selectedPackage = null;
 
     @Inject
     public PackageListBox(final PackageListBoxView view,
-                          final WorkspaceProjectContext projectContext,
-                          final Caller<KieModuleService> moduleService) {
+                          final WorkspaceProjectContext projectContext) {
         this.view = view;
         this.projectContext = projectContext;
-        this.moduleService = moduleService;
         packages = new HashMap<>();
         view.setPresenter(this);
     }
@@ -79,27 +72,7 @@ public class PackageListBox
 
     private void showListOfPackages(final boolean includeDefaultPackage,
                                     final Command packagesLoadedCommand) {
-        final Module activeModule = projectContext.getActiveModule().orElse(null);
-        if (activeModule == null) {
-            return;
-        } else {
-            moduleService.call((KieModulePackages kieModulePackages) -> {
-                //Sort by caption
-                    final List<Package> sortedPackages = getSortedPackages(includeDefaultPackage,
-                                                                           kieModulePackages.getPackages());
-
-                    // Disable and set default content if no Packages available
-                    if (sortedPackages.isEmpty()) {
-                        return;
-                    }
-                    addPackagesToSelect(sortedPackages,
-                                        kieModulePackages.getDefaultPackage());
-
-                    if (packagesLoadedCommand != null) {
-                        packagesLoadedCommand.execute();
-                    }
-             }).resolveModulePackages(activeModule);
-        }
+        // There was a backend call here.
     }
 
     private List<Package> getSortedPackages(final boolean includeDefaultPackage,

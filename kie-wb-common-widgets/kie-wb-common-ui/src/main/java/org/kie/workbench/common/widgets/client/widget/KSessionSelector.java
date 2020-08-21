@@ -18,23 +18,19 @@ package org.kie.workbench.common.widgets.client.widget;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
-import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.RemoteCallback;
 import org.jboss.errai.common.client.ui.ElementWrapperWidget;
 import org.kie.soup.commons.validation.PortablePreconditions;
 import org.kie.workbench.common.services.shared.kmodule.KBaseModel;
 import org.kie.workbench.common.services.shared.kmodule.KModuleModel;
-import org.kie.workbench.common.services.shared.kmodule.KModuleService;
 import org.kie.workbench.common.services.shared.kmodule.KSessionModel;
 import org.kie.workbench.common.services.shared.project.KieModule;
-import org.kie.workbench.common.services.shared.project.KieModuleService;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.mvp.Command;
 
@@ -46,34 +42,26 @@ public class KSessionSelector
     private static String NON_EXISTING_KBASE = "---";
 
     private KSessionSelectorView view;
-    private Caller<KieModuleService> moduleService;
 
-    private Caller<KModuleService> kModuleService;
     private KModuleModel kmodule;
 
     private Command selectionHandler;
 
     @Inject
-    public KSessionSelector(final KSessionSelectorView view,
-                            final Caller<KieModuleService> moduleService,
-                            final Caller<KModuleService> kModuleService) {
+    public KSessionSelector(final KSessionSelectorView view) {
         this.view = view;
-        this.moduleService = moduleService;
-        this.kModuleService = kModuleService;
 
         view.setPresenter(this);
     }
 
     public void init(final Path path,
                      final String ksession) {
-        moduleService.call(getSuccessfulResolveModuleCallback(ksession)).resolveModule(path);
     }
 
     private RemoteCallback<KieModule> getSuccessfulResolveModuleCallback(final String currentKSession) {
         return new RemoteCallback<KieModule>() {
             @Override
             public void callback(KieModule module) {
-                kModuleService.call(getSuccessfulLoadKModuleCallback(currentKSession)).load(module.getKModuleXMLPath());
             }
         };
     }

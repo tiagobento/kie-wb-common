@@ -23,7 +23,6 @@ import org.gwtbootstrap3.client.ui.ValueListBox;
 import org.jboss.errai.ui.client.local.spi.TranslationService;
 import org.junit.runner.RunWith;
 import org.kie.workbench.common.forms.common.rendering.client.widgets.util.DefaultValueListBoxRenderer;
-import org.kie.workbench.common.forms.dynamic.service.shared.BackendSelectorDataProviderService;
 import org.kie.workbench.common.forms.dynamic.service.shared.SelectorDataProviderManager;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.selectors.CharacterSelectorOption;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.selectors.listBox.definition.CharacterListBoxFieldDefinition;

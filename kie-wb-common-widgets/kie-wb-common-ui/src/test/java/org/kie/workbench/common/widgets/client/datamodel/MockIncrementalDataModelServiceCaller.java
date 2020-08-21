@@ -26,7 +26,6 @@ import org.kie.workbench.common.services.datamodel.backend.server.cache.LRUDataM
 import org.kie.workbench.common.services.datamodel.model.PackageDataModelOracleIncrementalPayload;
 import org.kie.workbench.common.services.datamodel.service.IncrementalDataModelService;
 import org.kie.workbench.common.services.shared.project.KieModule;
-import org.kie.workbench.common.services.shared.project.KieModuleService;
 import org.uberfire.backend.vfs.Path;
 
 import static org.mockito.Mockito.*;

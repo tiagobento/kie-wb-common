@@ -26,7 +26,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kie.workbench.common.forms.common.rendering.client.widgets.util.DefaultValueListBoxRenderer;
 import org.kie.workbench.common.forms.dynamic.client.resources.i18n.FormRenderingConstants;
-import org.kie.workbench.common.forms.dynamic.service.shared.BackendSelectorDataProviderService;
 import org.kie.workbench.common.forms.dynamic.service.shared.FormRenderingContext;
 import org.kie.workbench.common.forms.dynamic.service.shared.SelectorDataProviderManager;
 import org.kie.workbench.common.forms.fields.shared.fieldTypes.basic.selectors.SelectorOption;

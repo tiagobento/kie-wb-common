@@ -28,7 +28,6 @@ import org.kie.workbench.common.stunner.core.client.shape.view.event.MouseClickE
 import org.kie.workbench.common.stunner.core.diagram.Diagram;
 import org.kie.workbench.common.stunner.forms.client.gen.ClientFormGenerationManager;
 import org.kie.workbench.common.stunner.forms.client.resources.i18n.FormsClientConstants;
-import org.kie.workbench.common.stunner.forms.service.FormGenerationService;
 import org.mockito.Mock;
 
 import static org.junit.Assert.assertEquals;

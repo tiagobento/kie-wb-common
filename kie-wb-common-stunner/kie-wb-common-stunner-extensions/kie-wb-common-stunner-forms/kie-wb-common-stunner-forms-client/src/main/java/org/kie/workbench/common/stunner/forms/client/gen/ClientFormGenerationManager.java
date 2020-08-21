@@ -16,14 +16,11 @@
 
 package org.kie.workbench.common.stunner.forms.client.gen;
 
-import java.util.function.Consumer;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.jboss.errai.bus.client.api.messaging.Message;
-import org.jboss.errai.common.client.api.Caller;
 import org.jboss.errai.common.client.api.ErrorCallback;
 import org.jboss.errai.common.client.api.RemoteCallback;
 import org.kie.workbench.common.stunner.core.client.i18n.ClientTranslationService;
@@ -32,7 +29,6 @@ import org.kie.workbench.common.stunner.forms.client.notifications.FormGeneratio
 import org.kie.workbench.common.stunner.forms.client.resources.i18n.FormsClientConstants;
 import org.kie.workbench.common.stunner.forms.service.FormGeneratedEvent;
 import org.kie.workbench.common.stunner.forms.service.FormGenerationFailureEvent;
-import org.kie.workbench.common.stunner.forms.service.FormGenerationService;
 import org.uberfire.mvp.Command;
 import org.uberfire.mvp.ParameterizedCommand;
 
@@ -41,25 +37,17 @@ public class ClientFormGenerationManager {
 
     private final ClientTranslationService translationService;
     private final FormGenerationNotifier formGenerationNotifier;
-    private final Caller<FormGenerationService> formGenerationService;
 
     protected ClientFormGenerationManager() {
-        this(null, null, null);
+        this(null, null);
     }
 
     @Inject
     public ClientFormGenerationManager(final ClientTranslationService translationService,
-                                       final FormGenerationNotifier formGenerationNotifier,
-                                       final Caller<FormGenerationService> formGenerationService) {
+                                       final FormGenerationNotifier formGenerationNotifier) {
 
         this.translationService = translationService;
         this.formGenerationNotifier = formGenerationNotifier;
-        this.formGenerationService = formGenerationService;
-    }
-
-    public void call(final Consumer<FormGenerationService> service) {
-        service.accept(formGenerationService.call(getRemoteCallback(),
-                                                  getErrorCallback()));
     }
 
     // Listen for form generation events.

@@ -29,7 +29,6 @@ import org.kie.workbench.common.stunner.forms.client.notifications.FormGeneratio
 import org.kie.workbench.common.stunner.forms.client.resources.i18n.FormsClientConstants;
 import org.kie.workbench.common.stunner.forms.service.FormGeneratedEvent;
 import org.kie.workbench.common.stunner.forms.service.FormGenerationFailureEvent;
-import org.kie.workbench.common.stunner.forms.service.FormGenerationService;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 

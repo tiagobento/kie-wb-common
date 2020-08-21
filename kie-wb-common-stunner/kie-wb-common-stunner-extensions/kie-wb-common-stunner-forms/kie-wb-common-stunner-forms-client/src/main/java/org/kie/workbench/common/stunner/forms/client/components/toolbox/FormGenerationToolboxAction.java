@@ -58,8 +58,6 @@ public class FormGenerationToolboxAction implements ToolboxAction<AbstractCanvas
     public ToolboxAction<AbstractCanvasHandler> onMouseClick(final AbstractCanvasHandler canvasHandler,
                                                              final String uuid,
                                                              final MouseClickEvent event) {
-        formGenerationManager.call(service -> service.generateSelectedForms(canvasHandler.getDiagram(),
-                                                                            new String[]{uuid}));
         return this;
     }
 }
