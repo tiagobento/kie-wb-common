@@ -539,11 +539,6 @@
       <artifactId>uberfire-project-client</artifactId>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.kie.workbench.services</groupId>
-      <artifactId>kie-wb-common-datamodel-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
 
     <!-- Required by uberfire-project -->
     <dependency>
@@ -769,7 +764,6 @@
             <!-- Errai, Drools etc -->
             <compileSourcesArtifact>org.jboss.errai:errai-data-binding</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench.widgets:kie-wb-common-ui</compileSourcesArtifact>
-            <compileSourcesArtifact>org.kie.workbench.services:kie-wb-common-datamodel-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench.services:kie-wb-common-services-api</compileSourcesArtifact>
             <compileSourcesArtifact>org.kie.workbench:kie-wb-common-kogito-client</compileSourcesArtifact>
 
