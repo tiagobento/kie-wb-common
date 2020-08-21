@@ -183,10 +183,6 @@
       <groupId>org.uberfire</groupId>
       <artifactId>uberfire-project-api</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.kie.workbench.services</groupId>
-      <artifactId>kie-wb-common-refactoring-api</artifactId>
-    </dependency>
 
     <!-- Required by uberfire-project -->
     <dependency>
