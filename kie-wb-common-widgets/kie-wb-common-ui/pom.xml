@@ -170,11 +170,6 @@
     </dependency>
     
     <dependency>
-      <groupId>org.kie.workbench.profile</groupId>
-      <artifactId>kie-wb-common-profile-api</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <scope>provided</scope>
