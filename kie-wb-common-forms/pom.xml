@@ -21,8 +21,6 @@
     <module>kie-wb-common-forms-core</module>
     <module>kie-wb-common-forms-commons</module>
     <module>kie-wb-common-dynamic-forms</module>
-    <module>kie-wb-common-forms-editor</module>
-    <module>kie-wb-common-forms-integrations</module>
   </modules>
 
   <properties>

@@ -37,7 +37,6 @@
     <module>kie-wb-common-stunner-core</module>
     <module>kie-wb-common-stunner-client</module>
     <module>kie-wb-common-stunner-sets</module>
-    <module>kie-wb-common-stunner-showcase</module>
   </modules>
 
   <properties>
