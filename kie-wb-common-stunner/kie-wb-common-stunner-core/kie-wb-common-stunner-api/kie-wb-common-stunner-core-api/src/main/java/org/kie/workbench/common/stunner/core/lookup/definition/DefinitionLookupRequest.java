@@ -16,13 +16,9 @@
 
 package org.kie.workbench.common.stunner.core.lookup.definition;
 
-import java.util.Set;
-
 import org.jboss.errai.common.client.api.annotations.MapsTo;
-import org.jboss.errai.common.client.api.annotations.NonPortable;
 import org.jboss.errai.common.client.api.annotations.Portable;
 import org.kie.workbench.common.stunner.core.lookup.AbstractLookupRequest;
-import org.kie.workbench.common.stunner.core.lookup.AbstractLookupRequestBuilder;
 
 @Portable
 public class DefinitionLookupRequest extends AbstractLookupRequest {
@@ -41,44 +37,5 @@ public class DefinitionLookupRequest extends AbstractLookupRequest {
 
     public String getDefinitionSetId() {
         return definitionSetId;
-    }
-
-    @NonPortable
-    public static class Builder extends AbstractLookupRequestBuilder<Builder> {
-
-        enum Type {
-            NODE,
-            EDGE;
-        }
-
-        private String defSetId;
-        private final StringBuilder criteria = new StringBuilder();
-
-        public Builder definitionSetId(final String defSetId) {
-            this.defSetId = defSetId;
-            return this;
-        }
-
-        public Builder id(final String id) {
-            criteria.append("id=").append(id).append(";");
-            return this;
-        }
-
-        public Builder type(final Type type) {
-            criteria.append("type=").append(type.name().toLowerCase()).append(";");
-            return this;
-        }
-
-        public Builder labels(final Set<String> labels) {
-            criteria.append("labels=").append(fromSet(labels)).append(";");
-            return this;
-        }
-
-        public DefinitionLookupRequest build() {
-            return new DefinitionLookupRequest(criteria.toString(),
-                                               page,
-                                               pageSize,
-                                               defSetId);
-        }
     }
 }
