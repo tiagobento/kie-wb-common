@@ -37,7 +37,7 @@ import org.jboss.errai.ui.shared.api.annotations.ForEvent;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.kie.workbench.common.stunner.bpmn.client.forms.fields.i18n.StunnerFormsClientFieldsConstants;
 import org.uberfire.client.mvp.UberElement;
-import org.uberfire.client.views.pfly.monaco.MonacoEditorInitializer;
+import org.uberfire.client.views.pfly.monaco.jsinterop.MonacoEditor;
 import org.uberfire.client.views.pfly.monaco.jsinterop.MonacoStandaloneCodeEditor;
 
 @Dependent
@@ -110,7 +110,10 @@ public class MonacoEditorView implements UberElement<MonacoEditorPresenter> {
     public void load(String[] modules,
                      MonacoEditorOptions options,
                      Runnable callback) {
-        load(new MonacoEditorInitializer(), modules, options, callback);
+
+        final MonacoStandaloneCodeEditor editor = MonacoEditor.get().create(Js.uncheckedCast(this.monacoEditor), options.toJavaScriptObject());
+        load(editor, options.getWidthPx(), options.getHeightPx());
+        callback.run();
     }
 
     // Workaround for refreshing Monaco editor and get scrollbars visible when the accordion is expanded
@@ -133,19 +136,6 @@ public class MonacoEditorView implements UberElement<MonacoEditorPresenter> {
                     element;
         }
         return element;
-    }
-
-    void load(MonacoEditorInitializer initializer,
-              String[] modules,
-              MonacoEditorOptions options,
-              Runnable callback) {
-        initializer.require(instance -> {
-            load(instance.editor.create(Js.uncheckedCast(this.monacoEditor),
-                                        options.toJavaScriptObject()),
-                 options.getWidthPx(),
-                 options.getHeightPx());
-            callback.run();
-        }, modules);
     }
 
     void load(MonacoStandaloneCodeEditor editor,

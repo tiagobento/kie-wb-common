@@ -64,11 +64,6 @@ public class TextAreaSingletonDOMElementFactory extends BaseSingletonDOMElementF
     }
 
     @Override
-    public TextArea createWidget() {
-        return new TextArea();
-    }
-
-    @Override
     protected String getValue() {
         if (widget != null) {
             return widget.getValue();
@@ -79,6 +74,11 @@ public class TextAreaSingletonDOMElementFactory extends BaseSingletonDOMElementF
     @Override
     protected KeyDownHandlerCommon destroyOrFlushKeyDownHandler() {
         return new KeyDownHandlerCommon(gridPanel, gridLayer, gridWidget, this, true, false, true);
+    }
+
+    @Override
+    public TextArea createWidget() {
+        return new TextArea();
     }
 
     @Override

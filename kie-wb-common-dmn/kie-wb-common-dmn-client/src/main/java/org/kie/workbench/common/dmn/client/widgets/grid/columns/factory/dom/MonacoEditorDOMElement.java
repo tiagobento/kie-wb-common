@@ -17,7 +17,6 @@
 package org.kie.workbench.common.dmn.client.widgets.grid.columns.factory.dom;
 
 import java.util.Objects;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 import com.google.gwt.dom.client.Document;
@@ -38,8 +37,7 @@ import org.kie.workbench.common.stunner.core.client.canvas.AbstractCanvasHandler
 import org.kie.workbench.common.stunner.core.client.command.SessionCommandManager;
 import org.kie.workbench.common.stunner.core.command.Command;
 import org.kie.workbench.common.stunner.core.util.StringUtils;
-import org.uberfire.client.views.pfly.monaco.MonacoEditorInitializer;
-import org.uberfire.client.views.pfly.monaco.jsinterop.Monaco;
+import org.uberfire.client.views.pfly.monaco.jsinterop.MonacoEditor;
 import org.uberfire.client.views.pfly.monaco.jsinterop.MonacoStandaloneCodeEditor;
 import org.uberfire.ext.wires.core.grids.client.model.impl.BaseGridCellValue;
 import org.uberfire.ext.wires.core.grids.client.widget.context.GridBodyCellRenderContext;
@@ -98,20 +96,14 @@ public class MonacoEditorDOMElement extends BaseDOMElement<String, MonacoEditorW
         style.setWidth(100, PCT);
         style.setHeight(100, PCT);
 
-        makeMonacoEditorInitializer().require(onMonacoLoaded());
-    }
-
-    Consumer<Monaco> onMonacoLoaded() {
         final MonacoPropertiesFactory properties = makeMonacoPropertiesFactory();
-        return monaco -> {
-            final MonacoStandaloneCodeEditor codeEditor = monaco.editor.create(uncheckedCast(widget.getElement()), properties.getConstructionOptions());
+        final MonacoStandaloneCodeEditor codeEditor = MonacoEditor.get().create(uncheckedCast(widget.getElement()), properties.getConstructionOptions());
 
-            codeEditor.onKeyDown(getOnKeyDown(codeEditor));
-            codeEditor.onDidBlurEditorWidget(getWidgetTrigger(getBlurEvent()));
+        codeEditor.onKeyDown(getOnKeyDown(codeEditor));
+        codeEditor.onDidBlurEditorWidget(getWidgetTrigger(getBlurEvent()));
 
-            widget.setCodeEditor(codeEditor);
-            widget.setFocus(true);
-        };
+        widget.setCodeEditor(codeEditor);
+        widget.setFocus(true);
     }
 
     MonacoStandaloneCodeEditor.CallbackFunction getOnKeyDown(final MonacoStandaloneCodeEditor codeEditor) {
@@ -210,9 +202,5 @@ public class MonacoEditorDOMElement extends BaseDOMElement<String, MonacoEditorW
 
     MonacoPropertiesFactory makeMonacoPropertiesFactory() {
         return new MonacoPropertiesFactory();
-    }
-
-    MonacoEditorInitializer makeMonacoEditorInitializer() {
-        return new MonacoEditorInitializer();
     }
 }
