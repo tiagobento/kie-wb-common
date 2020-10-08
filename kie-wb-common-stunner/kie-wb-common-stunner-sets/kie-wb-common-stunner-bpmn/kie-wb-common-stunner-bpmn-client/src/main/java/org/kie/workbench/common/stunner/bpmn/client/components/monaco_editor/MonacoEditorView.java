@@ -38,6 +38,7 @@ import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.kie.workbench.common.stunner.bpmn.client.forms.fields.i18n.StunnerFormsClientFieldsConstants;
 import org.uberfire.client.mvp.UberElement;
 import org.uberfire.client.views.pfly.monaco.MonacoEditorInitializer;
+import org.uberfire.client.views.pfly.monaco.jsinterop.MonacoEditor;
 import org.uberfire.client.views.pfly.monaco.jsinterop.MonacoStandaloneCodeEditor;
 
 @Dependent
@@ -139,9 +140,9 @@ public class MonacoEditorView implements UberElement<MonacoEditorPresenter> {
               String[] modules,
               MonacoEditorOptions options,
               Runnable callback) {
-        initializer.require(instance -> {
-            load(instance.editor.create(Js.uncheckedCast(this.monacoEditor),
-                                        options.toJavaScriptObject()),
+        initializer.require(() -> {
+            load(MonacoEditor.get().create(Js.uncheckedCast(this.monacoEditor),
+                                     options.toJavaScriptObject()),
                  options.getWidthPx(),
                  options.getHeightPx());
             callback.run();
