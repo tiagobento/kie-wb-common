@@ -28,7 +28,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
-import org.jboss.errai.bus.server.annotations.Service;
+
 import org.kie.workbench.common.stunner.cm.project.service.CaseManagementSwitchViewService;
 import org.kie.workbench.common.stunner.core.api.FactoryManager;
 import org.kie.workbench.common.stunner.core.definition.service.DefinitionSetService;
@@ -44,7 +44,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
-@Service
+
 public class CaseManagementSwitchViewServiceImpl implements CaseManagementSwitchViewService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CaseManagementSwitchViewServiceImpl.class);
