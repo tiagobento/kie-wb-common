@@ -97,8 +97,6 @@
     </dependency>
 
     <!-- Errai -->
-
-
     <dependency>
       <groupId>org.jboss.errai</groupId>
       <artifactId>errai-common</artifactId>

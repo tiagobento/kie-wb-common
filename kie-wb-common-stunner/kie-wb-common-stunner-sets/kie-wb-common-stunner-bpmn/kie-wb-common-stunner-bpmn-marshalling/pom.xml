@@ -162,7 +162,6 @@
 
     <!-- TODO: kogito - clean some below? -->
     <!-- Testing scope. -->
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

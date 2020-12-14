@@ -104,11 +104,6 @@
       </exclusions>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.jboss.errai</groupId>
-      <artifactId>errai-jboss-as-support</artifactId>
-      <scope>provided</scope>
-    </dependency>
 
     <!-- Stunner -->
     <dependency>
@@ -294,6 +289,12 @@
       <scope>provided</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.uberfire</groupId>
+      <artifactId>appformer-js-bridge</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <!-- UberFire kogito dependencies -->
     <dependency>
       <groupId>com.google.elemental2</groupId>
@@ -313,12 +314,6 @@
       <groupId>org.kie.workbench.widgets</groupId>
       <artifactId>kie-wb-common-ui</artifactId>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.uberfire</groupId>
-          <artifactId>uberfire-servlet-security</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <!-- Required by uberfire-project -->
@@ -577,8 +572,6 @@
                 <compileSourcesArtifact>org.uberfire:uberfire-commons</compileSourcesArtifact>
                 <compileSourcesArtifact>org.uberfire:uberfire-io</compileSourcesArtifact>
                 <compileSourcesArtifact>org.uberfire:uberfire-api</compileSourcesArtifact>
-                <compileSourcesArtifact>org.uberfire:uberfire-security-api</compileSourcesArtifact>
-                <compileSourcesArtifact>org.uberfire:uberfire-security-client</compileSourcesArtifact>
                 <compileSourcesArtifact>org.uberfire:uberfire-client-api</compileSourcesArtifact>
                 <compileSourcesArtifact>org.uberfire:uberfire-workbench-client</compileSourcesArtifact>
                 <compileSourcesArtifact>org.uberfire:uberfire-workbench-client-views-patternfly</compileSourcesArtifact>

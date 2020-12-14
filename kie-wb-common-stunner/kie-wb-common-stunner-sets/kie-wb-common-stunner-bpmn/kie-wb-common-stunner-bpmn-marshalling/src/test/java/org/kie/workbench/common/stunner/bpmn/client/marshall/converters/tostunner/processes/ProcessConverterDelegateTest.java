@@ -46,19 +46,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kie.soup.commons.util.Maps;
-import org.kie.workbench.common.stunner.bpmn.BPMNDefinitionSet;
-import org.kie.workbench.common.stunner.bpmn.BPMNTestDefinitionFactory;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.MarshallingMessage;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.MarshallingMessageKeys;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.Result;
-import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.TypedFactoryManager;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.BaseConverterFactory;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.BpmnNode;
-import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.ConverterFactory;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.DefinitionResolver;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.BasePropertyReader;
 import org.kie.workbench.common.stunner.bpmn.client.marshall.converters.tostunner.properties.PropertyReaderFactory;
-import org.kie.workbench.common.stunner.core.backend.StunnerTestingGraphBackendAPI;
 import org.kie.workbench.common.stunner.core.graph.impl.NodeImpl;
 import org.kie.workbench.common.stunner.core.validation.Violation;
 import org.mockito.Mock;
@@ -102,7 +97,7 @@ public class ProcessConverterDelegateTest {
 
     @Before
     public void setUp() throws Exception {
-        parentNode = new BpmnNode.Simple(new NodeImpl<>("ParentNode"), basePropertyReader);
+/*        parentNode = new BpmnNode.Simple(new NodeImpl<>("ParentNode"), basePropertyReader);
         when(diagram.getPlane()).thenReturn(plane);
         when(definitions.getRootElements()).thenReturn(ECollections.singletonEList(process));
         when(definitions.getDiagrams()).thenReturn(ECollections.singletonEList(diagram));
@@ -116,7 +111,7 @@ public class ProcessConverterDelegateTest {
         converterDelegate = new ProcessConverterDelegate(typedFactoryManager,
                                                          propertyReaderFactory,
                                                          definitionResolver,
-                                                         factory);
+                                                         factory);*/
     }
 
     @Test

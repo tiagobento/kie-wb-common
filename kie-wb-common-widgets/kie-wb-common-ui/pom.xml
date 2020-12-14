@@ -52,10 +52,6 @@
       <artifactId>errai-ioc</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.jboss.errai</groupId>
-      <artifactId>errai-security-server</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.kie.workbench.services</groupId>
       <artifactId>kie-wb-common-services-api</artifactId>
     </dependency>
@@ -194,7 +190,7 @@
     </dependency>
 
     <!-- Test dependencies -->
-    <dependency>
+<!--    <dependency>
       <groupId>org.jboss.weld.se</groupId>
       <artifactId>weld-se-core</artifactId>
       <scope>test</scope>
@@ -203,13 +199,28 @@
           <groupId>javax.el</groupId>
           <artifactId>el-api</artifactId>
         </exclusion>
-        <!-- collides with javax.inject:javax.inject:jar:1:compile -->
+        &lt;!&ndash; collides with javax.inject:javax.inject:jar:1:compile &ndash;&gt;
         <exclusion>
           <groupId>jakarta.enterprise</groupId>
           <artifactId>jakarta.enterprise.cdi-api</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
+    </dependency>-->
+
+<!--    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito2</artifactId>
+      <version>2.0.7</version>
+      <exclusions>
+        &lt;!&ndash; mockito-all is ugly uberjar. Users of powermock need to depend on on mockito-core explicitly.
+             Once we upgrade powermock to version that contains https://github.com/jayway/powermock/pull/596, this
+             exclude can be removed, as wel as explit dependencies on mockito-core. &ndash;&gt;
+        <exclusion>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-all</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>-->
 
     <dependency>
       <groupId>org.jboss.logging</groupId>

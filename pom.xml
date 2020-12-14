@@ -126,6 +126,26 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>3.6.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.powermock</groupId>
+        <artifactId>powermock-api-mockito2</artifactId>
+        <version>${version.org.powermock}</version>
+        <exclusions>
+          <!-- mockito-all is ugly uberjar. Users of powermock need to depend on on mockito-core explicitly.
+               Once we upgrade powermock to version that contains https://github.com/jayway/powermock/pull/596, this
+               exclude can be removed, as wel as explit dependencies on mockito-core. -->
+          <exclusion>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
