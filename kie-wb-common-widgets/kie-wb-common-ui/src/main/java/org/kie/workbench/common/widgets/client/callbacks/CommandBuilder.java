@@ -20,7 +20,7 @@ import java.util.Map;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import org.kie.soup.commons.validation.PortablePreconditions;
-import org.kie.workbench.common.services.shared.source.SourceGenerationFailedException;
+import org.kie.workbench.common.widgets.client.callbacks.copied.SourceGenerationFailedException;
 import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
 import org.kie.workbench.common.widgets.client.source.ViewDRLSourceWidget;
 import org.kie.workbench.common.widgets.client.widget.NoSuchFileWidget;
