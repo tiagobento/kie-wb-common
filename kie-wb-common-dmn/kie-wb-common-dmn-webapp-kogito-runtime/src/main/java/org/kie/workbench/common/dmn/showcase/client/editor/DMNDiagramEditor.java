@@ -45,7 +45,6 @@ import org.kie.workbench.common.dmn.webapp.kogito.common.client.editor.DMNEditor
 import org.kie.workbench.common.dmn.webapp.kogito.common.client.editor.DMNProjectToolbarStateHandler;
 import org.kie.workbench.common.dmn.webapp.kogito.common.client.tour.GuidedTourBridgeInitializer;
 import org.kie.workbench.common.kogito.client.editor.MultiPageEditorContainerView;
-import org.kie.workbench.common.kogito.webapp.base.client.editor.KogitoScreen;
 import org.kie.workbench.common.stunner.client.widgets.presenters.session.impl.SessionEditorPresenter;
 import org.kie.workbench.common.stunner.client.widgets.presenters.session.impl.SessionViewerPresenter;
 import org.kie.workbench.common.stunner.core.client.ReadOnlyProvider;
@@ -76,17 +75,14 @@ import org.uberfire.client.views.pfly.multipage.MultiPageEditorSelectedPageEvent
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
 import org.uberfire.client.workbench.widgets.common.ErrorPopupPresenter;
 import org.uberfire.ext.widgets.core.client.editors.texteditor.TextEditorView;
-import org.uberfire.mvp.PlaceRequest;
-import org.uberfire.mvp.impl.DefaultPlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
 
 @DiagramEditor
 @ApplicationScoped
 @WorkbenchClientEditor(identifier = AbstractDMNDiagramEditor.EDITOR_ID)
 @Default
-public class DMNDiagramEditor extends AbstractDMNDiagramEditor implements KogitoScreen {
+public class DMNDiagramEditor extends AbstractDMNDiagramEditor {
 
-    private static final PlaceRequest DMN_KOGITO_RUNTIME_SCREEN_DEFAULT_REQUEST = new DefaultPlaceRequest(AbstractDMNDiagramEditor.EDITOR_ID);
     private final ReadOnlyProvider readOnlyProvider;
     private final LazyCanvasFocusUtils lazyCanvasFocusUtils;
 
@@ -163,11 +159,6 @@ public class DMNDiagramEditor extends AbstractDMNDiagramEditor implements Kogito
               drdNameChanger);
         this.readOnlyProvider = readOnlyProvider;
         this.lazyCanvasFocusUtils = lazyCanvasFocusUtils;
-    }
-
-    @Override
-    public PlaceRequest getPlaceRequest() {
-        return DMN_KOGITO_RUNTIME_SCREEN_DEFAULT_REQUEST;
     }
 
     @Override

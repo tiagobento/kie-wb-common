@@ -45,7 +45,6 @@ import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.annotations.WorkbenchScreen;
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
-import org.uberfire.client.workbench.events.PlaceMaximizedEvent;
 import org.uberfire.client.workbench.widgets.common.ErrorPopupPresenter;
 import org.uberfire.lifecycle.OnClose;
 import org.uberfire.lifecycle.OnOpen;
@@ -200,10 +199,6 @@ public class DiagramEditorExplorerScreen {
         explorerWidget = treeExplorers.get();
         explorerWidget.show(session.getCanvasHandler());
         view.setExplorerWidget(explorerWidget);
-    }
-
-    protected void onPlaceMaximizedEvent(@Observes PlaceMaximizedEvent event) {
-        screenStateEvent.fire(new ScreenPreMaximizedStateEvent(true));
     }
 
     private void showPreview(final ClientSession session) {

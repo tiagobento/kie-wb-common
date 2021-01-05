@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.kie.workbench.common.stunner.kogito.client.perspectives;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -27,7 +28,7 @@ import org.uberfire.workbench.model.impl.PartDefinitionImpl;
 import org.uberfire.workbench.model.impl.PerspectiveDefinitionImpl;
 
 @ApplicationScoped
-@WorkbenchPerspective(identifier = AuthoringPerspective.PERSPECTIVE_ID, isDefault = true, isTransient = true)
+@WorkbenchPerspective(identifier = AuthoringPerspective.PERSPECTIVE_ID)
 public class AuthoringPerspective {
 
     public static final String PERSPECTIVE_ID = "AuthoringPerspective";

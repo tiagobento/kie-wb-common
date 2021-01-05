@@ -17,34 +17,26 @@
 package org.kie.workbench.common.kogito.webapp.base.client.perspectives;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
-import org.kie.workbench.common.kogito.webapp.base.client.editor.KogitoScreen;
 import org.uberfire.client.annotations.Perspective;
 import org.uberfire.client.annotations.WorkbenchPerspective;
+import org.uberfire.client.workbench.panels.impl.StaticWorkbenchPanelPresenter;
+import org.uberfire.mvp.impl.DefaultPlaceRequest;
 import org.uberfire.workbench.model.PerspectiveDefinition;
 import org.uberfire.workbench.model.impl.PartDefinitionImpl;
 import org.uberfire.workbench.model.impl.PerspectiveDefinitionImpl;
 
 @ApplicationScoped
-@WorkbenchPerspective(identifier = AuthoringPerspective.PERSPECTIVE_ID, isDefault = true)
+@WorkbenchPerspective(identifier = AuthoringPerspective.PERSPECTIVE_ID)
 public class AuthoringPerspective {
 
     public static final String PERSPECTIVE_ID = "AuthoringPerspective";
 
-    public static final String PERSPECTIVE_NAME = "Authoring";
-
-    @Inject
-    protected KogitoScreen kogitoScreen;
-
-    @Inject
-    protected PerspectiveConfiguration perspectiveConfiguration;
-
     @Perspective
     public PerspectiveDefinition buildPerspective() {
-        final PerspectiveDefinition perspective = new PerspectiveDefinitionImpl(perspectiveConfiguration.getPerspectivePanelType().getName());
-        perspective.setName(PERSPECTIVE_NAME);
-        perspective.getRoot().addPart(new PartDefinitionImpl(kogitoScreen.getPlaceRequest()));
+        final PerspectiveDefinition perspective = new PerspectiveDefinitionImpl(StaticWorkbenchPanelPresenter.class.getName());
+        perspective.setName("Authoring");
+        perspective.getRoot().addPart(new PartDefinitionImpl(new DefaultPlaceRequest("DMNDiagramEditor")));
         return perspective;
     }
 }

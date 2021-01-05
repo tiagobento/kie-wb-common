@@ -39,7 +39,6 @@ import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.annotations.WorkbenchScreen;
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
-import org.uberfire.client.workbench.events.PlaceMaximizedEvent;
 import org.uberfire.lifecycle.OnClose;
 import org.uberfire.lifecycle.OnOpen;
 import org.uberfire.lifecycle.OnStartup;
@@ -114,10 +113,6 @@ public class DiagramEditorPropertiesScreen {
             "Closing DiagramEditorPropertiesScreen.");
         open = false;
         destroy();
-    }
-
-    protected void onPlaceMaximizedEvent(@Observes PlaceMaximizedEvent event) {
-        screenStateEvent.fire(new ScreenPreMaximizedStateEvent(false));
     }
 
     @SuppressWarnings("unchecked")
