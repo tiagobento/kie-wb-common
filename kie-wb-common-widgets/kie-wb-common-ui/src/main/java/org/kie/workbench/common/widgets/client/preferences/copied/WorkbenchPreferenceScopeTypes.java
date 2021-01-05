@@ -33,15 +33,11 @@ public class WorkbenchPreferenceScopeTypes implements PreferenceScopeTypes {
 
     private Map<String, DefaultKey> defaultKeyByType;
 
-    private UsernameProvider usernameProvider;
-
     protected WorkbenchPreferenceScopeTypes() {
     }
 
     @Inject
     public WorkbenchPreferenceScopeTypes(final UsernameProvider usernameProvider) {
-        this.usernameProvider = usernameProvider;
-
         defaultKeyByType = new HashMap<>();
         defaultKeyByType.put(WorkbenchPreferenceScopes.GLOBAL,
                              () -> WorkbenchPreferenceScopes.GLOBAL);
