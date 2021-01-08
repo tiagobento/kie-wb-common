@@ -30,8 +30,6 @@
 
   <inherits name="org.gwtbootstrap3.extras.select.SelectNoResources"/>
 
-  <inherits name="org.guvnor.messageconsole.GuvnorMessageConsoleClient"/>
-
   <inherits name="org.kie.soup.project.datamodel.ProjectDataModelAPI"/>
   <inherits name="org.kie.soup.project.datamodel.commons.ProjectDataModelCommons"/>
 
