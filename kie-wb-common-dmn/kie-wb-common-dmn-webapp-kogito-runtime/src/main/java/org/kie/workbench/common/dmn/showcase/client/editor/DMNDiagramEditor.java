@@ -41,8 +41,6 @@ import org.kie.workbench.common.dmn.client.session.DMNSession;
 import org.kie.workbench.common.dmn.client.widgets.codecompletion.MonacoFEELInitializer;
 import org.kie.workbench.common.dmn.webapp.common.client.docks.preview.PreviewDiagramDock;
 import org.kie.workbench.common.dmn.webapp.kogito.common.client.editor.AbstractDMNDiagramEditor;
-import org.kie.workbench.common.dmn.webapp.kogito.common.client.editor.DMNEditorMenuSessionItems;
-import org.kie.workbench.common.dmn.webapp.kogito.common.client.editor.DMNProjectToolbarStateHandler;
 import org.kie.workbench.common.dmn.webapp.kogito.common.client.tour.GuidedTourBridgeInitializer;
 import org.kie.workbench.common.kogito.client.editor.MultiPageEditorContainerView;
 import org.kie.workbench.common.stunner.client.widgets.presenters.session.impl.SessionEditorPresenter;
@@ -66,7 +64,6 @@ import org.kie.workbench.common.stunner.forms.client.event.RefreshFormProperties
 import org.kie.workbench.common.stunner.kogito.client.docks.DiagramEditorPropertiesDock;
 import org.kie.workbench.common.stunner.kogito.client.editor.event.OnDiagramFocusEvent;
 import org.kie.workbench.common.stunner.kogito.client.service.KogitoClientDiagramService;
-import org.kie.workbench.common.widgets.client.menu.FileMenuBuilder;
 import org.kie.workbench.common.widgets.client.search.component.SearchBarComponent;
 import org.uberfire.client.annotations.WorkbenchClientEditor;
 import org.uberfire.client.mvp.PlaceManager;
@@ -88,7 +85,6 @@ public class DMNDiagramEditor extends AbstractDMNDiagramEditor {
 
     @Inject
     public DMNDiagramEditor(final View view,
-                            final FileMenuBuilder fileMenuBuilder,
                             final PlaceManager placeManager,
                             final MultiPageEditorContainerView multiPageEditorContainerView,
                             final Event<ChangeTitleWidgetEvent> changeTitleNotificationEvent,
@@ -97,7 +93,6 @@ public class DMNDiagramEditor extends AbstractDMNDiagramEditor {
                             final TextEditorView xmlEditorView,
                             final ManagedInstance<SessionEditorPresenter<EditorSession>> editorSessionPresenterInstances,
                             final ManagedInstance<SessionViewerPresenter<ViewerSession>> viewerSessionPresenterInstances,
-                            final DMNEditorMenuSessionItems menuSessionItems,
                             final ErrorPopupPresenter errorPopupPresenter,
                             final DiagramClientErrorHandler diagramClientErrorHandler,
                             final ClientTranslationService translationService,
@@ -124,7 +119,6 @@ public class DMNDiagramEditor extends AbstractDMNDiagramEditor {
                             final DRDNameChanger drdNameChanger,
                             final LazyCanvasFocusUtils lazyCanvasFocusUtils) {
         super(view,
-              fileMenuBuilder,
               placeManager,
               multiPageEditorContainerView,
               changeTitleNotificationEvent,
@@ -133,7 +127,6 @@ public class DMNDiagramEditor extends AbstractDMNDiagramEditor {
               xmlEditorView,
               editorSessionPresenterInstances,
               viewerSessionPresenterInstances,
-              menuSessionItems,
               errorPopupPresenter,
               diagramClientErrorHandler,
               translationService,
@@ -167,7 +160,7 @@ public class DMNDiagramEditor extends AbstractDMNDiagramEditor {
 
         canvasHandler.ifPresent(c -> {
             final ExpressionEditorView.Presenter expressionEditor = ((DMNSession) sessionManager.getCurrentSession()).getExpressionEditor();
-            expressionEditor.setToolbarStateHandler(new DMNProjectToolbarStateHandler(getMenuSessionItems()));
+            expressionEditor.setToolbarStateHandler(null);
             decisionNavigatorDock.reload();
             dataTypesPage.reload();
             lazyCanvasFocusUtils.releaseFocus();

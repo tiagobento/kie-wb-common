@@ -18,13 +18,10 @@ package org.kie.workbench.common.kogito.client.editor;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import com.google.gwt.user.client.ui.IsWidget;
 import elemental2.promise.Promise;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.ext.editor.commons.client.BaseEditorView;
-import org.uberfire.ext.editor.commons.client.menu.MenuItems;
 import org.uberfire.mvp.PlaceRequest;
-import org.uberfire.workbench.model.menu.Menus;
 
 /**
  * This is a trimmed down {@code org.uberfire.ext.editor.commons.client.BaseEditor} for Kogito.
@@ -36,7 +33,6 @@ public abstract class BaseKogitoEditor<CONTENT> {
 
     private BaseEditorView baseEditorView;
     private PlaceManager placeManager;
-    private Menus menus;
     private PlaceRequest place;
     private Integer originalHash;
 
@@ -53,29 +49,6 @@ public abstract class BaseKogitoEditor<CONTENT> {
     protected void init(final PlaceRequest place) {
         this.place = place;
         this.isReadOnly = this.place.getParameter("readOnly", null) != null;
-
-        makeMenuBar();
-
-        buildMenuBar();
-    }
-
-    protected abstract void makeMenuBar();
-
-    protected abstract void buildMenuBar();
-
-    public void disableMenuItem(final MenuItems menuItem) {
-        setEnableMenuItem(menuItem, false);
-    }
-
-    public void enableMenuItem(final MenuItems menuItem) {
-        setEnableMenuItem(menuItem, true);
-    }
-
-    private void setEnableMenuItem(final MenuItems menuItem,
-                                   final boolean isEnabled) {
-        if (getMenus().getItemsMap().containsKey(menuItem)) {
-            getMenus().getItemsMap().get(menuItem).setEnabled(isEnabled);
-        }
     }
 
     protected PlaceRequest getPlaceRequest() {
@@ -86,20 +59,8 @@ public abstract class BaseKogitoEditor<CONTENT> {
         return placeManager;
     }
 
-    protected Menus getMenus() {
-        return menus;
-    }
-
-    protected void setMenus(final Menus menus) {
-        this.menus = menus;
-    }
-
     protected BaseEditorView getBaseEditorView() {
         return baseEditorView;
-    }
-
-    protected IsWidget getTitle() {
-        return baseEditorView.getTitleWidget();
     }
 
     protected Supplier<CONTENT> getContentSupplier() {

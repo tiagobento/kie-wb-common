@@ -34,8 +34,6 @@ import org.kie.workbench.common.stunner.core.client.session.event.SessionDiagram
 import org.kie.workbench.common.stunner.forms.client.event.FormPropertiesOpened;
 import org.kie.workbench.common.stunner.forms.client.widgets.FormPropertiesWidget;
 import org.kie.workbench.common.stunner.kogito.client.view.DiagramEditorScreenView;
-import org.uberfire.client.annotations.WorkbenchContextId;
-import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.annotations.WorkbenchScreen;
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
@@ -141,20 +139,10 @@ public class DiagramEditorPropertiesScreen {
         session = null;
     }
 
-    @WorkbenchPartTitle
-    public String getTitle() {
-        return title;
-    }
-
     @WorkbenchPartView
     public IsWidget getWidget() {
         // TODO: return view.asWidget() - See DiagramEditorScreenViewImpl TODO;
         return ElementWrapperWidget.getWidget(formPropertiesWidget.getElement());
-    }
-
-    @WorkbenchContextId
-    public String getMyContextRef() {
-        return "projectDiagramPropertiesScreenContext";
     }
 
     void onFormPropertiesOpened(final @Observes FormPropertiesOpened propertiesOpened) {

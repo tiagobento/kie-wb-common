@@ -40,8 +40,6 @@ import org.kie.workbench.common.stunner.core.client.session.event.SessionDiagram
 import org.kie.workbench.common.stunner.core.client.session.event.SessionOpenedEvent;
 import org.kie.workbench.common.stunner.core.client.session.impl.AbstractSession;
 import org.kie.workbench.common.stunner.core.diagram.Diagram;
-import org.uberfire.client.annotations.WorkbenchContextId;
-import org.uberfire.client.annotations.WorkbenchPartTitle;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.annotations.WorkbenchScreen;
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
@@ -127,19 +125,9 @@ public class DiagramEditorExplorerScreen {
         close();
     }
 
-    @WorkbenchPartTitle
-    public String getTitle() {
-        return title;
-    }
-
     @WorkbenchPartView
     public IsWidget getWidget() {
         return view;
-    }
-
-    @WorkbenchContextId
-    public String getMyContextRef() {
-        return "projectDiagramExplorerScreenContext";
     }
 
     public void show(final ClientSession session) {

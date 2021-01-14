@@ -16,13 +16,11 @@
 package org.kie.workbench.common.dmn.webapp.kogito.common.client.editor;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import javax.enterprise.event.Event;
 
 import com.google.gwt.user.client.ui.IsWidget;
-import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLElement;
 import elemental2.promise.Promise;
 import org.jboss.errai.common.client.ui.ElementWrapperWidget;
@@ -67,22 +65,16 @@ import org.kie.workbench.common.stunner.kogito.client.docks.DiagramEditorPropert
 import org.kie.workbench.common.stunner.kogito.client.editor.AbstractDiagramEditor;
 import org.kie.workbench.common.stunner.kogito.client.editor.event.OnDiagramFocusEvent;
 import org.kie.workbench.common.stunner.kogito.client.service.KogitoClientDiagramService;
-import org.kie.workbench.common.widgets.client.menu.FileMenuBuilder;
 import org.kie.workbench.common.widgets.client.search.component.SearchBarComponent;
-import org.uberfire.client.annotations.WorkbenchMenu;
-import org.uberfire.client.annotations.WorkbenchPartTitle;
-import org.uberfire.client.annotations.WorkbenchPartTitleDecoration;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.promise.Promises;
 import org.uberfire.client.views.pfly.multipage.MultiPageEditorSelectedPageEvent;
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
 import org.uberfire.client.workbench.widgets.common.ErrorPopupPresenter;
-import org.uberfire.ext.editor.commons.client.menu.MenuItems;
 import org.uberfire.ext.widgets.core.client.editors.texteditor.TextEditorView;
 import org.uberfire.lifecycle.GetContent;
 import org.uberfire.lifecycle.GetPreview;
-import org.uberfire.lifecycle.IsDirty;
 import org.uberfire.lifecycle.OnClose;
 import org.uberfire.lifecycle.OnFocus;
 import org.uberfire.lifecycle.OnLostFocus;
@@ -92,9 +84,6 @@ import org.uberfire.lifecycle.OnStartup;
 import org.uberfire.lifecycle.SetContent;
 import org.uberfire.mvp.PlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
-import org.uberfire.workbench.model.menu.Menus;
-
-import static elemental2.dom.DomGlobal.setTimeout;
 
 public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
 
@@ -126,7 +115,6 @@ public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
     protected final DRDNameChanger drdNameChanger;
 
     public AbstractDMNDiagramEditor(final View view,
-                                    final FileMenuBuilder fileMenuBuilder,
                                     final PlaceManager placeManager,
                                     final MultiPageEditorContainerView multiPageEditorContainerView,
                                     final Event<ChangeTitleWidgetEvent> changeTitleNotificationEvent,
@@ -135,7 +123,6 @@ public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
                                     final TextEditorView xmlEditorView,
                                     final ManagedInstance<SessionEditorPresenter<EditorSession>> editorSessionPresenterInstances,
                                     final ManagedInstance<SessionViewerPresenter<ViewerSession>> viewerSessionPresenterInstances,
-                                    final DMNEditorMenuSessionItems menuSessionItems,
                                     final ErrorPopupPresenter errorPopupPresenter,
                                     final DiagramClientErrorHandler diagramClientErrorHandler,
                                     final ClientTranslationService translationService,
@@ -160,7 +147,6 @@ public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
                                     final GuidedTourBridgeInitializer guidedTourBridgeInitializer,
                                     final DRDNameChanger drdNameChanger) {
         super(view,
-              fileMenuBuilder,
               placeManager,
               multiPageEditorContainerView,
               changeTitleNotificationEvent,
@@ -169,7 +155,6 @@ public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
               xmlEditorView,
               editorSessionPresenterInstances,
               viewerSessionPresenterInstances,
-              menuSessionItems,
               errorPopupPresenter,
               diagramClientErrorHandler,
               translationService,
@@ -329,31 +314,6 @@ public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
     }
 
     @Override
-    @WorkbenchPartTitleDecoration
-    public IsWidget getTitle() {
-        return super.getTitle();
-    }
-
-    @WorkbenchPartTitle
-    public String getTitleText() {
-        return "";
-    }
-
-    @WorkbenchMenu
-    public void getMenus(final Consumer<Menus> menusConsumer) {
-        menusConsumer.accept(super.getMenus());
-    }
-
-    @Override
-    protected void makeMenuBar() {
-        if (!menuBarInitialized) {
-            getMenuSessionItems().populateMenu(getFileMenuBuilder());
-            makeAdditionalStunnerMenus(getFileMenuBuilder());
-            menuBarInitialized = true;
-        }
-    }
-
-    @Override
     @WorkbenchPartView
     public IsWidget asWidget() {
         return super.asWidget();
@@ -371,23 +331,6 @@ public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
     }
 
     public void onDataTypeEditModeToggle(final DataTypeEditModeToggleEvent event) {
-        /* Delaying the 'onDataTypeEditModeToggleCallback' since external events
-         * refresh the menu widget and override this change. */
-        scheduleOnDataTypeEditModeToggleCallback(event);
-    }
-
-    protected void scheduleOnDataTypeEditModeToggleCallback(final DataTypeEditModeToggleEvent event) {
-        setTimeout(getOnDataTypeEditModeToggleCallback(event), 250);
-    }
-
-    protected DomGlobal.SetTimeoutCallbackFn getOnDataTypeEditModeToggleCallback(final DataTypeEditModeToggleEvent event) {
-        return (e) -> {
-            if (event.isEditModeEnabled()) {
-                disableMenuItem(MenuItems.SAVE);
-            } else {
-                enableMenuItem(MenuItems.SAVE);
-            }
-        };
     }
 
     protected void onMultiPageEditorSelectedPageEvent(final MultiPageEditorSelectedPageEvent event) {
@@ -423,7 +366,6 @@ public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
     }
 
     @Override
-    @IsDirty
     public boolean isDirty() {
         return super.isDirty();
     }

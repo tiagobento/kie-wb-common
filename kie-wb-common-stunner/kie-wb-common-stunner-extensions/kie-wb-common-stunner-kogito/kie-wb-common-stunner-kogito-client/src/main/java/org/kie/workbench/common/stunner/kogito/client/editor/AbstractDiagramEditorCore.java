@@ -37,7 +37,6 @@ import org.kie.workbench.common.stunner.core.client.error.DiagramClientErrorHand
 import org.kie.workbench.common.stunner.core.client.i18n.ClientTranslationService;
 import org.kie.workbench.common.stunner.core.client.service.ClientRuntimeError;
 import org.kie.workbench.common.stunner.core.client.session.ClientSession;
-import org.kie.workbench.common.stunner.core.client.session.command.impl.UndoSessionCommand;
 import org.kie.workbench.common.stunner.core.client.session.event.OnSessionErrorEvent;
 import org.kie.workbench.common.stunner.core.client.session.impl.EditorSession;
 import org.kie.workbench.common.stunner.core.client.session.impl.ViewerSession;
@@ -47,7 +46,6 @@ import org.kie.workbench.common.stunner.core.diagram.Metadata;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
 import org.kie.workbench.common.stunner.kogito.api.editor.KogitoDiagramResource;
 import org.kie.workbench.common.stunner.kogito.client.resources.i18n.KogitoClientConstants;
-import org.kie.workbench.common.stunner.kogito.client.session.EditorSessionCommands;
 import org.uberfire.client.workbench.widgets.common.ErrorPopupPresenter;
 import org.uberfire.ext.widgets.common.client.common.popups.YesNoCancelPopup;
 import org.uberfire.ext.widgets.core.client.editors.texteditor.TextEditorView;
@@ -64,7 +62,6 @@ public abstract class AbstractDiagramEditorCore<M extends Metadata, D extends Di
     private final Event<NotificationEvent> notificationEvent;
     private final ManagedInstance<SessionEditorPresenter<EditorSession>> editorSessionPresenterInstances;
     private final ManagedInstance<SessionViewerPresenter<ViewerSession>> viewerSessionPresenterInstances;
-    private final Optional<AbstractDiagramEditorMenuSessionItems<?>> menuSessionItems;
     private final ErrorPopupPresenter errorPopupPresenter;
     private final DiagramClientErrorHandler diagramClientErrorHandler;
     private final ClientTranslationService translationService;
@@ -75,7 +72,7 @@ public abstract class AbstractDiagramEditorCore<M extends Metadata, D extends Di
     private P editorProxy = makeEditorProxy();
 
     public AbstractDiagramEditorCore() {
-        this(null, null, null, null, null, null, null, null, null);
+        this(null, null, null, null, null, null, null, null);
     }
 
     public AbstractDiagramEditorCore(final View baseEditorView,
@@ -83,7 +80,6 @@ public abstract class AbstractDiagramEditorCore<M extends Metadata, D extends Di
                                      final Event<NotificationEvent> notificationEvent,
                                      final ManagedInstance<SessionEditorPresenter<EditorSession>> editorSessionPresenterInstances,
                                      final ManagedInstance<SessionViewerPresenter<ViewerSession>> viewerSessionPresenterInstances,
-                                     final AbstractDiagramEditorMenuSessionItems<?> menuSessionItems,
                                      final ErrorPopupPresenter errorPopupPresenter,
                                      final DiagramClientErrorHandler diagramClientErrorHandler,
                                      final ClientTranslationService translationService) {
@@ -92,7 +88,6 @@ public abstract class AbstractDiagramEditorCore<M extends Metadata, D extends Di
         this.notificationEvent = notificationEvent;
         this.editorSessionPresenterInstances = editorSessionPresenterInstances;
         this.viewerSessionPresenterInstances = viewerSessionPresenterInstances;
-        this.menuSessionItems = Optional.ofNullable(menuSessionItems);
         this.errorPopupPresenter = errorPopupPresenter;
         this.diagramClientErrorHandler = diagramClientErrorHandler;
         this.translationService = translationService;
@@ -191,7 +186,6 @@ public abstract class AbstractDiagramEditorCore<M extends Metadata, D extends Di
             @Override
             public void onSuccess() {
                 initialiseKieEditorForSession(diagram);
-                menuSessionItems.ifPresent(menuItems -> menuItems.bind(getSession()));
                 callback.onSuccess();
             }
 
@@ -238,10 +232,7 @@ public abstract class AbstractDiagramEditorCore<M extends Metadata, D extends Di
         if (isSameSession(errorEvent.getSession())) {
             executeWithConfirm(translationService.getValue(KogitoClientConstants.ON_ERROR_CONFIRM_UNDO_LAST_ACTION,
                                                            errorEvent.getError()),
-                               () -> menuSessionItems
-                                       .map(AbstractDiagramEditorMenuSessionItems::getCommands)
-                                       .map(EditorSessionCommands::getUndoSessionCommand)
-                                       .ifPresent(UndoSessionCommand::execute));
+                               () -> {});
         }
     }
 
@@ -280,10 +271,6 @@ public abstract class AbstractDiagramEditorCore<M extends Metadata, D extends Di
 
     protected Event<NotificationEvent> getNotificationEvent() {
         return notificationEvent;
-    }
-
-    protected AbstractDiagramEditorMenuSessionItems<?> getMenuSessionItems() {
-        return menuSessionItems.orElse(null);
     }
 
     public void destroySession() {
