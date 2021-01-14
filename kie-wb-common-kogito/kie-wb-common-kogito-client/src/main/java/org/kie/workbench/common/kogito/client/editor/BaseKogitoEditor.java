@@ -15,9 +15,6 @@
  */
 package org.kie.workbench.common.kogito.client.editor;
 
-import java.util.Objects;
-import java.util.function.Supplier;
-
 import elemental2.promise.Promise;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.ext.editor.commons.client.BaseEditorView;
@@ -34,7 +31,6 @@ public abstract class BaseKogitoEditor<CONTENT> {
     private BaseEditorView baseEditorView;
     private PlaceManager placeManager;
     private PlaceRequest place;
-    private Integer originalHash;
 
     protected BaseKogitoEditor() {
         //CDI proxy
@@ -63,40 +59,8 @@ public abstract class BaseKogitoEditor<CONTENT> {
         return baseEditorView;
     }
 
-    protected Supplier<CONTENT> getContentSupplier() {
-        return () -> null;
-    }
-
-    public void setOriginalContentHash(final Integer originalHash) {
-        this.originalHash = originalHash;
-    }
-
-    protected Integer getOriginalContentHash() {
-        return originalHash;
-    }
-
-    protected Integer getCurrentContentHash() {
-        try {
-            return getContentSupplier().get().hashCode();
-        } catch (final Exception e) {
-            return null;
-        }
-    }
-
     public boolean isReadOnly() {
         return isReadOnly;
-    }
-
-    public boolean mayClose() {
-        return !isDirty() || baseEditorView.confirmClose();
-    }
-
-    /**
-     * Used by Kogito to determine whether the content has unsaved changes.
-     * @return true if there are unsaved changes.
-     */
-    public boolean isDirty() {
-        return !Objects.equals(getCurrentContentHash(), getOriginalContentHash());
     }
 
     /**
@@ -113,9 +77,4 @@ public abstract class BaseKogitoEditor<CONTENT> {
      * representation of the editors content to persist to an underlying persistent store.
      */
     public abstract Promise getContent();
-
-    /**
-     * Used by Kogito to reset the editors "dirty" state following a successful save.
-     */
-    public abstract void resetContentHash();
 }

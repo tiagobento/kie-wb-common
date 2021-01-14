@@ -19,7 +19,6 @@ package org.kie.workbench.common.stunner.kogito.client.editor;
 import java.lang.annotation.Annotation;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -133,7 +132,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
                 final Metadata metadata = dpe.getMetadata();
                 final String xml = dpe.getXml();
 
-                setOriginalContentHash(xml.hashCode());
                 updateTitle(metadata.getTitle());
                 resetEditorPages();
                 getXMLEditorView().setReadOnly(isReadOnly());
@@ -150,7 +148,7 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
                 showError(error);
 
                 //close editor in case of error when opening the editor
-                getPlaceManager().forceClosePlace(getPlaceRequest());
+                getPlaceManager().closePlace(getPlaceRequest());
             }
         }
     }
@@ -216,16 +214,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
         init(place);
     }
 
-    @Override
-    protected Supplier<KogitoDiagramResourceImpl> getContentSupplier() {
-        return editor.getEditorProxy().getContentSupplier();
-    }
-
-    @Override
-    protected Integer getCurrentContentHash() {
-        return editor.getCurrentDiagramHash();
-    }
-
     protected void doOpen() {
     }
 
@@ -261,9 +249,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
         resetEditorPages();
         updateTitle(diagram.getMetadata().getTitle());
         onDiagramLoad();
-
-        //Set original hash after onDiagramLoad that may have modified the Diagram
-        setOriginalContentHash(getCurrentDiagramHash());
 
         addDocumentationPage(diagram);
         hideLoadingViews();

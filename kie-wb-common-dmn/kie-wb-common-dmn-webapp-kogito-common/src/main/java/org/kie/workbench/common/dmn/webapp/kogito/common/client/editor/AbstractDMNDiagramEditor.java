@@ -78,7 +78,6 @@ import org.uberfire.lifecycle.GetPreview;
 import org.uberfire.lifecycle.OnClose;
 import org.uberfire.lifecycle.OnFocus;
 import org.uberfire.lifecycle.OnLostFocus;
-import org.uberfire.lifecycle.OnMayClose;
 import org.uberfire.lifecycle.OnOpen;
 import org.uberfire.lifecycle.OnStartup;
 import org.uberfire.lifecycle.SetContent;
@@ -319,12 +318,6 @@ public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
         return super.asWidget();
     }
 
-    @OnMayClose
-    @SuppressWarnings("unused")
-    public boolean onMayClose() {
-        return super.mayClose();
-    }
-
     @Override
     public String getEditorIdentifier() {
         return EDITOR_ID;
@@ -366,11 +359,6 @@ public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
     }
 
     @Override
-    public boolean isDirty() {
-        return super.isDirty();
-    }
-
-    @Override
     @SetContent
     public Promise setContent(final String path,
                               final String value) {
@@ -407,11 +395,6 @@ public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
                 });
 
         return promise;
-    }
-
-    @Override
-    public void resetContentHash() {
-        setOriginalContentHash(getCurrentDiagramHash());
     }
 
     @GetPreview

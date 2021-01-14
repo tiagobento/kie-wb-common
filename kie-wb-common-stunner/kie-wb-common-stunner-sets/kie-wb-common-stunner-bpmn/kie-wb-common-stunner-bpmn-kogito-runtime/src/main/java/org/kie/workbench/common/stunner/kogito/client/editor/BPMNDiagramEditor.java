@@ -66,7 +66,6 @@ import org.uberfire.lifecycle.GetPreview;
 import org.uberfire.lifecycle.OnClose;
 import org.uberfire.lifecycle.OnFocus;
 import org.uberfire.lifecycle.OnLostFocus;
-import org.uberfire.lifecycle.OnMayClose;
 import org.uberfire.lifecycle.OnOpen;
 import org.uberfire.lifecycle.OnStartup;
 import org.uberfire.lifecycle.SetContent;
@@ -212,11 +211,6 @@ public class BPMNDiagramEditor extends AbstractDiagramEditor {
         return super.asWidget();
     }
 
-    @OnMayClose
-    public boolean onMayClose() {
-        return super.mayClose();
-    }
-
     @Override
     public String getEditorIdentifier() {
         return EDITOR_ID;
@@ -237,11 +231,6 @@ public class BPMNDiagramEditor extends AbstractDiagramEditor {
         } else {
             return Promise.resolve("");
         }
-    }
-
-    @Override
-    public boolean isDirty() {
-        return super.isDirty();
     }
 
     @SetContent
@@ -280,11 +269,6 @@ public class BPMNDiagramEditor extends AbstractDiagramEditor {
                                               });
                 });
         return promise;
-    }
-
-    @Override
-    public void resetContentHash() {
-        setOriginalContentHash(getCurrentDiagramHash());
     }
 
     void initDocks() {
