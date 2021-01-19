@@ -72,8 +72,9 @@ jobs:
       - name: Checkout kogito-tooling
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
           path: ${{ github.workspace }}/kogito-tooling
+          repository: kiegroup/kogito-tooling
+          fetch-depth: 0
 
       - name: Build droolsjbpm-build-bootstrap
         run: |
