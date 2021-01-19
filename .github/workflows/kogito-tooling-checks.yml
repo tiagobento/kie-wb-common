@@ -24,17 +24,10 @@ jobs:
       - name: Output Build info
         id: buildInfo
         run: |
-          if [ -z "${{ github.event.pull_request }}" ]; then
-            user=$(node -e "console.log('${{ github.event.comment.body }}'.match(/Build: (.+)\/(.+)$/)[1])");
-            ref=$(node -e "console.log('${{ github.event.comment.body }}'.match(/Build: (.+)\/(.+)$/)[2])");
-            category="comment";
-            id="${{ github.event.comment.id }}";
-          else
-            user=$(node -e "console.log('${{ github.event.pull_request.head.label }}'.match(/(.+)\:(.+)$/)[1])");
-            ref=${{ github.head_ref }}
-            category="pull";
-            id="${{ github.event.pull_request.number }}";
-          fi
+          user=$(node -e "console.log('${{ github.event.pull_request.head.label }}'.match(/(.+)\:(.+)$/)[1])");
+          ref=${{ github.head_ref }}
+          category="pull";
+          id="${{ github.event.pull_request.number }}";
 
           echo ::set-output name=user::$user
           echo ::set-output name=ref::$ref
