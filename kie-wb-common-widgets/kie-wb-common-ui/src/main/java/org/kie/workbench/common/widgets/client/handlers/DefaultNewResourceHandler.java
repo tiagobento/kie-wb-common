@@ -17,6 +17,7 @@ package org.kie.workbench.common.widgets.client.handlers;
 
 import java.util.LinkedList;
 import java.util.List;
+
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
@@ -24,17 +25,13 @@ import com.google.gwt.core.client.Callback;
 import com.google.gwt.user.client.ui.IsWidget;
 import org.guvnor.common.services.project.client.context.WorkspaceProjectContext;
 import org.jboss.errai.common.client.api.Caller;
-import org.jboss.errai.common.client.api.RemoteCallback;
 import org.kie.workbench.common.widgets.client.menu.copied.KieModuleService;
-import org.kie.workbench.common.widgets.client.resources.i18n.CommonConstants;
-import org.uberfire.backend.vfs.Path;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.commons.data.Pair;
 import org.uberfire.ext.editor.commons.client.validation.ValidatorWithReasonCallback;
 import org.uberfire.ext.widgets.common.client.common.BusyIndicatorView;
 import org.uberfire.mvp.Command;
 import org.uberfire.workbench.events.NotificationEvent;
-import org.uberfire.workbench.type.ResourceTypeDefinition;
 
 /**
  * Handler for the creation of new Items that require a Name and Path
@@ -99,42 +96,7 @@ public abstract class DefaultNewResourceHandler implements NewResourceHandler {
 
     @Override
     public Command getCommand(final NewResourcePresenter newResourcePresenter) {
-        return new Command() {
-            @Override
-            public void execute() {
-                newResourcePresenter.show(DefaultNewResourceHandler.this);
-            }
-        };
-    }
-
-    protected String buildFileName(final String baseFileName,
-                                   final ResourceTypeDefinition resourceType) {
-        final String suffix = resourceType.getSuffix();
-        final String prefix = resourceType.getPrefix();
-        final String extension = !(suffix == null || "".equals(suffix)) ? "." + resourceType.getSuffix() : "";
-        if (baseFileName.endsWith(extension)) {
-            return prefix + baseFileName;
-        }
-        return prefix + baseFileName + extension;
-    }
-
-    protected void notifySuccess() {
-        notificationEvent.fire(new NotificationEvent(CommonConstants.INSTANCE.ItemCreatedSuccessfully(),
-                                                     NotificationEvent.NotificationType.SUCCESS));
-    }
-
-    protected RemoteCallback<Path> getSuccessCallback(final NewResourcePresenter presenter) {
-        return new RemoteCallback<Path>() {
-
-            @Override
-            public void callback(final Path path) {
-                busyIndicatorView.hideBusyIndicator();
-                presenter.complete();
-                notifySuccess();
-                newResourceSuccessEvent.fire(new NewResourceSuccessEvent(path));
-                placeManager.goTo(path);
-            }
-        };
+        return () -> newResourcePresenter.show(DefaultNewResourceHandler.this);
     }
 
     @Override
