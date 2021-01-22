@@ -6,10 +6,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 90
-    strategy:
-      fail-fast: true
 
     steps:
+      - name: Wait a little..
+        run: |
+          sleep 300 # Wait 5 minutes until all the related PRs are merged.
+
       - name: Checkout droolsjbpm-build-bootstrap
         uses: actions/checkout@v2
         with:
@@ -45,13 +47,6 @@ jobs:
 #          repository: kiegroup/drools-wb
 #          fetch-depth: 0
 
-      - name: Checkout kogito-tooling
-        uses: actions/checkout@v2
-        with:
-          path: ${{ github.workspace }}/kogito-tooling
-          repository: kiegroup/kogito-tooling
-          fetch-depth: 0
-
       - name: Build droolsjbpm-build-bootstrap
         run: |
           mvn clean install -DskipTests -Dgwt.compiler.skip -Denforcer.skip -T 2 -B
@@ -68,9 +63,9 @@ jobs:
         run: |
           mvn clean install -DskipTests -Denforcer.skip -T 2 -B -am -pl kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime,kie-wb-common-dmn/kie-wb-common-dmn-webapp-kogito-runtime
      
-     - name: Build drools-wb
-        run: |
-          mvn clean install -DskipTests -Denforcer.skip -pl drools-wb-screens/drools-wb-scenario-simulation-editor/drools-wb-scenario-simulation-editor-kogito-runtime -am -T 2 -B
+#     - name: Build drools-wb
+#        run: |
+#          mvn clean install -DskipTests -Denforcer.skip -pl drools-wb-screens/drools-wb-scenario-simulation-editor/drools-wb-scenario-simulation-editor-kogito-runtime -am -T 2 -B
           
       - name: Upload DMN editor
         uses: actions/upload-artifact@v1
@@ -84,10 +79,46 @@ jobs:
           name: bpmn-editor-fdb
           path: ${{ github.workspace }}/kie-wb-common/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime/target/kie-wb-common-stunner-bpmn-kogito-runtime
 
-      - name: Publish BPMN editor
-        env:
-          EXTERNAL_RESOURCE_PATH__dmnEditor: "${{ github.workspace }}/kie-wb-common/kie-wb-common-dmn/kie-wb-common-dmn-webapp-kogito-runtime/target/kie-wb-common-dmn-webapp-kogito-runtime"
-          EXTERNAL_RESOURCE_PATH__bpmnEditor: "${{ github.workspace }}/kie-wb-common/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime/target/kie-wb-common-stunner-bpmn-kogito-runtime
+#      - name: Upload SceSim editor
+#        uses: actions/upload-artifact@v1
+#        with:
+#          name: scesim-editor-fdb
+#          path: ${{ github.workspace }}/drools-wb/drools-wb-screens/drools-wb-scenario-simulation-editor/drools-wb-scenario-simulation-editor-kogito-runtime/target/drools-wb-scenario-simulation-editor-kogito-runtime/
+
+      - name: Output NPM version
+        id: npmVersion
         run: |
-          xxxxxxxxx
+          MVN_VERSION=`mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec -f ${{ github.workspace }}/kie-wb-common`
+          DATE=`date +"%Y%m%d"`
+          SHA=`git rev-parse --verify HEAD | cut -c 1-7` # First 7 chars of the commit hash. Same as on GitHub.
+          NPM_VERSION=`echo $MVN_VERSION+$SHA.$DATE`
+          echo ::set-output name=version::$NPM_VERSION
+
+#      - name: Publish SceSim Editor
+#        run: |
+#          cd ${{ github.workspace }}/kie-wb-common/.github/supporting-files/kogito-tooling-editors-publish/scesim-editor-unpacked
+#          cp -r ${{ github.workspace }}/drools-wb/drools-wb-screens/drools-wb-scenario-simulation-editor/drools-wb-scenario-simulation-editor-kogito-runtime/target/drools-wb-scenario-simulation-editor-kogito-runtime ./target/scesim
+#          ls -la .
+#          npm version ${{ steps.npmVersion.outputs.version }}
+#          echo "//registry.npmjs.org/:_authToken=${{ secrets.KIEGROUP_NPM_TOKEN }}" > ~/.npmrc
+#          npm publish --access public --dry-run
+
+      - name: Publish BPMN Editor
+        run: |
+          cd ${{ github.workspace }}/kie-wb-common/.github/supporting-files/kogito-tooling-editors-publish/bpmn-editor-unpacked
+          cp -r ${{ github.workspace }}/kie-wb-common/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime/target/kie-wb-common-stunner-bpmn-kogito-runtime ./target/bpmn
+          ls -la .
+          npm version ${{ steps.npmVersion.outputs.version }}
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.KIEGROUP_NPM_TOKEN }}" > ~/.npmrc
+          npm publish --access public --dry-run
+
+      - name: Publish DMN Editor
+        run: |
+          cd ${{ github.workspace }}/kie-wb-common/.github/supporting-files/kogito-tooling-editors-publish/dmn-editor-unpacked
+          cp -r ${{ github.workspace }}/kie-wb-common/kie-wb-common-dmn/kie-wb-common-dmn-webapp-kogito-runtime/target/kie-wb-common-dmn-webapp-kogito-runtime ./target/dmn
+          ls -la .
+          npm version ${{ steps.npmVersion.outputs.version }}
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.KIEGROUP_NPM_TOKEN }}" > ~/.npmrc
+          npm publish --access public --dry-run
+
         
