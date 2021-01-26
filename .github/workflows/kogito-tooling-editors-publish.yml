@@ -97,8 +97,8 @@ jobs:
 #################          name: scesim-editor-fdb
 #################          path: ${{ github.workspace }}/drools-wb/drools-wb-screens/drools-wb-scenario-simulation-editor/drools-wb-scenario-simulation-editor-kogito-runtime/target/drools-wb-scenario-simulation-editor-kogito-runtime/
 #
-      - name: Output NPM version
-        id: npmVersion
+      - name: Output new packages version on NPM
+        id: newEditorsVersionOnNpm
         run: |
           MVN_VERSION=7.49.0-SNAPSHOT # WWWWWWW `mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec -f ${{ github.workspace }}/kie-wb-common`
           DATE=`date +"%Y%m%d"`
@@ -112,7 +112,7 @@ jobs:
 ##################          cd ${{ github.workspace }}/kie-wb-common/.github/supporting-files/kogito-tooling-editors-publish/scesim-editor-unpacked
 ##################          cp -r ${{ github.workspace }}/drools-wb/drools-wb-screens/drools-wb-scenario-simulation-editor/drools-wb-scenario-simulation-editor-kogito-runtime/target/drools-wb-scenario-simulation-editor-kogito-runtime ./target/scesim
 ##################          ls -la .
-##################          npm version ${{ steps.npmVersion.outputs.version }}
+##################          npm version ${{ steps.newEditorsVersionOnNpm.outputs.version }}
 ##################          echo "//registry.npmjs.org/:_authToken=${{ secrets.KIEGROUP_NPM_TOKEN }}" > ~/.npmrc
 ##################          npm publish --access public --dry-run
 #
@@ -121,7 +121,7 @@ jobs:
 #          cd ${{ github.workspace }}/kie-wb-common/.github/supporting-files/kogito-tooling-editors-publish/bpmn-editor-unpacked
 #          cp -r ${{ github.workspace }}/kie-wb-common/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime/target/kie-wb-common-stunner-bpmn-kogito-runtime ./target/bpmn
 #          ls -la .
-#          npm version ${{ steps.npmVersion.outputs.version }}
+#          npm version ${{ steps.newEditorsVersionOnNpm.outputs.version }}
 #          echo "//registry.npmjs.org/:_authToken=${{ secrets.KIEGROUP_NPM_TOKEN }}" > ~/.npmrc
 #          npm publish --access public --dry-run
 #
@@ -130,7 +130,7 @@ jobs:
 #          cd ${{ github.workspace }}/kie-wb-common/.github/supporting-files/kogito-tooling-editors-publish/dmn-editor-unpacked
 #          cp -r ${{ github.workspace }}/kie-wb-common/kie-wb-common-dmn/kie-wb-common-dmn-webapp-kogito-runtime/target/kie-wb-common-dmn-webapp-kogito-runtime ./target/dmn
 #          ls -la .
-#          npm version ${{ steps.npmVersion.outputs.version }}
+#          npm version ${{ steps.newEditorsVersionOnNpm.outputs.version }}
 #          echo "//registry.npmjs.org/:_authToken=${{ secrets.KIEGROUP_NPM_TOKEN }}" > ~/.npmrc
 #          npm publish --access public --dry-run
 
@@ -154,15 +154,15 @@ jobs:
           git checkout ${{ github.event.inputs.kogitoToolingBranchToUpdate }}
           yarn run init
           #
-          yarn add -W @kogito-tooling/dmn-editor-unpacked@${{ steps.npmVersion.outputs.version }} --non-interactive || true
+          yarn add -W @kogito-tooling/dmn-editor-unpacked@${{ steps.newEditorsVersionOnNpm.outputs.version }} --non-interactive || true
           while [ -z `git diff` ]; do !!; done # Retry until last command succeeds
-          yarn add -W @kogito-tooling/bpmn-editor-unpacked@${{ steps.npmVersion.outputs.version }} --non-interactive || true
+          yarn add -W @kogito-tooling/bpmn-editor-unpacked@${{ steps.newEditorsVersionOnNpm.outputs.version }} --non-interactive || true
           while [ -z `git diff` ]; do !!; done # Retry until last command succeeds
           #
           git config --global user.email "kietooling@gmail.com"
           git config --global user.name "Kogito Tooling Bot (kiegroup)"
           git add .
-          git commit -m "Updating DMN and BPMN Editors to ${{ steps.npmVersion.outputs.version }}"
+          git commit -m "Updating DMN and BPMN Editors to ${{ steps.newEditorsVersionOnNpm.outputs.version }}"
           git push
 
 
