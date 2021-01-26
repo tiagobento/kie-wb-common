@@ -142,6 +142,7 @@ jobs:
           git remote add fork-to-update https://github.com/${{ github.event.inputs.kogitoToolingForkToUpdate }}/kogito-tooling.git
           git fetch fork-to-update
           git checkout ${{ github.event.inputs.kogitoToolingBranchToUpdate }}
+          yarn run init
           #
           yarn add -W @kogito-tooling/dmn-editor-unpacked@${{ steps.npmVersion.outputs.version }} --non-interactive || true
           while [ -z `git diff` ]; do !!; done # Retry until last command succeeds
