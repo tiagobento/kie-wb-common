@@ -50,7 +50,6 @@ import org.kie.workbench.common.stunner.forms.client.widgets.FormsFlushManager;
 import org.kie.workbench.common.stunner.kogito.client.docks.DiagramEditorPreviewAndExplorerDock;
 import org.kie.workbench.common.stunner.kogito.client.docks.DiagramEditorPropertiesDock;
 import org.kie.workbench.common.stunner.kogito.client.editor.event.OnDiagramFocusEvent;
-import org.kie.workbench.common.stunner.kogito.client.perspectives.AuthoringPerspective;
 import org.kie.workbench.common.stunner.kogito.client.service.AbstractKogitoClientDiagramService;
 import org.uberfire.backend.vfs.Path;
 import org.uberfire.backend.vfs.PathFactory;
@@ -58,6 +57,7 @@ import org.uberfire.client.annotations.WorkbenchClientEditor;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.promise.Promises;
+import org.uberfire.client.workbench.Workbench;
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
 import org.uberfire.client.workbench.widgets.common.ErrorPopupPresenter;
 import org.uberfire.ext.widgets.core.client.editors.texteditor.TextEditorView;
@@ -272,8 +272,8 @@ public class BPMNDiagramEditor extends AbstractDiagramEditor {
     }
 
     void initDocks() {
-        diagramPropertiesDock.init(AuthoringPerspective.PERSPECTIVE_ID);
-        diagramPreviewAndExplorerDock.init(AuthoringPerspective.PERSPECTIVE_ID);
+        diagramPropertiesDock.init(Workbench.DEFAULT_PERSPECTIVE_NAME);
+        diagramPreviewAndExplorerDock.init(Workbench.DEFAULT_PERSPECTIVE_NAME);
     }
 
     void openDocks() {

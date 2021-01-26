@@ -70,6 +70,7 @@ import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.promise.Promises;
 import org.uberfire.client.views.pfly.multipage.MultiPageEditorSelectedPageEvent;
+import org.uberfire.client.workbench.Workbench;
 import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
 import org.uberfire.client.workbench.widgets.common.ErrorPopupPresenter;
 import org.uberfire.ext.widgets.core.client.editors.texteditor.TextEditorView;
@@ -85,8 +86,6 @@ import org.uberfire.mvp.PlaceRequest;
 import org.uberfire.workbench.events.NotificationEvent;
 
 public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
-
-    public static final String PERSPECTIVE_ID = "AuthoringPerspective";
 
     public static final String EDITOR_ID = "DMNDiagramEditor";
 
@@ -184,9 +183,9 @@ public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
     public void onStartup(final PlaceRequest place) {
         superDoStartUp(place);
 
-        decisionNavigatorDock.init(PERSPECTIVE_ID);
-        diagramPropertiesDock.init(PERSPECTIVE_ID);
-        diagramPreviewAndExplorerDock.init(PERSPECTIVE_ID);
+        decisionNavigatorDock.init(Workbench.DEFAULT_PERSPECTIVE_NAME);
+        diagramPropertiesDock.init(Workbench.DEFAULT_PERSPECTIVE_NAME);
+        diagramPreviewAndExplorerDock.init(Workbench.DEFAULT_PERSPECTIVE_NAME);
         guidedTourBridgeInitializer.init();
     }
 
