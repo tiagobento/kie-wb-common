@@ -149,7 +149,7 @@ jobs:
         if: github.event.inputs.kogitoToolingBranchToUpdate && github.event.inputs.kogitoToolingForkToUpdate
         run: |
           cd ${{ github.workspace }}/kogito-tooling
-          git remote add fork-to-update https://github.com/${{ github.event.inputs.kogitoToolingForkToUpdate }}/kogito-tooling.git
+          git remote add fork-to-update https://kogito-tooling-bot:${{ secrets.KOGITO_TOOLING_BOT_TOKEN }}@github.com/${{ github.event.inputs.kogitoToolingForkToUpdate }}/kogito-tooling.git
           git fetch fork-to-update
           git checkout ${{ github.event.inputs.kogitoToolingBranchToUpdate }}
           yarn run init
