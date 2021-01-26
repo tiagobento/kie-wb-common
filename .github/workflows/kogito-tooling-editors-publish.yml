@@ -136,6 +136,7 @@ jobs:
 
       - name: Update kogito-tooling branch
         timeout-minutes: 10
+        continue-on-error: true
         if: github.event.inputs.kogitoToolingBranchToUpdate && github.event.inputs.kogitoToolingForkToUpdate
         run: |
           cd ${{ github.workspace }}/kogito-tooling
