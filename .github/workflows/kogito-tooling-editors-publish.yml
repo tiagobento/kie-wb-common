@@ -105,7 +105,7 @@ jobs:
           TIME=`date +"%H%M%S"`
           NPM_VERSION=`echo $MVN_VERSION+$DATE.$TIME`
           echo $NPM_VERSION
-          echo ::set-output name=version::$NPM_VERSION
+          echo ::set-output name=version::7.48.0-Final # WWWWWWW $NPM_VERSION
 #
 ##################      - name: Publish SceSim Editor
 ##################        run: |
@@ -136,7 +136,6 @@ jobs:
 
       - name: Update kogito-tooling branch
         timeout-minutes: 10
-        continue-on-error: true
         if: github.event.inputs.kogitoToolingBranchToUpdate && github.event.inputs.kogitoToolingForkToUpdate
         run: |
           cd ${{ github.workspace }}/kogito-tooling
@@ -144,10 +143,10 @@ jobs:
           git fetch fork-to-update
           git checkout ${{ github.event.inputs.kogitoToolingBranchToUpdate }}
           #
-          yarn add -W @kogito-tooling/dmn-editor-unpacked@${{ steps.npmVersion.outputs.version }} --non-interactive
-          while [ $? -ne 0 ]; do !!; done # Retry until last command succeeds
-          yarn add -W @kogito-tooling/bpmn-editor-unpacked@${{ steps.npmVersion.outputs.version }} --non-interactive
-          while [ $? -ne 0 ]; do !!; done # Retry until last command succeeds
+          yarn add -W @kogito-tooling/dmn-editor-unpacked@${{ steps.npmVersion.outputs.version }} --non-interactive || true
+          while [ -z `git diff` ]; do !!; done # Retry until last command succeeds
+          yarn add -W @kogito-tooling/bpmn-editor-unpacked@${{ steps.npmVersion.outputs.version }} --non-interactive || true
+          while [ -z `git diff` ]; do !!; done # Retry until last command succeeds
           #
           git config --global user.email "kietooling@gmail.com"
           git config --global user.name "Kogito Tooling Bot (kiegroup)"
