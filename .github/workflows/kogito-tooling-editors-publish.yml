@@ -45,7 +45,7 @@ jobs:
 #
       - name: Checkout kogito-tooling
         uses: actions/checkout@v2
-        if: ${{ github.event.inputs.kogitoToolingBranchToUpdate }} && ${{ github.event.inputs.kogitoToolingForkToUpdate }}
+        if: github.event.inputs.kogitoToolingBranchToUpdate && github.event.inputs.kogitoToolingForkToUpdate
         with:
           token: ${{ secrets.KOGITO_TOOLING_BOT_TOKEN }}
           path: ${{ github.workspace }}/kogito-tooling
@@ -104,6 +104,7 @@ jobs:
           DATE=`date +"%Y%m%d"`
           TIME=`date +"%H%M%S"`
           NPM_VERSION=`echo $MVN_VERSION+$DATE.$TIME`
+          echo $NPM_VERSION
           echo ::set-output name=version::$NPM_VERSION
 #
 ##################      - name: Publish SceSim Editor
@@ -135,7 +136,7 @@ jobs:
 
       - name: Update kogito-tooling branch
         timeout-minutes: 10
-        if: ${{ github.event.inputs.kogitoToolingBranchToUpdate }} && ${{ github.event.inputs.kogitoToolingForkToUpdate }}
+        if: github.event.inputs.kogitoToolingBranchToUpdate && github.event.inputs.kogitoToolingForkToUpdate
         run: |
           cd ${{ github.workspace }}/kogito-tooling
           git remote add fork-to-update git@github.com:${{ github.event.inputs.kogitoToolingForkToUpdate }}/kogito-tooling.git
