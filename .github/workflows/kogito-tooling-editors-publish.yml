@@ -134,6 +134,16 @@ jobs:
 #          echo "//registry.npmjs.org/:_authToken=${{ secrets.KIEGROUP_NPM_TOKEN }}" > ~/.npmrc
 #          npm publish --access public --dry-run
 
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        if: github.event.inputs.kogitoToolingBranchToUpdate && github.event.inputs.kogitoToolingForkToUpdate
+        with:
+          node-version: 12.16.3
+
+      - name: Setup Yarn
+        if: github.event.inputs.kogitoToolingBranchToUpdate && github.event.inputs.kogitoToolingForkToUpdate
+        run: npm install -g yarn@1.19.1
+
       - name: Update kogito-tooling branch
         timeout-minutes: 10
         if: github.event.inputs.kogitoToolingBranchToUpdate && github.event.inputs.kogitoToolingForkToUpdate
