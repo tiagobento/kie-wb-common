@@ -2,10 +2,10 @@ on:
   workflow_dispatch:
     inputs:
       kogitoToolingForkToUpdate:
-        description: '(Optional) Kogito Tooling fork to update'
+        description: 'PR Fork to update (optional)'
         required: false
       kogitoToolingBranchToUpdate:
-        description: '(Optional) Kogito Tooling branch to update'
+        description: 'PR Branch to update (optional)'
         required: false
 
 jobs:
@@ -14,35 +14,41 @@ jobs:
     timeout-minutes: 90
 
     steps:
+      - name: Checkout droolsjbpm-build-bootstrap
+        uses: actions/checkout@v2
+        with:
+          path: ${{ github.workspace }}/droolsjbpm-build-bootstrap
+          repository: kiegroup/droolsjbpm-build-bootstrap
+          fetch-depth: 0
 
-#      - name: Checkout droolsjbpm-build-bootstrap
-#        uses: actions/checkout@v2
-#        with:
-#          path: ${{ github.workspace }}/droolsjbpm-build-bootstrap
-#          repository: kiegroup/droolsjbpm-build-bootstrap
-#          fetch-depth: 0
-#
-#      - name: Checkout kie-soup
-#        uses: actions/checkout@v2
-#        with:
-#          path: ${{ github.workspace }}/kie-soup
-#          repository: kiegroup/kie-soup
-#          fetch-depth: 0
-#
-#      - name: Checkout appformer
-#        uses: actions/checkout@v2
-#        with:
-#          path: ${{ github.workspace }}/appformer
-#          repository: kiegroup/appformer
-#          fetch-depth: 0
-#
-#      - name: Checkout kie-wb-common
-#        uses: actions/checkout@v2
-#        with:
-#          path: ${{ github.workspace }}/kie-wb-common
-#          repository: kiegroup/kie-wb-common
-#          fetch-depth: 0
-#
+      - name: Checkout kie-soup
+        uses: actions/checkout@v2
+        with:
+          path: ${{ github.workspace }}/kie-soup
+          repository: kiegroup/kie-soup
+          fetch-depth: 0
+
+      - name: Checkout appformer
+        uses: actions/checkout@v2
+        with:
+          path: ${{ github.workspace }}/appformer
+          repository: kiegroup/appformer
+          fetch-depth: 0
+
+      - name: Checkout kie-wb-common
+        uses: actions/checkout@v2
+        with:
+          path: ${{ github.workspace }}/kie-wb-common
+          repository: kiegroup/kie-wb-common
+          fetch-depth: 0
+      
+      - name: Checkout drools-wb
+        uses: actions/checkout@v2
+        with:
+          path: ${{ github.workspace }}/drools-wb
+          repository: kiegroup/drools-wb
+          fetch-depth: 0
+
       - name: Checkout kogito-tooling
         uses: actions/checkout@v2
         if: github.event.inputs.kogitoToolingBranchToUpdate && github.event.inputs.kogitoToolingForkToUpdate
@@ -51,88 +57,81 @@ jobs:
           path: ${{ github.workspace }}/kogito-tooling
           repository: kiegroup/kogito-tooling
           fetch-depth: 0
-#
-####################      - name: Checkout drools-wb
-####################        uses: actions/checkout@v2
-####################        with:
-####################          path: ${{ github.workspace }}/drools-wb
-####################          repository: kiegroup/drools-wb
-####################          fetch-depth: 0
-#
-#      - name: Build droolsjbpm-build-bootstrap
-#        run: |
-#          mvn clean install -DskipTests -Dgwt.compiler.skip -Denforcer.skip -T 2 -B
-#
-#      - name: Build kie-soup
-#        run: |
-#          mvn clean install -DskipTests -Dgwt.compiler.skip -Denforcer.skip -T 2 -B
-#
-#      - name: Build appformer
-#        run: |
-#          mvn clean install -DskipTests -Dgwt.compiler.skip -Denforcer.skip -T 2 -B
-#
-#      - name: Build kie-wb-common
-#        run: |
-#          mvn clean install -DskipTests -Denforcer.skip -T 2 -B -am -pl kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime,kie-wb-common-dmn/kie-wb-common-dmn-webapp-kogito-runtime
-#
-##     - name: Build drools-wb
-##        run: |
-##          mvn clean install -DskipTests -Denforcer.skip -pl drools-wb-screens/drools-wb-scenario-simulation-editor/drools-wb-scenario-simulation-editor-kogito-runtime -am -T 2 -B
-#
-#      - name: Upload DMN editor
-#        uses: actions/upload-artifact@v1
-#        with:
-#          name: dmn-editor-fdb
-#          path: ${{ github.workspace }}/kie-wb-common/kie-wb-common-dmn/kie-wb-common-dmn-webapp-kogito-runtime/target/kie-wb-common-dmn-webapp-kogito-runtime
-#
-#      - name: Upload BPMN editor
-#        uses: actions/upload-artifact@v1
-#        with:
-#          name: bpmn-editor-fdb
-#          path: ${{ github.workspace }}/kie-wb-common/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime/target/kie-wb-common-stunner-bpmn-kogito-runtime
-#
-#################      - name: Upload SceSim editor
-#################        uses: actions/upload-artifact@v1
-#################        with:
-#################          name: scesim-editor-fdb
-#################          path: ${{ github.workspace }}/drools-wb/drools-wb-screens/drools-wb-scenario-simulation-editor/drools-wb-scenario-simulation-editor-kogito-runtime/target/drools-wb-scenario-simulation-editor-kogito-runtime/
-#
+
+      - name: Build droolsjbpm-build-bootstrap
+        run: |
+          mvn clean install -DskipTests -Dgwt.compiler.skip -Denforcer.skip -T 2 -B
+
+      - name: Build kie-soup
+        run: |
+          mvn clean install -DskipTests -Dgwt.compiler.skip -Denforcer.skip -T 2 -B
+
+      - name: Build appformer
+        run: |
+          mvn clean install -DskipTests -Dgwt.compiler.skip -Denforcer.skip -T 2 -B
+
+      - name: Build kie-wb-common
+        run: |
+          mvn clean install -DskipTests -Denforcer.skip -T 2 -B -am -pl kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime,kie-wb-common-dmn/kie-wb-common-dmn-webapp-kogito-runtime
+
+      - name: Build drools-wb
+        run: |
+          mvn clean install -DskipTests -Denforcer.skip -pl drools-wb-screens/drools-wb-scenario-simulation-editor/drools-wb-scenario-simulation-editor-kogito-runtime -am -T 2 -B
+
+      - name: Upload DMN editor
+        uses: actions/upload-artifact@v1
+        with:
+          name: dmn-editor-fdb
+          path: ${{ github.workspace }}/kie-wb-common/kie-wb-common-dmn/kie-wb-common-dmn-webapp-kogito-runtime/target/kie-wb-common-dmn-webapp-kogito-runtime
+
+      - name: Upload BPMN editor
+        uses: actions/upload-artifact@v1
+        with:
+          name: bpmn-editor-fdb
+          path: ${{ github.workspace }}/kie-wb-common/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime/target/kie-wb-common-stunner-bpmn-kogito-runtime
+
+      - name: Upload SceSim editor
+        uses: actions/upload-artifact@v1
+        with:
+          name: scesim-editor-fdb
+          path: ${{ github.workspace }}/drools-wb/drools-wb-screens/drools-wb-scenario-simulation-editor/drools-wb-scenario-simulation-editor-kogito-runtime/target/drools-wb-scenario-simulation-editor-kogito-runtime/
+
       - name: Output new packages version on NPM
         id: newEditorsVersionOnNpm
         run: |
-          MVN_VERSION=7.49.0-SNAPSHOT # WWWWWWW `mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec -f ${{ github.workspace }}/kie-wb-common`
+          MVN_VERSION=`mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec -f ${{ github.workspace }}/kie-wb-common`
           DATE=`date +"%Y%m%d"`
           TIME=`date +"%H%M%S"`
           NPM_VERSION=`echo $MVN_VERSION+$DATE.$TIME`
-          echo $NPM_VERSION
-          echo ::set-output name=version::7.48.0-Final # WWWWWWW $NPM_VERSION
-#
-##################      - name: Publish SceSim Editor
-##################        run: |
-##################          cd ${{ github.workspace }}/kie-wb-common/.github/supporting-files/kogito-tooling-editors-publish/scesim-editor-unpacked
-##################          cp -r ${{ github.workspace }}/drools-wb/drools-wb-screens/drools-wb-scenario-simulation-editor/drools-wb-scenario-simulation-editor-kogito-runtime/target/drools-wb-scenario-simulation-editor-kogito-runtime ./target/scesim
-##################          ls -la .
-##################          npm version ${{ steps.newEditorsVersionOnNpm.outputs.version }}
-##################          echo "//registry.npmjs.org/:_authToken=${{ secrets.KIEGROUP_NPM_TOKEN }}" > ~/.npmrc
-##################          npm publish --access public --dry-run
-#
-#      - name: Publish BPMN Editor
-#        run: |
-#          cd ${{ github.workspace }}/kie-wb-common/.github/supporting-files/kogito-tooling-editors-publish/bpmn-editor-unpacked
-#          cp -r ${{ github.workspace }}/kie-wb-common/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime/target/kie-wb-common-stunner-bpmn-kogito-runtime ./target/bpmn
-#          ls -la .
-#          npm version ${{ steps.newEditorsVersionOnNpm.outputs.version }}
-#          echo "//registry.npmjs.org/:_authToken=${{ secrets.KIEGROUP_NPM_TOKEN }}" > ~/.npmrc
-#          npm publish --access public --dry-run
-#
-#      - name: Publish DMN Editor
-#        run: |
-#          cd ${{ github.workspace }}/kie-wb-common/.github/supporting-files/kogito-tooling-editors-publish/dmn-editor-unpacked
-#          cp -r ${{ github.workspace }}/kie-wb-common/kie-wb-common-dmn/kie-wb-common-dmn-webapp-kogito-runtime/target/kie-wb-common-dmn-webapp-kogito-runtime ./target/dmn
-#          ls -la .
-#          npm version ${{ steps.newEditorsVersionOnNpm.outputs.version }}
-#          echo "//registry.npmjs.org/:_authToken=${{ secrets.KIEGROUP_NPM_TOKEN }}" > ~/.npmrc
-#          npm publish --access public --dry-run
+          echo 'New version is $NPM_VERSION'
+          echo ::set-output name=version::$NPM_VERSION
+      
+      - name: Publish BPMN Editor
+        run: |
+          cd ${{ github.workspace }}/kie-wb-common/.github/supporting-files/kogito-tooling-editors-publish/bpmn-editor-unpacked
+          cp -r ${{ github.workspace }}/kie-wb-common/kie-wb-common-stunner/kie-wb-common-stunner-sets/kie-wb-common-stunner-bpmn/kie-wb-common-stunner-bpmn-kogito-runtime/target/kie-wb-common-stunner-bpmn-kogito-runtime ./target/bpmn
+          ls -la .
+          npm version ${{ steps.newEditorsVersionOnNpm.outputs.version }}
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.KIEGROUP_NPM_TOKEN }}" > ~/.npmrc
+          npm publish --access public
+          
+      - name: Publish DMN Editor
+        run: |
+          cd ${{ github.workspace }}/kie-wb-common/.github/supporting-files/kogito-tooling-editors-publish/dmn-editor-unpacked
+          cp -r ${{ github.workspace }}/kie-wb-common/kie-wb-common-dmn/kie-wb-common-dmn-webapp-kogito-runtime/target/kie-wb-common-dmn-webapp-kogito-runtime ./target/dmn
+          ls -la .
+          npm version ${{ steps.newEditorsVersionOnNpm.outputs.version }}
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.KIEGROUP_NPM_TOKEN }}" > ~/.npmrc
+          npm publish --access public
+          
+      - name: Publish SceSim Editor
+        run: |
+          cd ${{ github.workspace }}/kie-wb-common/.github/supporting-files/kogito-tooling-editors-publish/scesim-editor-unpacked
+          cp -r ${{ github.workspace }}/drools-wb/drools-wb-screens/drools-wb-scenario-simulation-editor/drools-wb-scenario-simulation-editor-kogito-runtime/target/drools-wb-scenario-simulation-editor-kogito-runtime ./target/scesim
+          ls -la .
+          npm version ${{ steps.newEditorsVersionOnNpm.outputs.version }}
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.KIEGROUP_NPM_TOKEN }}" > ~/.npmrc
+          npm publish --access public     
 
       - name: Setup Node
         uses: actions/setup-node@v1
@@ -144,7 +143,7 @@ jobs:
         if: github.event.inputs.kogitoToolingBranchToUpdate && github.event.inputs.kogitoToolingForkToUpdate
         run: npm install -g yarn@1.19.1
 
-      - name: Update kogito-tooling branch
+      - name: Update kogito-tooling PR branch
         timeout-minutes: 10
         if: github.event.inputs.kogitoToolingBranchToUpdate && github.event.inputs.kogitoToolingForkToUpdate
         run: |
@@ -154,15 +153,17 @@ jobs:
           git checkout ${{ github.event.inputs.kogitoToolingBranchToUpdate }}
           yarn run init
           #
-          yarn add -W @kogito-tooling/dmn-editor-unpacked@${{ steps.newEditorsVersionOnNpm.outputs.version }} --non-interactive || true
-          while [ -z `git diff` ]; do !!; done # Retry until last command succeeds
           yarn add -W @kogito-tooling/bpmn-editor-unpacked@${{ steps.newEditorsVersionOnNpm.outputs.version }} --non-interactive || true
-          while [ -z `git diff` ]; do !!; done # Retry until last command succeeds
+          while [ -z `git diff | grep bpmn-editor-unpacked": "${{ steps.newEditorsVersionOnNpm.outputs.version }}"` ]; do !!; done # Retry until last command succeeds
+          yarn add -W @kogito-tooling/dmn-editor-unpacked@${{ steps.newEditorsVersionOnNpm.outputs.version }} --non-interactive || true
+          while [ -z `git diff | grep dmn-editor-unpacked": "${{ steps.newEditorsVersionOnNpm.outputs.version }}"` ]; do !!; done # Retry until last command succeeds
+          yarn add -W @kogito-tooling/scesim-editor-unpacked@${{ steps.newEditorsVersionOnNpm.outputs.version }} --non-interactive || true
+          while [ -z `git diff | grep scesim-editor-unpacked": "${{ steps.newEditorsVersionOnNpm.outputs.version }}"` ]; do !!; done # Retry until last command succeeds
           #
           git config --global user.email "kietooling@gmail.com"
           git config --global user.name "Kogito Tooling Bot (kiegroup)"
           git add .
-          git commit -m "Updating DMN and BPMN Editors to ${{ steps.newEditorsVersionOnNpm.outputs.version }}"
+          git commit -m "Update Editors to ${{ steps.newEditorsVersionOnNpm.outputs.version }}"
           git push
 
 
