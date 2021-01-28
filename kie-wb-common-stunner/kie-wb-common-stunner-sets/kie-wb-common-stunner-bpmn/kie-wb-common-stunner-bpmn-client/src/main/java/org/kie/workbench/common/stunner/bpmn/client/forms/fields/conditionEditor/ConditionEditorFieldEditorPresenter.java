@@ -31,7 +31,7 @@ import org.kie.workbench.common.stunner.bpmn.forms.model.ScriptTypeMode;
 import org.kie.workbench.common.stunner.core.client.i18n.ClientTranslationService;
 import org.kie.workbench.common.stunner.core.client.session.ClientSession;
 import org.uberfire.client.mvp.UberElement;
-import org.uberfire.client.workbench.widgets.common.ErrorPopupPresenter;
+import org.uberfire.client.workbench.widgets.ErrorPopupPresenter;
 
 import static org.kie.workbench.common.stunner.core.util.StringUtils.isEmpty;
 

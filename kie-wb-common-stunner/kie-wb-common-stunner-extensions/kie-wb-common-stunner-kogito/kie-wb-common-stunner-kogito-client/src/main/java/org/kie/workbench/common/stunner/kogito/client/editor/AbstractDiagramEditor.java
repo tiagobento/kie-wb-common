@@ -51,8 +51,7 @@ import org.kie.workbench.common.stunner.kogito.api.editor.impl.KogitoDiagramReso
 import org.kie.workbench.common.stunner.kogito.client.editor.event.OnDiagramFocusEvent;
 import org.kie.workbench.common.stunner.kogito.client.resources.i18n.KogitoClientConstants;
 import org.uberfire.client.mvp.PlaceManager;
-import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
-import org.uberfire.client.workbench.widgets.common.ErrorPopupPresenter;
+import org.uberfire.client.workbench.widgets.ErrorPopupPresenter;
 import org.uberfire.ext.widgets.common.client.ace.AceEditorMode;
 import org.uberfire.ext.widgets.core.client.editors.texteditor.TextEditorView;
 import org.uberfire.mvp.PlaceRequest;
@@ -62,7 +61,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
 
     private static final Logger LOGGER = Logger.getLogger(AbstractDiagramEditor.class.getName());
 
-    private final Event<ChangeTitleWidgetEvent> changeTitleEvent;
     private final Event<OnDiagramFocusEvent> onDiagramFocusEvent;
     private final ClientTranslationService translationService;
     private final DocumentationView documentationView;
@@ -132,7 +130,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
                 final Metadata metadata = dpe.getMetadata();
                 final String xml = dpe.getXml();
 
-                updateTitle(metadata.getTitle());
                 resetEditorPages();
                 getXMLEditorView().setReadOnly(isReadOnly());
                 getXMLEditorView().setContent(xml, AceEditorMode.XML);
@@ -158,7 +155,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
     public AbstractDiagramEditor(final View view,
                                  final PlaceManager placeManager,
                                  final MultiPageEditorContainerView multiPageEditorContainerView,
-                                 final Event<ChangeTitleWidgetEvent> changeTitleEvent,
                                  final Event<NotificationEvent> notificationEvent,
                                  final Event<OnDiagramFocusEvent> onDiagramFocusEvent,
                                  final TextEditorView xmlEditorView,
@@ -171,7 +167,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
         super(view,
               placeManager,
               multiPageEditorContainerView);
-        this.changeTitleEvent = changeTitleEvent;
         this.onDiagramFocusEvent = onDiagramFocusEvent;
         this.translationService = translationService;
         this.documentationView = documentationView;
@@ -247,17 +242,10 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
     @Override
     public void initialiseKieEditorForSession(final Diagram diagram) {
         resetEditorPages();
-        updateTitle(diagram.getMetadata().getTitle());
         onDiagramLoad();
 
         addDocumentationPage(diagram);
         hideLoadingViews();
-    }
-
-    protected void updateTitle(final String title) {
-        this.title = title;
-        changeTitleEvent.fire(new ChangeTitleWidgetEvent(getPlaceRequest(),
-                                                         this.title));
     }
 
     @SuppressWarnings("unchecked")

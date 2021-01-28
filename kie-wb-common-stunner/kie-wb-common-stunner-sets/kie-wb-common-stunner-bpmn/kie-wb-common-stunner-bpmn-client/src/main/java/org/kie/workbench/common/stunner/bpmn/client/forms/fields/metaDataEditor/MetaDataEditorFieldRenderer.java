@@ -36,7 +36,7 @@ import org.kie.workbench.common.stunner.bpmn.forms.model.MetaDataEditorFieldType
 import org.kie.workbench.common.stunner.core.client.api.SessionManager;
 import org.kie.workbench.common.stunner.core.diagram.Diagram;
 import org.uberfire.backend.vfs.Path;
-import org.uberfire.client.workbench.widgets.common.ErrorPopupPresenter;
+import org.uberfire.client.workbench.widgets.ErrorPopupPresenter;
 import org.uberfire.workbench.events.NotificationEvent;
 
 @Dependent

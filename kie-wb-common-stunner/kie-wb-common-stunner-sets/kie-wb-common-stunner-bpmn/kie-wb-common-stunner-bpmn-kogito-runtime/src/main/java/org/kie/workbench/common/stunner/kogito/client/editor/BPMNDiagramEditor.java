@@ -58,8 +58,7 @@ import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.promise.Promises;
 import org.uberfire.client.workbench.Workbench;
-import org.uberfire.client.workbench.events.ChangeTitleWidgetEvent;
-import org.uberfire.client.workbench.widgets.common.ErrorPopupPresenter;
+import org.uberfire.client.workbench.widgets.ErrorPopupPresenter;
 import org.uberfire.ext.widgets.core.client.editors.texteditor.TextEditorView;
 import org.uberfire.lifecycle.GetContent;
 import org.uberfire.lifecycle.GetPreview;
@@ -94,7 +93,6 @@ public class BPMNDiagramEditor extends AbstractDiagramEditor {
     public BPMNDiagramEditor(final View view,
                              final PlaceManager placeManager,
                              final MultiPageEditorContainerView multiPageEditorContainerView,
-                             final Event<ChangeTitleWidgetEvent> changeTitleNotificationEvent,
                              final Event<NotificationEvent> notificationEvent,
                              final Event<OnDiagramFocusEvent> onDiagramFocusEvent,
                              final TextEditorView xmlEditorView,
@@ -115,7 +113,6 @@ public class BPMNDiagramEditor extends AbstractDiagramEditor {
         super(view,
               placeManager,
               multiPageEditorContainerView,
-              changeTitleNotificationEvent,
               notificationEvent,
               onDiagramFocusEvent,
               xmlEditorView,
