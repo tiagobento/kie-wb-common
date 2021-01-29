@@ -69,7 +69,6 @@ import org.uberfire.client.annotations.WorkbenchClientEditor;
 import org.uberfire.client.mvp.PlaceManager;
 import org.uberfire.client.promise.Promises;
 import org.uberfire.client.views.pfly.multipage.MultiPageEditorSelectedPageEvent;
-import org.uberfire.client.workbench.widgets.ErrorPopupPresenter;
 import org.uberfire.ext.widgets.core.client.editors.texteditor.TextEditorView;
 import org.uberfire.workbench.events.NotificationEvent;
 
@@ -91,7 +90,6 @@ public class DMNDiagramEditor extends AbstractDMNDiagramEditor {
                             final TextEditorView xmlEditorView,
                             final ManagedInstance<SessionEditorPresenter<EditorSession>> editorSessionPresenterInstances,
                             final ManagedInstance<SessionViewerPresenter<ViewerSession>> viewerSessionPresenterInstances,
-                            final ErrorPopupPresenter errorPopupPresenter,
                             final DiagramClientErrorHandler diagramClientErrorHandler,
                             final ClientTranslationService translationService,
                             final @DMNEditor DocumentationView<Diagram> documentationView,
@@ -124,7 +122,6 @@ public class DMNDiagramEditor extends AbstractDMNDiagramEditor {
               xmlEditorView,
               editorSessionPresenterInstances,
               viewerSessionPresenterInstances,
-              errorPopupPresenter,
               diagramClientErrorHandler,
               translationService,
               documentationView,

@@ -42,7 +42,6 @@ import org.kie.workbench.common.stunner.core.client.session.impl.AbstractSession
 import org.kie.workbench.common.stunner.core.diagram.Diagram;
 import org.uberfire.client.annotations.WorkbenchPartView;
 import org.uberfire.client.annotations.WorkbenchScreen;
-import org.uberfire.client.workbench.widgets.ErrorPopupPresenter;
 import org.uberfire.lifecycle.OnClose;
 import org.uberfire.lifecycle.OnOpen;
 import org.uberfire.lifecycle.OnStartup;
@@ -69,7 +68,6 @@ public class DiagramEditorExplorerScreen {
     private final SessionManager clientSessionManager;
     private final ManagedInstance<TreeExplorer> treeExplorers;
     private final ManagedInstance<SessionDiagramPreview<AbstractSession>> sessionPreviews;
-    private final ErrorPopupPresenter errorPopupPresenter;
     private final Event<ScreenPreMaximizedStateEvent> screenStateEvent;
     private final View view;
 
@@ -83,7 +81,6 @@ public class DiagramEditorExplorerScreen {
              null,
              null,
              null,
-             null,
              null);
     }
 
@@ -91,13 +88,11 @@ public class DiagramEditorExplorerScreen {
     public DiagramEditorExplorerScreen(final SessionManager clientSessionManager,
                                        final @Any ManagedInstance<TreeExplorer> treeExplorers,
                                        final @Any @Default ManagedInstance<SessionDiagramPreview<AbstractSession>> sessionPreviews,
-                                       final ErrorPopupPresenter errorPopupPresenter,
                                        final View view,
                                        final Event<ScreenPreMaximizedStateEvent> screenStateEvent) {
         this.clientSessionManager = clientSessionManager;
         this.treeExplorers = treeExplorers;
         this.sessionPreviews = sessionPreviews;
-        this.errorPopupPresenter = errorPopupPresenter;
         this.view = view;
         this.screenStateEvent = screenStateEvent;
     }
@@ -213,7 +208,6 @@ public class DiagramEditorExplorerScreen {
 
     private void showError(final ClientRuntimeError error) {
         final String s = error.toString();
-        errorPopupPresenter.showMessage(s);
         LOGGER.log(Level.SEVERE,
                    s);
     }

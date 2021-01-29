@@ -46,7 +46,6 @@ import org.kie.workbench.common.stunner.core.diagram.Metadata;
 import org.kie.workbench.common.stunner.core.util.HashUtil;
 import org.kie.workbench.common.stunner.kogito.api.editor.KogitoDiagramResource;
 import org.kie.workbench.common.stunner.kogito.client.resources.i18n.KogitoClientConstants;
-import org.uberfire.client.workbench.widgets.ErrorPopupPresenter;
 import org.uberfire.ext.widgets.common.client.common.popups.YesNoCancelPopup;
 import org.uberfire.ext.widgets.core.client.editors.texteditor.TextEditorView;
 import org.uberfire.mvp.Command;
@@ -62,7 +61,6 @@ public abstract class AbstractDiagramEditorCore<M extends Metadata, D extends Di
     private final Event<NotificationEvent> notificationEvent;
     private final ManagedInstance<SessionEditorPresenter<EditorSession>> editorSessionPresenterInstances;
     private final ManagedInstance<SessionViewerPresenter<ViewerSession>> viewerSessionPresenterInstances;
-    private final ErrorPopupPresenter errorPopupPresenter;
     private final DiagramClientErrorHandler diagramClientErrorHandler;
     private final ClientTranslationService translationService;
 
@@ -72,7 +70,7 @@ public abstract class AbstractDiagramEditorCore<M extends Metadata, D extends Di
     private P editorProxy = makeEditorProxy();
 
     public AbstractDiagramEditorCore() {
-        this(null, null, null, null, null, null, null, null);
+        this(null, null, null, null, null, null, null);
     }
 
     public AbstractDiagramEditorCore(final View baseEditorView,
@@ -80,7 +78,6 @@ public abstract class AbstractDiagramEditorCore<M extends Metadata, D extends Di
                                      final Event<NotificationEvent> notificationEvent,
                                      final ManagedInstance<SessionEditorPresenter<EditorSession>> editorSessionPresenterInstances,
                                      final ManagedInstance<SessionViewerPresenter<ViewerSession>> viewerSessionPresenterInstances,
-                                     final ErrorPopupPresenter errorPopupPresenter,
                                      final DiagramClientErrorHandler diagramClientErrorHandler,
                                      final ClientTranslationService translationService) {
         this.baseEditorView = baseEditorView;
@@ -88,7 +85,6 @@ public abstract class AbstractDiagramEditorCore<M extends Metadata, D extends Di
         this.notificationEvent = notificationEvent;
         this.editorSessionPresenterInstances = editorSessionPresenterInstances;
         this.viewerSessionPresenterInstances = viewerSessionPresenterInstances;
-        this.errorPopupPresenter = errorPopupPresenter;
         this.diagramClientErrorHandler = diagramClientErrorHandler;
         this.translationService = translationService;
     }
@@ -317,7 +313,6 @@ public abstract class AbstractDiagramEditorCore<M extends Metadata, D extends Di
     }
 
     public void showError(final String message) {
-        errorPopupPresenter.showMessage(message);
         baseEditorView.hideBusyIndicator();
     }
 

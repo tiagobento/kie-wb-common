@@ -51,7 +51,6 @@ import org.kie.workbench.common.stunner.kogito.api.editor.impl.KogitoDiagramReso
 import org.kie.workbench.common.stunner.kogito.client.editor.event.OnDiagramFocusEvent;
 import org.kie.workbench.common.stunner.kogito.client.resources.i18n.KogitoClientConstants;
 import org.uberfire.client.mvp.PlaceManager;
-import org.uberfire.client.workbench.widgets.ErrorPopupPresenter;
 import org.uberfire.ext.widgets.common.client.ace.AceEditorMode;
 import org.uberfire.ext.widgets.core.client.editors.texteditor.TextEditorView;
 import org.uberfire.mvp.PlaceRequest;
@@ -74,7 +73,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
                                  final Event<NotificationEvent> notificationEvent,
                                  final ManagedInstance<SessionEditorPresenter<EditorSession>> editorSessionPresenterInstances,
                                  final ManagedInstance<SessionViewerPresenter<ViewerSession>> viewerSessionPresenterInstances,
-                                 final ErrorPopupPresenter errorPopupPresenter,
                                  final DiagramClientErrorHandler diagramClientErrorHandler,
                                  final ClientTranslationService translationService) {
             super(baseEditorView,
@@ -82,7 +80,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
                   notificationEvent,
                   editorSessionPresenterInstances,
                   viewerSessionPresenterInstances,
-                  errorPopupPresenter,
                   diagramClientErrorHandler,
                   translationService);
         }
@@ -160,7 +157,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
                                  final TextEditorView xmlEditorView,
                                  final ManagedInstance<SessionEditorPresenter<EditorSession>> editorSessionPresenterInstances,
                                  final ManagedInstance<SessionViewerPresenter<ViewerSession>> viewerSessionPresenterInstances,
-                                 final ErrorPopupPresenter errorPopupPresenter,
                                  final DiagramClientErrorHandler diagramClientErrorHandler,
                                  final ClientTranslationService translationService,
                                  final DocumentationView documentationView) {
@@ -176,7 +172,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
                                notificationEvent,
                                editorSessionPresenterInstances,
                                viewerSessionPresenterInstances,
-                               errorPopupPresenter,
                                diagramClientErrorHandler,
                                translationService);
     }
@@ -186,7 +181,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
                                                                                                                                               final Event<NotificationEvent> notificationEvent,
                                                                                                                                               final ManagedInstance<SessionEditorPresenter<EditorSession>> editorSessionPresenterInstances,
                                                                                                                                               final ManagedInstance<SessionViewerPresenter<ViewerSession>> viewerSessionPresenterInstances,
-                                                                                                                                              final ErrorPopupPresenter errorPopupPresenter,
                                                                                                                                               final DiagramClientErrorHandler diagramClientErrorHandler,
                                                                                                                                               final ClientTranslationService translationService) {
         return new DiagramEditorCore(view,
@@ -194,7 +188,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
                                      notificationEvent,
                                      editorSessionPresenterInstances,
                                      viewerSessionPresenterInstances,
-                                     errorPopupPresenter,
                                      diagramClientErrorHandler,
                                      translationService);
     }
