@@ -290,16 +290,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
         return editor.getSessionPresenter();
     }
 
-    @Override
-    public void doFocus() {
-        editor.doFocus();
-    }
-
-    @Override
-    public void doLostFocus() {
-        editor.doLostFocus();
-    }
-
     protected boolean isSameSession(final ClientSession other) {
         return editor.isSameSession(other);
     }

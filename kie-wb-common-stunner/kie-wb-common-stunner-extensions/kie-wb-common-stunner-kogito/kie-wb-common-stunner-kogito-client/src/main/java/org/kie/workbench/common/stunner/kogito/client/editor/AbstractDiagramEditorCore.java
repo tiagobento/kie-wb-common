@@ -334,20 +334,6 @@ public abstract class AbstractDiagramEditorCore<M extends Metadata, D extends Di
         return null;
     }
 
-    @Override
-    public void doFocus() {
-        if (null != getSessionPresenter()) {
-            getSessionPresenter().focus();
-        }
-    }
-
-    @Override
-    public void doLostFocus() {
-        if (null != getSessionPresenter()) {
-            getSessionPresenter().lostFocus();
-        }
-    }
-
     //For Unit Testing
     public void setEditorSessionPresenter(final SessionEditorPresenter<EditorSession> presenter) {
         this.editorSessionPresenter = Optional.ofNullable(presenter);

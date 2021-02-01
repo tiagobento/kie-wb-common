@@ -75,8 +75,6 @@ import org.uberfire.ext.widgets.core.client.editors.texteditor.TextEditorView;
 import org.uberfire.lifecycle.GetContent;
 import org.uberfire.lifecycle.GetPreview;
 import org.uberfire.lifecycle.OnClose;
-import org.uberfire.lifecycle.OnFocus;
-import org.uberfire.lifecycle.OnLostFocus;
 import org.uberfire.lifecycle.OnOpen;
 import org.uberfire.lifecycle.OnStartup;
 import org.uberfire.lifecycle.SetContent;
@@ -283,26 +281,6 @@ public abstract class AbstractDMNDiagramEditor extends AbstractDiagramEditor {
 
     void superOnClose() {
         super.doClose();
-    }
-
-    @OnFocus
-    @SuppressWarnings("unused")
-    public void onFocus() {
-        superDoFocus();
-        onDiagramLoad();
-        dataTypesPage.onFocus();
-        dataTypesPage.enableShortcuts();
-    }
-
-    void superDoFocus() {
-        super.doFocus();
-    }
-
-    @OnLostFocus
-    @SuppressWarnings("unused")
-    public void onLostFocus() {
-        super.doLostFocus();
-        dataTypesPage.onLostFocus();
     }
 
     @Override
