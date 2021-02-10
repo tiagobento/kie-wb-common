@@ -24,6 +24,7 @@ import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import org.jboss.errai.ioc.client.api.ManagedInstance;
@@ -40,12 +41,10 @@ import org.kie.workbench.common.stunner.core.client.session.event.SessionDiagram
 import org.kie.workbench.common.stunner.core.client.session.event.SessionOpenedEvent;
 import org.kie.workbench.common.stunner.core.client.session.impl.AbstractSession;
 import org.kie.workbench.common.stunner.core.diagram.Diagram;
-import org.uberfire.client.annotations.WorkbenchPartView;
-import org.uberfire.client.annotations.WorkbenchScreen;
-import org.uberfire.lifecycle.OnClose;
-import org.uberfire.lifecycle.OnOpen;
-import org.uberfire.lifecycle.OnStartup;
+import org.uberfire.client.mvp.AbstractActivity;
 import org.uberfire.mvp.PlaceRequest;
+import org.uberfire.security.ResourceType;
+import org.uberfire.workbench.model.ActivityResourceType;
 
 import static org.kie.soup.commons.validation.PortablePreconditions.checkNotNull;
 
@@ -55,8 +54,8 @@ import static org.kie.soup.commons.validation.PortablePreconditions.checkNotNull
  * TODO: I18n.
  */
 @Dependent
-@WorkbenchScreen(identifier = DiagramEditorExplorerScreen.SCREEN_ID)
-public class DiagramEditorExplorerScreen {
+@Named(DiagramEditorExplorerScreen.SCREEN_ID)
+public class DiagramEditorExplorerScreen extends AbstractActivity {
 
     private static Logger LOGGER = Logger.getLogger(DiagramEditorExplorerScreen.class.getName());
 
@@ -97,25 +96,41 @@ public class DiagramEditorExplorerScreen {
         this.screenStateEvent = screenStateEvent;
     }
 
-    @OnStartup
+    @Override
+    public ResourceType getResourceType() {
+        return ActivityResourceType.SCREEN;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return SCREEN_ID;
+    }
+
+    @Override
     public void onStartup(final PlaceRequest placeRequest) {
+        super.onStartup(placeRequest);
+
         this.placeRequest = placeRequest;
     }
 
-    @OnOpen
+    @Override
     public void onOpen() {
+        super.onOpen();
+
         final ClientSession current = clientSessionManager.getCurrentSession();
         if (null != current) {
             show(current);
         }
     }
 
-    @OnClose
+    @Override
     public void onClose() {
+        super.onClose();
+
         close();
     }
 
-    @WorkbenchPartView
+    @Override
     public IsWidget getWidget() {
         return view;
     }
