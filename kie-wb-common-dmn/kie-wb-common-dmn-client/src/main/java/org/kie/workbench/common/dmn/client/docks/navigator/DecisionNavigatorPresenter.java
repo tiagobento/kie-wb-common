@@ -19,7 +19,7 @@ package org.kie.workbench.common.dmn.client.docks.navigator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -41,7 +41,7 @@ import org.uberfire.workbench.model.ActivityResourceType;
 import org.uberfire.workbench.model.CompassPosition;
 import org.uberfire.workbench.model.Position;
 
-@Dependent
+@ApplicationScoped
 @Named(DecisionNavigatorPresenter.IDENTIFIER)
 public class DecisionNavigatorPresenter extends AbstractActivity {
 

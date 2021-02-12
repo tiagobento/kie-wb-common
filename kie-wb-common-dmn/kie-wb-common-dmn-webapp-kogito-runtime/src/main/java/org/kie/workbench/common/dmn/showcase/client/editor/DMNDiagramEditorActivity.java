@@ -19,7 +19,7 @@ package org.kie.workbench.common.dmn.showcase.client.editor;
 import java.util.Collections;
 import java.util.List;
 
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -34,7 +34,7 @@ import org.uberfire.workbench.model.ActivityResourceType;
 import org.uberfire.workbench.model.bridge.Notification;
 
 // TODO: [CAPONETTO] Remove this class and transfer the logic to DMNDiagramEditor.
-@Dependent
+@ApplicationScoped
 @Named(AbstractDMNDiagramEditor.EDITOR_ID)
 public class DMNDiagramEditorActivity extends AbstractActivity implements EditorActivity {
 

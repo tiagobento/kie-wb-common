@@ -16,7 +16,7 @@
 
 package org.kie.workbench.common.stunner.kogito.client.editor;
 
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -29,7 +29,7 @@ import org.uberfire.security.ResourceType;
 import org.uberfire.workbench.model.ActivityResourceType;
 
 // TODO: [CAPONETTO] Remove this class and transfer the logic to BPMNDiagramEditor.
-@Dependent
+@ApplicationScoped
 @Named(BPMNDiagramEditor.EDITOR_ID)
 public class BPMNDiagramEditorActivity extends AbstractActivity implements EditorActivity {
 

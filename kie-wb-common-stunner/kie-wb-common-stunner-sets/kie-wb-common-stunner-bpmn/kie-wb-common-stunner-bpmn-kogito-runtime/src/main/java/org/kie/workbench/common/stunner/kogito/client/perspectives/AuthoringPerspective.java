@@ -16,13 +16,13 @@
 
 package org.kie.workbench.common.stunner.kogito.client.perspectives;
 
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
 import org.kie.workbench.common.stunner.kogito.client.editor.BPMNDiagramEditor;
 import org.uberfire.client.mvp.DefaultPerspectiveActivity;
 
-@Dependent
+@ApplicationScoped
 @Named(DefaultPerspectiveActivity.DEFAULT_PERSPECTIVE_NAME)
 public class AuthoringPerspective extends DefaultPerspectiveActivity {
 

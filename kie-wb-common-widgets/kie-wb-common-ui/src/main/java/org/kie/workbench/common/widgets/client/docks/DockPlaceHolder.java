@@ -15,10 +15,10 @@
  */
 package org.kie.workbench.common.widgets.client.docks;
 
-import javax.enterprise.context.Dependent;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 
-@Dependent
+@ApplicationScoped
 @Named(DockPlaceHolderBase.IDENTIFIER)
 public class DockPlaceHolder
         extends DockPlaceHolderBase {
