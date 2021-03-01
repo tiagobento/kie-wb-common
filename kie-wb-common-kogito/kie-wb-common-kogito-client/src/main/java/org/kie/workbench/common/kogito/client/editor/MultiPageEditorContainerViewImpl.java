@@ -22,7 +22,7 @@ import org.jboss.errai.ui.client.local.spi.TranslationService;
 import org.kie.workbench.common.kogito.client.resources.i18n.KogitoClientConstants;
 import org.uberfire.client.views.pfly.multipage.MultiPageEditorImpl;
 import org.uberfire.client.views.pfly.multipage.PageImpl;
-import org.uberfire.client.workbench.widgets.multipage.MultiPageEditor;
+import org.uberfire.client.workbench.multipage.MultiPageEditor;
 
 public class MultiPageEditorContainerViewImpl
         extends MultiPageEditorImpl

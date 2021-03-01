@@ -32,7 +32,7 @@ import org.gwtbootstrap3.client.ui.constants.ColumnSize;
 import org.kie.workbench.common.stunner.client.widgets.explorer.navigator.NavigatorItem;
 import org.kie.workbench.common.stunner.client.widgets.explorer.navigator.NavigatorItemView;
 import org.kie.workbench.common.stunner.client.widgets.explorer.navigator.NavigatorView;
-import org.uberfire.client.workbench.widgets.ResizeFlowPanel;
+import org.uberfire.client.workbench.ResizeFlowPanel;
 
 @Dependent
 public class BootstrapNavigatorView

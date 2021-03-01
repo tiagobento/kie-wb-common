@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.uberfire.client.workbench.widgets.ResizeFlowPanel;
+import org.uberfire.client.workbench.ResizeFlowPanel;
 
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
