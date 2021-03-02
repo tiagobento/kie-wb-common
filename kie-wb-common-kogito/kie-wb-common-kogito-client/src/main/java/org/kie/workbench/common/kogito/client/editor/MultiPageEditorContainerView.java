@@ -17,8 +17,8 @@ package org.kie.workbench.common.kogito.client.editor;
 
 import com.google.gwt.user.client.ui.IsWidget;
 import org.uberfire.client.mvp.UberView;
-import org.uberfire.client.workbench.multipage.MultiPageEditor;
-import org.uberfire.client.workbench.multipage.Page;
+import org.uberfire.client.workbench.widgets.multipage.MultiPageEditor;
+import org.uberfire.client.workbench.widgets.multipage.Page;
 
 public interface MultiPageEditorContainerView
         extends UberView<MultiPageEditorContainerView.Presenter> {
