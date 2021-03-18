@@ -137,9 +137,6 @@ public abstract class AbstractDiagramEditor extends MultiPageEditorContainerPres
             } else {
                 setEditorProxy(new DiagramEditorProxy<>());
                 showError(error);
-
-                //close editor in case of error when opening the editor
-                getPlaceManager().closePlace(getPlaceRequest(), null);
             }
         }
     }
